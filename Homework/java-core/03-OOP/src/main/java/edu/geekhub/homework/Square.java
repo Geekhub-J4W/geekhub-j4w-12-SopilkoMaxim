@@ -1,12 +1,16 @@
 package edu.geekhub.homework;
 
+import java.util.Scanner;
+
 public class Square extends Shape implements InterfaceShape{
     private final double side;
     private final String name = "Square";
 
-    public Square (double side) {
+    public Square () {
         super();
-        this.side = side;
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter side for Square:");
+        side = scan.nextInt();
     }
 
     public String getName() {

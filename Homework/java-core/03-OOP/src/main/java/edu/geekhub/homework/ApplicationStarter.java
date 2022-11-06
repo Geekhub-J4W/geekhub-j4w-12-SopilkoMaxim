@@ -21,29 +21,19 @@ public class ApplicationStarter {
         } while (check);
         switch (numberShape) {
             case 1: {
-                System.out.println("Enter radius for Circle:");
-                int radius = scan.nextInt();
-                shape1 = new Circle(radius);
+                shape1 = new Circle();
                 break;
             }
             case 2: {
-                System.out.println("Enter side1 for Rectangle:");
-                int side1 = scan.nextInt();
-                System.out.println("Enter side2 for Rectangle:");
-                int side2 = scan.nextInt();
-                shape1 = new Rectangle(side1, side2);
+                shape1 = new Rectangle();
                 break;
             }
             case 3: {
-                System.out.println("Enter side for Square:");
-                int side = scan.nextInt();
-                shape1 = new Square(side);
+                shape1 = new Square();
                 break;
             }
             case 4: {
-                System.out.println("Enter side for Triangle:");
-                int side = scan.nextInt();
-                shape1 = new Triangle(side);
+                shape1 = new Triangle();
                 break;
             }
 
@@ -63,29 +53,19 @@ public class ApplicationStarter {
         } while (check);
         switch (numberShape) {
             case 1: {
-                System.out.println("Enter radius for Circle:");
-                int radius = scan.nextInt();
-                shape2 = new Circle(radius);
+                shape2 = new Circle();
                 break;
             }
             case 2: {
-                System.out.println("Enter side1 for Rectangle:");
-                int side1 = scan.nextInt();
-                System.out.println("Enter side2 for Rectangle:");
-                int side2 = scan.nextInt();
-                shape2 = new Rectangle(side1, side2);
+                shape2 = new Rectangle();
                 break;
             }
             case 3: {
-                System.out.println("Enter side for Square:");
-                int side = scan.nextInt();
-                shape2 = new Square(side);
+                shape2 = new Square();
                 break;
             }
             case 4: {
-                System.out.println("Enter side for Triangle:");
-                int side = scan.nextInt();
-                shape2 = new Triangle(side);
+                shape2 = new Triangle();
                 break;
             }
         }

@@ -9,7 +9,7 @@ public abstract class Shape implements InterfaceShape {
         System.out.println("Do you want to change a color?(Y/N):");
         Scanner scan = new Scanner(System.in);
         String answer = scan.next();
-        if (answer=="Y") {
+        if (answer.equals("Y")||answer.equals("y")) {
             System.out.println("Choose the color: \n 1 Red \n 2 Blue \n 3 Green");
             int colornumber = scan.nextInt();
             switch (colornumber){

@@ -1,14 +1,19 @@
 package edu.geekhub.homework;
 
+import java.util.Scanner;
+
 public class Rectangle extends Shape implements InterfaceShape{
     private final double side1;
     private final double side2;
     private final String name = "Rectangle";
 
-    public Rectangle(double side1, double side2) {
+    public Rectangle() {
         super();
-        this.side1 = side1;
-        this.side2 = side2;
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter side1 for Rectangle:");
+        side1 = scan.nextInt();
+        System.out.println("Enter side2 for Rectangle:");
+        side2 = scan.nextInt();
     }
 
     public String getName() {

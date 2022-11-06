@@ -1,13 +1,18 @@
 package edu.geekhub.homework;
 
+import java.util.Scanner;
+
 public class Circle extends Shape implements InterfaceShape{
 
     private final double radius;
     private final String name = "Circle";
 
-    public Circle(double radius) {
+    public Circle() {
         super();
-        this.radius = radius;
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter radius for Circle:");
+        radius = scan.nextInt();
+
     }
 
     public String getName() {
