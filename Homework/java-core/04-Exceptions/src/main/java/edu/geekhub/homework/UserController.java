@@ -4,7 +4,6 @@ import edu.geekhub.controller.Controller;
 import edu.geekhub.models.User;
 import edu.geekhub.models.request.Request;
 import edu.geekhub.models.request.Response;
-import edu.geekhub.storage.*;
 
 // Don't move this class
 public class UserController implements Controller {
