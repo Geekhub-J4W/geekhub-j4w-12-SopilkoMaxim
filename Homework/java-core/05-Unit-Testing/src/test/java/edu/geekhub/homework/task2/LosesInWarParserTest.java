@@ -28,7 +28,7 @@ class LosesInWarParserTest {
         Кораблі (катери) — 16
         Автомобілі та автоцистерни — 4316
         Спеціальна техніка — 160
-        Особовий склад — близько 81370 осіб
+        Особовий склад — 81370
         """;
 
     private LosesInWarParser losesInWarParser;
@@ -36,7 +36,7 @@ class LosesInWarParserTest {
     @Test
     void failed_parse_null_input() {
         assertThrows(
-            TODO_TYPE("Put most suitable exception"),
+            NullPointerException.class,
             () -> losesInWarParser.parseLosesStatistic(null)
         );
     }
@@ -44,8 +44,8 @@ class LosesInWarParserTest {
     @Test
     void failed_parse_empty_input() {
         assertThrows(
-            TODO_TYPE("Put most suitable exception"),
-            () -> losesInWarParser.parseLosesStatistic("")
+            NullPointerException.class,
+            () -> losesInWarParser.parseLosesStatistic(" ")
         );
     }
 
@@ -111,7 +111,7 @@ class LosesInWarParserTest {
                 Кораблі (катери) — 0
                 Автомобілі та автоцистерни — 0
                 Спеціальна техніка — 0
-                Особовий склад — близько 0 осіб
+                Особовий склад — 0
                 """
         );
 

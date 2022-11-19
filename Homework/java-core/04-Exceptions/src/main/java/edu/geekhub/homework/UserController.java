@@ -75,6 +75,7 @@ public class UserController implements Controller {
             return Response.ok(request.getData());
         } catch (Exception e) {
         }
+        User user = (User) request.getData();
         return null;
     }
 }

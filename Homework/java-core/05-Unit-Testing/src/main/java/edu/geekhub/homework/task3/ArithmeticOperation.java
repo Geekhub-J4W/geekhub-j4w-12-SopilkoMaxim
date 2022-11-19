@@ -6,4 +6,6 @@ package edu.geekhub.homework.task3;
  * '+', '-', '*' and '/'
  */
 public enum ArithmeticOperation {
+    ADDITION, SUBTRACTION,MULTIPLICATION,DIVISION;
+
 }

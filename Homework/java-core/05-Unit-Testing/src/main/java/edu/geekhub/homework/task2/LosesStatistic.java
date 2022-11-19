@@ -19,19 +19,19 @@ public class LosesStatistic {
     private final int personnel;
 
     private LosesStatistic(
-        int tanks,
-        int armouredFightingVehicles,
-        int cannons,
-        int multipleRocketLaunchers,
-        int antiAirDefenseDevices,
-        int planes,
-        int helicopters,
-        int drones,
-        int cruiseMissiles,
-        int shipsOrBoats,
-        int carsAndTankers,
-        int specialEquipment,
-        int personnel
+            int tanks,
+            int armouredFightingVehicles,
+            int cannons,
+            int multipleRocketLaunchers,
+            int antiAirDefenseDevices,
+            int planes,
+            int helicopters,
+            int drones,
+            int cruiseMissiles,
+            int shipsOrBoats,
+            int carsAndTankers,
+            int specialEquipment,
+            int personnel
     ) {
         this.tanks = tanks;
         this.armouredFightingVehicles = armouredFightingVehicles;
@@ -168,7 +168,7 @@ public class LosesStatistic {
         }
 
         public LosesStatistic build() {
-            return TODO_TYPE();
+           return new LosesStatistic(this.tanks,this.armouredFightingVehicles,this.cannons,this.multipleRocketLaunchers,this.antiAirDefenseDevices,this.planes,this.helicopters,this.drones,this.cruiseMissiles,this.shipsOrBoats,this.carsAndTankers,this.specialEquipment,this.personnel );
         }
     }
 }
