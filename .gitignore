@@ -1,7 +1,9 @@
 # Compiled class file
 *.class
-/build
-/out
+build
+out
+
+.gradle
 
 # IntelliJ IDEA
 .idea
