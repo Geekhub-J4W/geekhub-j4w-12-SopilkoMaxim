@@ -17,9 +17,11 @@ public class TrivialCollection {
 
         data = Arrays.copyOf(data, data.length + 1);
         data[data.length - 1] = orc;
+
     }
 
     public int count() {
+
         return data.length;
     }
 

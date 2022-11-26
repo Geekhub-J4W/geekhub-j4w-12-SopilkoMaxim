@@ -26,7 +26,7 @@ public class OrcoStatTest {
 
     @Test
     void can_add_negatively_alive_orc() {
-        orcoStatService.addNegativelyAliveOrc(new Orc());
+        orcoStatService.addNegativelyAliveOrc(new Orc(5,"20.10.22"));
 
         int count = orcoStatService.getNegativelyAliveOrcCount();
 
@@ -35,12 +35,12 @@ public class OrcoStatTest {
 
     @Test
     void can_add_multiple_negatively_alive_orcs() {
-        orcoStatService.addNegativelyAliveOrc(new Orc());
-        orcoStatService.addNegativelyAliveOrc(new Orc());
+        orcoStatService.addNegativelyAliveOrc(new Orc(5,"22.10.22"));
+        orcoStatService.addNegativelyAliveOrc(new Orc(5,"22.10.22"));
 
-        int count = orcoStatService.getNegativelyAliveOrcCount();
+        int count = orcoStatService.getTotalDeadOrcs();
 
-        assertEquals(2, count);
+        assertEquals(10, count);
     }
 
     @Test
@@ -52,28 +52,14 @@ public class OrcoStatTest {
 
     @Test
     void can_add_destroyed_tank_without_orc() {
-        orcoStatService.addDestroyedTank(new Tank());
+        orcoStatService.addDestroyedTank(new Tank(5,"22.10.22"));
 
-        int count = orcoStatService.getDestroyedTanksCount();
+        int count = orcoStatService.getTotalDeadTanks();
 
-        assertEquals(1, count);
+        assertEquals(5, count);
     }
 
-    @Test
-    void can_add_destroyed_tank_with_orcs() {
-        TrivialCollection equipage = new TrivialCollection();
-        equipage.add(new Orc());
-        equipage.add(new Orc());
-        equipage.add(new Orc());
-        equipage.add(new Orc());
-        orcoStatService.addDestroyedTank(new Tank(equipage));
 
-        int tanksCount = orcoStatService.getDestroyedTanksCount();
-        int orcCount = orcoStatService.getNegativelyAliveOrcCount();
-
-        assertEquals(1, tanksCount);
-        assertEquals(4, orcCount);
-    }
 
     @Test
     void can_count_orcs_loses_in_dollars() {
@@ -84,7 +70,7 @@ public class OrcoStatTest {
 
     @Test
     void can_sum_orc_loses_in_dollars() {
-        orcoStatService.addNegativelyAliveOrc(new Orc());
+        orcoStatService.addNegativelyAliveOrc(new Orc(1,"22.10.22"));
 
         int damage = orcoStatService.getLosesInDollars();
 
@@ -93,30 +79,20 @@ public class OrcoStatTest {
 
     @Test
     void can_sum_tank_loses_in_dollars() {
-        orcoStatService.addDestroyedTank(new Tank());
+        orcoStatService.addDestroyedTank(new Tank(1,"22.10.22"));
 
         int losesInDollars = orcoStatService.getLosesInDollars();
 
         assertEquals(3_000_000, losesInDollars);
     }
 
-    @Test
-    void can_sum_tank_with_orc_as_equipage_loses_cost_in_dollars() {
-        TrivialCollection equipage = new TrivialCollection();
-        equipage.add(new Orc());
-        orcoStatService.addDestroyedTank(new Tank(equipage));
 
-        int losesInDollars = orcoStatService.getLosesInDollars();
-
-        assertEquals(3_010_000, losesInDollars);
-    }
 
     @Test
-    void can_sum_tank_with_orc_as_equipage_and_lost_orc_loses_cost_in_dollars() {
-        TrivialCollection equipage = new TrivialCollection();
-        equipage.add(new Orc());
-        orcoStatService.addDestroyedTank(new Tank(equipage));
-        orcoStatService.addNegativelyAliveOrc(new Orc());
+    void can_sum_tank_and_lost_orc_loses_cost_in_dollars() {
+
+        orcoStatService.addDestroyedTank(new Tank(1,"22.10.22"));
+        orcoStatService.addNegativelyAliveOrc(new Orc(2,"22.10.22"));
 
         int losesInDollars = orcoStatService.getLosesInDollars();
 
