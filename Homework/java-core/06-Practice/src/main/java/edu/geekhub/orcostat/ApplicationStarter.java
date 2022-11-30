@@ -16,7 +16,7 @@ public class ApplicationStarter {
             System.out.println("1.Add orc \n2.Add tank\n3.Add Armoured Personnel Vehicle \n4.Show statistic\n5 Exit");
             Scanner scan = new Scanner(System.in);
             menu = scan.nextInt();
-            menu = checkNumbers(menu, 4);
+            menu = checkNumbers(menu, 5);
             if (menu == 1) {
 
                 System.out.println("Enter numbers of orcs:");
