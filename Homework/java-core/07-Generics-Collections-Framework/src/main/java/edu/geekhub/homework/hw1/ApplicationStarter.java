@@ -10,9 +10,9 @@ public class ApplicationStarter {
         integers.add(3);
         integers.add(4);
         integers.add(5);
+        integers.add(6);
 
         for (Integer integer : integers)
             System.out.println(integer);
     }
-    // Write code here :)
 }
