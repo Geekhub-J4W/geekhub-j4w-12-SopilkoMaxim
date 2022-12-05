@@ -7,16 +7,24 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ToDoListImpl<E extends Task> implements ToDoList<E> {
-    private List<E> tasksStorage = new ArrayList<>();
+    private final List<E> tasksStorage = new ArrayList<>();
 
     @Override
     public E getTopPriorityTask() {
-        return null;
+        int maxPriority = 0;
+        int maxPriorityIndex = 0;
+        for (int index = 0; index < tasksStorage.size(); index++) {
+            if (maxPriority <= tasksStorage.get(index).getPriority()) {
+                maxPriority = tasksStorage.get(index).getPriority();
+                maxPriorityIndex = index;
+            }
+        }
+        return tasksStorage.get(maxPriorityIndex);
     }
 
     @Override
     public E getTaskByIndex(int index) {
-        return null;
+        return tasksStorage.get(index);
     }
 
     @Override
@@ -31,8 +39,8 @@ public class ToDoListImpl<E extends Task> implements ToDoList<E> {
         priorityTasks.sort(new Comparator<E>() {
             @Override
             public int compare(E o1, E o2) {
-                //write your comparator logic here
-                return 0;
+
+                return o1.getPriority() - o2.getPriority();
             }
         });
         return priorityTasks;
@@ -40,17 +48,38 @@ public class ToDoListImpl<E extends Task> implements ToDoList<E> {
 
     @Override
     public List<E> getSortedByAlphabetTasks() {
-        return null;
+        List<E> nameTasks = tasksStorage;
+
+        nameTasks.sort(new Comparator<E>() {
+            @Override
+            public int compare(E o1, E o2) {
+
+                return o1.getName().compareTo(o2.getName());
+            }
+        });
+        return nameTasks;
     }
 
     @Override
     public boolean addTaskToTheEnd(E task) {
-        return false;
+        int index = tasksStorage.size() + 1;
+        try {
+            tasksStorage.add(index, task);
+        } catch (IndexOutOfBoundsException e) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public boolean addTaskToTheStart(E task) {
-        return false;
+        int index = 0;
+        try {
+            tasksStorage.add(index, task);
+        } catch (IndexOutOfBoundsException e) {
+            return false;
+        }
+        return true;
     }
 
     @Override
