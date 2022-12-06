@@ -62,9 +62,8 @@ public class ToDoListImpl<E extends Task> implements ToDoList<E> {
 
     @Override
     public boolean addTaskToTheEnd(E task) {
-        int index = tasksStorage.size() + 1;
         try {
-            tasksStorage.add(index, task);
+            tasksStorage.add(tasksStorage.size(), task);
         } catch (IndexOutOfBoundsException e) {
             return false;
         }
