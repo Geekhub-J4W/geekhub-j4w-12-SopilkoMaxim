@@ -1,8 +1,5 @@
 package org.example.hw;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Starter {
     public static void main(String[] args) {
         Exercises exercises = new Exercises();

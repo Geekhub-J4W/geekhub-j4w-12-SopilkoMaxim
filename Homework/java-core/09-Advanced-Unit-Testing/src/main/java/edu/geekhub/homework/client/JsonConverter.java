@@ -47,11 +47,21 @@ public class JsonConverter {
                 , values.get(11), values.get(12), values.get(13));
     }
 
-
-
-
     public String convertToJson(LosesStatistic losesStatistic) {
-        return TODO_TYPE("Implement method");
+        String json = "[{tanks\":\""+losesStatistic.tanks()+"\",\"armouredFightingVehicles\":\""
+                +losesStatistic.armouredFightingVehicles()+"\",\"cannons\":\""+losesStatistic.cannons()
+                +"\",\"multipleRocketLaunchers\":\""+losesStatistic.multipleRocketLaunchers()
+                +"\",\"antiAirDefenseDevices\":\""+losesStatistic.antiAirDefenseDevices()
+                +"\",\"planes\":\""+losesStatistic.planes()
+                +"\",\"helicopters\":\""+losesStatistic.helicopters()
+                +"\",\"drones\":\""+losesStatistic.drones()
+                +"\",\"cruiseMissiles\":\""+losesStatistic.cruiseMissiles()
+                +"\",\"shipsOrBoats\":\""+losesStatistic.shipsOrBoats()
+                +"\",\"carsAndTankers\":\""+losesStatistic.carsAndTankers()
+                +"\",\"specialEquipment\":\""+losesStatistic.specialEquipment()
+                +"\",\"personnel\":\""+losesStatistic.personnel()
+                +"\",\"id\":\""+losesStatistic.id()+"\"}]";
+        return json;
     }
 
 

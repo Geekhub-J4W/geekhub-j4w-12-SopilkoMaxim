@@ -21,11 +21,16 @@ public class LosesStatisticService {
 
 
     public List<LosesStatistic> losesStatistics = new ArrayList();
+    JsonConverter jsonConverter = new JsonConverter();
+    LosesStatisticHttpClient losesStatisticHttpClient = new LosesStatisticHttpClient();
     public LosesStatisticService() {
-        JsonConverter jsonConverter = new JsonConverter();
-        LosesStatisticHttpClient losesStatisticHttpClient = new LosesStatisticHttpClient();
+
+
+    }
+
+    public List<LosesStatistic> getAll() {
         try {
-            losesStatistics = jsonConverter.convertToEntities(losesStatisticHttpClient.getAll());
+            return jsonConverter.convertToEntities(losesStatisticHttpClient.getAll());
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
@@ -33,24 +38,45 @@ public class LosesStatisticService {
         }
     }
 
-    public List<LosesStatistic> getAll() {
-        return losesStatistics;
-    }
-
     public LosesStatistic getById(Integer id) {
-        return losesStatistics.get(id);
+        try {
+            return jsonConverter.convertToEntity(losesStatisticHttpClient.getById(id));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public void deleteAll() {
-        losesStatistics = null;
+        try {
+            losesStatisticHttpClient.deleteAll();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void deleteById(int id) {
-
-        losesStatistics.remove(id);
+        try {
+            losesStatisticHttpClient.deleteById(id);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void create(LosesStatistic losesStatistic) {
-        losesStatistics.add(losesStatistic);
+
+        try {
+            losesStatisticHttpClient.create(jsonConverter.convertToJson(losesStatistic));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -19,24 +19,14 @@ public class AnalyticsService {
     }
 
     public LosesStatistic findStatisticWithMaxLosesAmounts(List<LosesStatistic> losesStatistics) {
-        /*List <Integer> totalLost = new ArrayList<>();
-        for (LosesStatistic each: losesStatistics) {
-            totalLost.add(each.id(),each.toral());
-        }
-        int idMaxLoses = totalLost.indexOf(Collections.max(totalLost));
-        return losesStatistics.get(idMaxLoses);*/
+
         return losesStatistics.stream()
                 .max(Comparator.comparing(LosesStatistic::toral))
                 .get();
     }
 
     public LosesStatistic findStatisticWithMinLosesAmounts(List<LosesStatistic> losesStatistics) {
-        /*List <Integer> totalLost = new ArrayList<>();
-        for (LosesStatistic each: losesStatistics) {
-            totalLost.add(each.id(),each.toral());
-        }
-        int idMinLoses = totalLost.indexOf(Collections.min(totalLost));
-        return losesStatistics.get(idMinLoses);*/
+
         return losesStatistics.stream()
                 .min(Comparator.comparing(LosesStatistic::toral))
                 .get();
