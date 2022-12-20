@@ -1,5 +1,10 @@
 package edu.geekhub.homework.domain;
 
+import edu.geekhub.homework.client.JsonConverter;
+import edu.geekhub.homework.client.LosesStatisticHttpClient;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static edu.geekhub.homework.util.NotImplementedException.TODO;
@@ -14,27 +19,38 @@ import static edu.geekhub.homework.util.NotImplementedException.TODO_TYPE;
  */
 public class LosesStatisticService {
 
+
+    public List<LosesStatistic> losesStatistics = new ArrayList();
     public LosesStatisticService() {
-        TODO("Implement service");
+        JsonConverter jsonConverter = new JsonConverter();
+        LosesStatisticHttpClient losesStatisticHttpClient = new LosesStatisticHttpClient();
+        try {
+            losesStatistics = jsonConverter.convertToEntities(losesStatisticHttpClient.getAll());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public List<LosesStatistic> getAll() {
-        return TODO_TYPE("Implement method");
+        return losesStatistics;
     }
 
     public LosesStatistic getById(Integer id) {
-        return TODO_TYPE("Implement method");
+        return losesStatistics.get(id);
     }
 
     public void deleteAll() {
-        TODO("Implement method");
+        losesStatistics = null;
     }
 
     public void deleteById(int id) {
-        TODO("Implement method");
+
+        losesStatistics.remove(id);
     }
 
     public void create(LosesStatistic losesStatistic) {
-        TODO("Implement method");
+        losesStatistics.add(losesStatistic);
     }
 }
