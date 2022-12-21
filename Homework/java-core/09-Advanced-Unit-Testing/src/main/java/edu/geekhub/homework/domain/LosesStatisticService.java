@@ -21,16 +21,16 @@ public class LosesStatisticService {
 
 
     public List<LosesStatistic> losesStatistics = new ArrayList();
-    JsonConverter jsonConverter = new JsonConverter();
-    LosesStatisticHttpClient losesStatisticHttpClient = new LosesStatisticHttpClient();
+    JsonConverter jsonConverter;
+    LosesStatisticHttpClient losesStatisticHttpClient;
     public LosesStatisticService() {
-
-
+    jsonConverter = new JsonConverter();
+    losesStatisticHttpClient = new LosesStatisticHttpClient();
     }
 
     public List<LosesStatistic> getAll() {
         try {
-            return jsonConverter.convertToEntities(losesStatisticHttpClient.getAll());
+           return jsonConverter.convertToEntities(losesStatisticHttpClient.getAll());
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {

@@ -17,10 +17,12 @@ public class ApplicationStarter {
         // Write code here :)
 
         var losesStatisticService = new LosesStatisticService();
+        LosesStatisticHttpClient losesStatisticHttpClient = new LosesStatisticHttpClient();
 
-        var losesStatistic = losesStatisticService.getById(0);
+
+        var losesStatistic = losesStatisticService.getById(86);
         losesStatisticService.create(losesStatistic);
-        losesStatisticService.deleteById(losesStatistic.id());
+        //losesStatisticService.deleteById(losesStatistic.id());
 
         var analyticsService = new AnalyticsService();
 

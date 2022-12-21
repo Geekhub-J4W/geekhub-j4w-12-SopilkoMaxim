@@ -19,6 +19,7 @@ public class JsonConverter {
         String[] splited = losesStatisticsJson.split("},");
 
         for (String oneEntity : splited) {
+            //System.out.println(oneEntity);
             losesStatistics.add(convertToEntity(oneEntity));
         }
         return losesStatistics;
@@ -48,7 +49,7 @@ public class JsonConverter {
     }
 
     public String convertToJson(LosesStatistic losesStatistic) {
-        String json = "[{tanks\":\""+losesStatistic.tanks()+"\",\"armouredFightingVehicles\":\""
+        String json = "{tanks\":\""+losesStatistic.tanks()+"\",\"armouredFightingVehicles\":\""
                 +losesStatistic.armouredFightingVehicles()+"\",\"cannons\":\""+losesStatistic.cannons()
                 +"\",\"multipleRocketLaunchers\":\""+losesStatistic.multipleRocketLaunchers()
                 +"\",\"antiAirDefenseDevices\":\""+losesStatistic.antiAirDefenseDevices()
@@ -60,7 +61,7 @@ public class JsonConverter {
                 +"\",\"carsAndTankers\":\""+losesStatistic.carsAndTankers()
                 +"\",\"specialEquipment\":\""+losesStatistic.specialEquipment()
                 +"\",\"personnel\":\""+losesStatistic.personnel()
-                +"\",\"id\":\""+losesStatistic.id()+"\"}]";
+                +"\",\"id\":\""+losesStatistic.id()+"\"}";
         return json;
     }
 
