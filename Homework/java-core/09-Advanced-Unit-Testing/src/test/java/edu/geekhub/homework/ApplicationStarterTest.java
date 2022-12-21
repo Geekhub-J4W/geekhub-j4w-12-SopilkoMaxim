@@ -1,5 +1,7 @@
 package edu.geekhub.homework.domain;
+//package edu.geekhub.homework.analytics;
 
+import edu.geekhub.homework.analytics.AnalyticsService;
 import edu.geekhub.homework.client.JsonConverter;
 import edu.geekhub.homework.client.LosesStatisticHttpClient;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,11 +45,15 @@ class ApplicationStarterTest {
 
     LosesStatistic exampleLoses;
 
+    AnalyticsService analyticsService;
+
     @BeforeEach
     void setUp() {
+        analyticsService = new AnalyticsService();
         jsonConverter = new JsonConverter();
         example = new ArrayList<>();
         example.add(0, new LosesStatistic(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14));
+        example.add(1,new LosesStatistic(2,3,4,5,6,7,8,9,10,11,12,13,14,15));
         exampleLoses = new LosesStatistic(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
     }
 
@@ -88,5 +94,31 @@ class ApplicationStarterTest {
         assertEquals(1,idCaptor.getValue());
 
         }
+        @Test
+    void findStatisticWithMaxLosesAmounts()
+        {
+           LosesStatistic search = analyticsService.findStatisticWithMaxLosesAmounts(example);
 
+           assertEquals(15,search.id());
+        }
+    @Test
+    void findStatisticWithMinLosesAmounts(){
+        LosesStatistic search = analyticsService.findStatisticWithMinLosesAmounts(example);
+
+        assertEquals(14,search.id());
+    }
+
+    @Test
+    void totalCountOfLosesForStatistic(){
+        int search = analyticsService.totalCountOfLosesForStatistic(exampleLoses);
+
+        assertEquals(104,search);
+    }
+
+    @Test
+    void totalCountOfLosesForAllStatistics(){
+        int search = analyticsService.totalCountOfLosesForAllStatistics(example);
+
+        assertEquals(195,search);
+    }
 }
