@@ -8,20 +8,25 @@ import java.util.Scanner;
 
 public class ApplicationStarter {
     public static void main(String[] args) {
-        File file = new File("https://github.com/Geekhub-J4W/geekhub-j4w-12-SopilkoMaxim/blob/f30ab478b103b9e962c64a78f39e5f497aa95437/Homework/java-core/10-IO-NIO/src/main/resources/playlist.txt");
-        Scanner input;
-        List<String> songs = new ArrayList<>();
+        File file = new File("C:\\Users\\777\\IdeaProjects\\geekhub-j4w-12-SopilkoMaxim\\Homework\\java-core\\10-IO-NIO\\src\\main\\resources\\playlist.txt");
 
+        List<String> songs = new ArrayList<>();
+        List<Song> songsEntities = new ArrayList<>();
 
         try {
-            input = new Scanner(file);
+            Scanner input = new Scanner(file);
             while (input.hasNextLine()) {
                 songs.add(input.nextLine());
-                System.out.println(input.nextLine());
-            }
+                }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+        //songs.forEach(System.out::println);
+        songsEntities = Converter.stringsToEntities(songs);
+        songsEntities.forEach(System.out::println);
+        songsEntities.forEach(CopyToFolder::copy);
+        //CopyToFolder.copy(songsEntities.get(1));
+        //System.out.println(songsEntitys);
 
     }
 
