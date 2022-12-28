@@ -12,8 +12,9 @@ public class CopyToFolder
 {
     public static void copy(Song song)
     {
-        String targetCopy = "C:\\"+song.genre()+"\\"+song.group()+"\\"+song.album()+"\\"+song.name()+".mp3";
-        String folderTree = "C:\\"+song.genre()+"\\"+song.group()+"\\"+song.album();
+        String separator = File.separator;
+        String targetCopy = song.genre()+separator+song.group()+separator+song.album()+separator+song.name()+".mp3";
+        String folderTree = song.genre()+separator+song.group()+separator+song.album();
         buildFoldersTree(folderTree);
         try(InputStream input = URI.create(song.url()).toURL().openStream()){
             Files.copy(input, Paths.get(targetCopy));

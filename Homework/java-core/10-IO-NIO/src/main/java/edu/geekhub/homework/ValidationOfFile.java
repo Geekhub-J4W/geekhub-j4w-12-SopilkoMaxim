@@ -11,6 +11,8 @@ import java.util.Date;
 
 public class ValidationOfFile {
 
+    private static String separator = File.separator;
+
     public static void validateAll(String filePath)
     {
         Song song = Converter.stringToEntity(filePath);
@@ -22,7 +24,9 @@ public class ValidationOfFile {
         File file = new File(filePath);
         if(file.length()/(1024*1024)>10)
         {System.out.println("File is to big");
-            try (FileWriter writer = new FileWriter("resources\\log.txt",true);){
+            try (FileWriter writer = new FileWriter("Homework"+separator+"java-core"+separator+
+                    "10-IO-NIO"+separator+"src"+separator+"main"+separator+"resources"+
+                    separator+"log.txt",true);){
                 Date date = new Date();
                 String msg = date + filePath + "File is to big \n";
                 writer.write(msg);
@@ -36,7 +40,9 @@ public class ValidationOfFile {
         try {
             new URL(filePath).toURI();
         } catch (URISyntaxException e) {
-            try (FileWriter writer = new FileWriter("resources\\log.txt",true);){
+            try (FileWriter writer = new FileWriter("Homework"+separator+"java-core"+separator+
+                    "10-IO-NIO"+separator+"src"+separator+"main"+separator+"resources"+
+                    separator+"log.txt",true);){
                 Date date = new Date();
                 String msg = date + filePath + e+" \n";
                 writer.write(msg);
@@ -45,7 +51,9 @@ public class ValidationOfFile {
             }
             throw new RuntimeException(e);
         } catch (MalformedURLException e) {
-            try (FileWriter writer = new FileWriter("resources\\log.txt",true);){
+            try (FileWriter writer = new FileWriter("Homework"+separator+"java-core"+separator+
+                    "10-IO-NIO"+separator+"src"+separator+"main"+separator+"resources"+
+                    separator+"log.txt",true);){
                 Date date = new Date();
                 String msg = date + filePath + e+" \n";
                 writer.write(msg);
