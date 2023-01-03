@@ -1,5 +1,7 @@
 package edu.geekhub.homework.task2;
 
+import java.util.Objects;
+
 import static edu.geekhub.homework.util.NotImplementedException.TODO_TYPE;
 
 public class LosesStatistic {
@@ -77,12 +79,27 @@ public class LosesStatistic {
      * @return an "empty object" instance
      */
     public static LosesStatistic empty() {
-        return TODO_TYPE("Return an Empty Object");
+
+        return LosesStatistic.newStatistic().withTanks(0)
+                .withArmouredFightingVehicles(0)
+                .withCannons(0)
+                .withMultipleRocketLaunchers(0)
+                .withAntiAirDefenseDevices(0)
+                .withPlanes(0)
+                .withHelicopters(0)
+                .withDrones(0)
+                .withCruiseMissiles(0)
+                .withShipsOrBoats(0)
+                .withCarsAndTankers(0)
+                .withSpecialEquipment(0)
+                .withPersonnel(0)
+                .build();
     }
 
     public static LosesStatisticBuilder newStatistic() {
         return new LosesStatisticBuilder();
     }
+
 
     public static final class LosesStatisticBuilder {
         private int tanks;

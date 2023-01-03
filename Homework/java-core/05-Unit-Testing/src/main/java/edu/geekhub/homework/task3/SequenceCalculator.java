@@ -5,10 +5,11 @@ import static edu.geekhub.homework.util.NotImplementedException.TODO_TYPE;
 
 public class SequenceCalculator {
 
-    public int counterOfNumbersArray = 0;
-    public int result = 0;
+
 
     public int calculate(String input, ArithmeticOperation operation) {
+        int counterOfNumbersArray = 0;
+        int result=0;
         validation(input,operation);
         String[] numbers = input.split("\\D");
         int[] parsedNumbers = new int[numbers.length];
@@ -39,12 +40,24 @@ public class SequenceCalculator {
             return result;
         }
         if (operation == ArithmeticOperation.DIVISION) {
+            ckeckZeroArguments(parsedNumbers,counterOfNumbersArray);
             result = parsedNumbers[0];
             for (int i = 1; i < counterOfNumbersArray; i++)
+            {
                 result = result / parsedNumbers[i];
+            }
             return result;
         }
         return result;
+    }
+
+    private void ckeckZeroArguments(int[] parsedNumbers, int counter) {
+        for (int i=0;i<counter;i++) {
+            if(parsedNumbers[i]==0)
+                throw new IllegalArgumentException(
+                        "Dividing by 0 is not possible"
+                );
+        }
     }
 
     private void validation(String input, ArithmeticOperation operation) {
@@ -61,11 +74,11 @@ public class SequenceCalculator {
     }
     private void checkOperationsIsRight(ArithmeticOperation operation)
     {
-        if(operation!=ArithmeticOperation.ADDITION||operation!=ArithmeticOperation.MULTIPLICATION||operation!=ArithmeticOperation.DIVISION||operation!=ArithmeticOperation.SUBTRACTION)
+        if(!ArithmeticOperation.ADDITION.equals(operation)&&!ArithmeticOperation.MULTIPLICATION.equals(operation)&&!ArithmeticOperation.DIVISION.equals(operation)&&!ArithmeticOperation.SUBTRACTION.equals(operation))
         {
-           /* throw new IllegalArgumentException(
+            throw new IllegalArgumentException(
                     "Illegal argument of operation"
-            );*/
+            );
         }
     }
 }

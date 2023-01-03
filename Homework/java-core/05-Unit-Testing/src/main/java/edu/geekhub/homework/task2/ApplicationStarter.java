@@ -15,13 +15,16 @@ public class ApplicationStarter {
         Кораблі (катери) — 16
         Автомобілі та автоцистерни — 4351
         Спеціальна техніка — 160
-        Особовий склад — 82080 
+        Особовий склад — близько 82080 осіб
         """;
 
     public static void main(String[] args) {
         var losesInWarParser = new LosesInWarParser();
         var losesStatistic = losesInWarParser.parseLosesStatistic(TODAY_LOSES);
 
+        //var losesStatistic = losesInWarParser.parseLosesStatistic("some long text without statistic data");
+
         System.out.println(losesStatistic.asPrintVersion());
+
     }
 }
