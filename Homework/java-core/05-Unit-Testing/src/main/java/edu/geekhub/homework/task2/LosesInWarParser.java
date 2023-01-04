@@ -7,23 +7,22 @@ import static edu.geekhub.homework.util.NotImplementedException.TODO_TYPE;
 public class LosesInWarParser {
 
     LosesStatistic parseLosesStatistic(String input) {
-
+        validate(input);
         if (input.contains("Танки") && input.contains("ББМ") && input.contains("Гармати") && input.contains("РСЗВ") &&
                 input.contains("Засоби ППО") && input.contains("Літаки")&& input.contains("Гелікоптери") &&
                 input.contains("БПЛА") && input.contains("Крилаті ракети")&& input.contains("Кораблі (катери)")&&
                 input.contains("Автомобілі та автоцистерни")&&input.contains("Спеціальна техніка")&&input.contains("Особовий склад"))
         {
-            validate(input);
+
             String[] lines = input.split("\n");
             int[] numbers = new int[lines.length];
             for (int i = 0; i < lines.length; i++)
             {
-                String[] splitedLine = lines[i].split(" — ");
-                splitedLine[1]=splitedLine[1].replaceAll("[^0-9]","");
-                if(splitedLine[1].isBlank())
+                lines[i] = lines[i].replaceAll("[^0-9]","");
+                if(lines[i].isBlank())
                     numbers[i] = 0;
                 else
-                    numbers[i] = Integer.parseInt(splitedLine[1]);
+                    numbers[i] = Integer.parseInt(lines[i]);
             }
             LosesStatistic parsed = LosesStatistic.newStatistic()
                     .withTanks(numbers[0])
@@ -42,9 +41,10 @@ public class LosesInWarParser {
                     .build();
             return parsed;
         }
-        else
+        else {
             return LosesStatistic.empty();
 
+        }
     }
 
     private void validate(String input) {

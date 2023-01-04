@@ -1,5 +1,6 @@
 package edu.geekhub.homework.task2;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -32,6 +33,11 @@ class LosesInWarParserTest {
         """;
 
     private LosesInWarParser losesInWarParser;
+
+    @BeforeEach
+    void setUp(){
+        losesInWarParser = new LosesInWarParser();
+    }
 
     @Test
     void failed_parse_null_input() {

@@ -100,6 +100,38 @@ public class LosesStatistic {
         return new LosesStatisticBuilder();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LosesStatistic that = (LosesStatistic) o;
+        return tanks == that.tanks && armouredFightingVehicles == that.armouredFightingVehicles && cannons == that.cannons && multipleRocketLaunchers == that.multipleRocketLaunchers && antiAirDefenseDevices == that.antiAirDefenseDevices && planes == that.planes && helicopters == that.helicopters && drones == that.drones && cruiseMissiles == that.cruiseMissiles && shipsOrBoats == that.shipsOrBoats && carsAndTankers == that.carsAndTankers && specialEquipment == that.specialEquipment && personnel == that.personnel;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tanks, armouredFightingVehicles, cannons, multipleRocketLaunchers, antiAirDefenseDevices, planes, helicopters, drones, cruiseMissiles, shipsOrBoats, carsAndTankers, specialEquipment, personnel);
+    }
+
+    @Override
+    public String toString() {
+        return "LosesStatistic{" +
+                "tanks=" + tanks +
+                ", armouredFightingVehicles=" + armouredFightingVehicles +
+                ", cannons=" + cannons +
+                ", multipleRocketLaunchers=" + multipleRocketLaunchers +
+                ", antiAirDefenseDevices=" + antiAirDefenseDevices +
+                ", planes=" + planes +
+                ", helicopters=" + helicopters +
+                ", drones=" + drones +
+                ", cruiseMissiles=" + cruiseMissiles +
+                ", shipsOrBoats=" + shipsOrBoats +
+                ", carsAndTankers=" + carsAndTankers +
+                ", specialEquipment=" + specialEquipment +
+                ", personnel=" + personnel +
+                '}';
+    }
+
 
     public static final class LosesStatisticBuilder {
         private int tanks;
