@@ -7,11 +7,9 @@ public class ApplicationStarter {
         System.out.println("Enter N:");
         Scanner scan = new Scanner(System.in);
         int n = scan.nextInt();
-        Calculator cal = new Calculator();
-        cal.divideForZeroTest(n);
-        cal.divideForTwoAndThreeTest(n);
-        double result = Calculator.calculate(n);
-        System.out.println("result: " + result);
+        Calculator calculator = new Calculator();
+        calculator.validateNumber(n);
+        System.out.println("result: " + calculator.calculate(n));
 
     }
 
