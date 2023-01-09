@@ -2,7 +2,7 @@ package edu.geekhub.homework;
 
 import java.util.Scanner;
 
-public class Rectangle extends Shape implements InterfaceShape{
+public class Rectangle extends Shape{
     private final double side1;
     private final double side2;
     private final String name = "Rectangle";

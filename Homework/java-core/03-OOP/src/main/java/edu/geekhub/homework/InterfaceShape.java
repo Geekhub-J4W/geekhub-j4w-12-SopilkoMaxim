@@ -1,7 +1,7 @@
 package edu.geekhub.homework;
 
 public interface InterfaceShape {
-    public double getArea();
+    double getArea();
 
-    public double getPerimeter();
+    double getPerimeter();
 }

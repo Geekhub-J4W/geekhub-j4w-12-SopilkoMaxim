@@ -2,7 +2,7 @@ package edu.geekhub.homework;
 
 import java.util.Scanner;
 
-public class Circle extends Shape implements InterfaceShape{
+public class Circle extends Shape{
 
     private final double radius;
     private final String name = "Circle";

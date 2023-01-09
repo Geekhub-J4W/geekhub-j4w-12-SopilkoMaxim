@@ -2,7 +2,7 @@ package edu.geekhub.homework;
 
 import java.util.Scanner;
 
-public class Triangle extends Shape implements InterfaceShape{
+public class Triangle extends Shape{
     private final double side;
     private final String name = "Triangle";
 

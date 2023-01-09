@@ -2,7 +2,7 @@ package edu.geekhub.homework;
 
 import java.util.Scanner;
 
-public class Square extends Shape implements InterfaceShape{
+public class Square extends Shape{
     private final double side;
     private final String name = "Square";
 
