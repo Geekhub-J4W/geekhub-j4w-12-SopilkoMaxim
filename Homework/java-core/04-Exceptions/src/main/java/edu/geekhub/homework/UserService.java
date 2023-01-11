@@ -1,5 +1,7 @@
 package edu.geekhub.homework;
 
+import edu.geekhub.exceptions.ConnectionInterruptedException;
+import edu.geekhub.models.User;
 import edu.geekhub.storage.Repository;
 import edu.geekhub.storage.MemoryStorage;
 
@@ -7,14 +9,23 @@ import edu.geekhub.storage.MemoryStorage;
 public class UserService {
 
     private final Repository repository;
+    private final UserValidator userValidator;
 
     public UserService() {
         this.repository = new MemoryStorage();
+        this.userValidator = new UserValidator();
     }
 
-    public UserService(Repository repository) {
-        this.repository = repository;
-    }
 
-    //ToDo Write homework-related code here
+    public boolean add(User user){
+        try {
+            userValidator.validate(user);
+            repository.tryToAdd(user);
+            return true;
+        } catch (ConnectionInterruptedException e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+
+    }
 }
