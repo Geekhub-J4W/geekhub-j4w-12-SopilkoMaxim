@@ -15,7 +15,7 @@ class TrivialCollectionTest {
     void can_add_element() {
         TrivialCollection orcs = new TrivialCollection();
 
-        orcs.add(new Orc(5,"22.10.22"));
+        orcs.add(new Orc("22.10.22", 5));
 
         assertEquals(1, orcs.count());
     }
@@ -24,8 +24,8 @@ class TrivialCollectionTest {
     void can_add_two_elements() {
         TrivialCollection orcs = new TrivialCollection();
 
-        orcs.add(new Orc(5,"22.10.22"));
-        orcs.add(new Orc(5,"22.10.22"));
+        orcs.add(new Orc("22.10.22", 5));
+        orcs.add(new Orc("22.10.22", 5));
 
         assertEquals(2, orcs.count());
     }

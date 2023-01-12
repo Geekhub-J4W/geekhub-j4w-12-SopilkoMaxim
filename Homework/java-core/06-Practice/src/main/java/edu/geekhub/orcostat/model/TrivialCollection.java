@@ -6,6 +6,7 @@ import java.util.Objects;
 public class TrivialCollection {
     private Object[] data;
 
+
     public TrivialCollection() {
         data = new Object[0];
     }

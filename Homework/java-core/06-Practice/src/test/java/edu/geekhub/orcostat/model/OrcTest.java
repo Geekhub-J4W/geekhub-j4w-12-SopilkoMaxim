@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class OrcTest {
     @Test
     void default_orc_price_is_lada_vesta_sport() {
-        final Orc orc = new Orc(5,"22.10.22");
+        final Orc orc = new Orc("22.10.22", 5);
 
         assertEquals(10_000, orc.getPrice());
     }
@@ -16,7 +16,7 @@ class OrcTest {
     @Test
     void try_to_count_two_orcs() {
         OrcoStatService orcoStatService= new OrcoStatService();
-        final Orc orc = new Orc(2,"22.10.22");
+        final Orc orc = new Orc("22.10.22", 2);
 
         assertEquals(20_000, orcoStatService.getLosesInDollars());
     }

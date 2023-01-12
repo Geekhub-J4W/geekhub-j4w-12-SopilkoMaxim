@@ -2,7 +2,6 @@ package edu.geekhub.orcostat;
 
 import edu.geekhub.orcostat.model.Orc;
 import edu.geekhub.orcostat.model.Tank;
-import edu.geekhub.orcostat.model.TrivialCollection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +25,7 @@ public class OrcoStatTest {
 
     @Test
     void can_add_negatively_alive_orc() {
-        orcoStatService.addNegativelyAliveOrc(new Orc(5,"20.10.22"));
+        orcoStatService.addNegativelyAliveOrc(new Orc("20.10.22", 5));
 
         int count = orcoStatService.getNegativelyAliveOrcCount();
 
@@ -35,8 +34,8 @@ public class OrcoStatTest {
 
     @Test
     void can_add_multiple_negatively_alive_orcs() {
-        orcoStatService.addNegativelyAliveOrc(new Orc(5,"22.10.22"));
-        orcoStatService.addNegativelyAliveOrc(new Orc(5,"22.10.22"));
+        orcoStatService.addNegativelyAliveOrc(new Orc("22.10.22", 5));
+        orcoStatService.addNegativelyAliveOrc(new Orc("22.10.22", 5));
 
         int count = orcoStatService.getTotalDeadOrcs();
 
@@ -52,7 +51,7 @@ public class OrcoStatTest {
 
     @Test
     void can_add_destroyed_tank_without_orc() {
-        orcoStatService.addDestroyedTank(new Tank(5,"22.10.22"));
+        orcoStatService.addDestroyedTank(new Tank("22.10.22", 5));
 
         int count = orcoStatService.getTotalDeadTanks();
 
@@ -70,7 +69,7 @@ public class OrcoStatTest {
 
     @Test
     void can_sum_orc_loses_in_dollars() {
-        orcoStatService.addNegativelyAliveOrc(new Orc(1,"22.10.22"));
+        orcoStatService.addNegativelyAliveOrc(new Orc("22.10.22", 1));
 
         int damage = orcoStatService.getLosesInDollars();
 
@@ -79,7 +78,7 @@ public class OrcoStatTest {
 
     @Test
     void can_sum_tank_loses_in_dollars() {
-        orcoStatService.addDestroyedTank(new Tank(1,"22.10.22"));
+        orcoStatService.addDestroyedTank(new Tank("22.10.22", 1));
 
         int losesInDollars = orcoStatService.getLosesInDollars();
 
@@ -91,8 +90,8 @@ public class OrcoStatTest {
     @Test
     void can_sum_tank_and_lost_orc_loses_cost_in_dollars() {
 
-        orcoStatService.addDestroyedTank(new Tank(1,"22.10.22"));
-        orcoStatService.addNegativelyAliveOrc(new Orc(2,"22.10.22"));
+        orcoStatService.addDestroyedTank(new Tank("22.10.22", 1));
+        orcoStatService.addNegativelyAliveOrc(new Orc("22.10.22", 2));
 
         int losesInDollars = orcoStatService.getLosesInDollars();
 

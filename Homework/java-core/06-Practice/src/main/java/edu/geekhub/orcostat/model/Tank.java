@@ -2,10 +2,11 @@ package edu.geekhub.orcostat.model;
 
 
 
-public class Tank {
+public class Tank extends SomeLoses{
     private final TrivialCollection equipage;
-    private String addDate ;
-    private int numberOfTanks=0;
+
+    public static String name ="Tank";
+
 
 
     public Tank(TrivialCollection equipage) {
@@ -17,10 +18,10 @@ public class Tank {
 
     }
 
-    public Tank(int numberOfTanks,String dateOfAdd) {
+    public Tank(String dateOfAdd, int numberOfTanks) {
         this(new TrivialCollection()
         );
-        this.numberOfTanks=numberOfTanks;
+        this.number=numberOfTanks;
         this.addDate=dateOfAdd;
     }
 
@@ -32,6 +33,5 @@ public class Tank {
         return 3_000_000;
     }
 
-    public int getNumberOfTanks() {return this.numberOfTanks;}
-    public String getAddDate(){return this.addDate;}
+
 }

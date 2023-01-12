@@ -1,28 +1,22 @@
 package edu.geekhub.orcostat.model;
 
-public class Orc {
+public class Orc extends SomeLoses{
     private static final int LADA_VESTA_SPORT_PRICE = 10_000;
     private static int price;
-    private String addDate;
-    int number;
 
-    public Orc(int number,String addDate) {
+    public static String name = "Orc";
+
+
+    public Orc(String addDate, int number) {
         this.price=LADA_VESTA_SPORT_PRICE;
-        this.addDate = addDate;
-        this.number=number;
+        super.addDate = addDate;
+        super.number=number;
     }
 
-   /* public Orc(int price) {
-        this.price = price;
-    }*/
 
     public static int getPrice() {
         return price;
     }
-
-    public int getNumber(){ return number;}
-
-    public String getAddDate(){return addDate;}
 
     public void setNumber(int number)
     {
