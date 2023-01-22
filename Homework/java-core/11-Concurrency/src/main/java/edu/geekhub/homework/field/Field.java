@@ -13,8 +13,8 @@ public class Field {
     static int endPointX;
     static int endPointY;
 
-    private static final int STARTX = 20;
-    private static final int STARTY = 20;
+    public static final int STARTX = 20;
+    public static final int STARTY = 20;
 
 
 
@@ -55,80 +55,27 @@ public class Field {
         markAllFieldsBlank(gameField);
         generateStartField(gameField);
         generateEmptyFields(gameField);
-        generateFinishFields(gameField);
+        addBottomField(gameField,new FinishField());
 
         drawField(gameField);
         return gameField;
 
     }
 
-    private void generateFinishFields(Field gameField) {
-        if(gameField.getFieldable(endPointX,endPointY+4).getFieldValue()=="s")
-            for (int i = endPointX; i < endPointX + 3; i++) {
 
-                for (int j = endPointY - 6; j < endPointY - 3; j++)
-                    gameField.setFieldable(i, j, new FinishField());
-            }
-        else {
-            for (int i = endPointX; i < endPointX + 3; i++) {
-
-                for (int j = endPointY; j < endPointY + 3; j++)
-                    gameField.setFieldable(i, j, new FinishField());
-            }
-        }
-    }
 
     private void generateEmptyFields(Field gameField) {
         Random random = new Random();
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 10; i++) {
 
             int randomNumber = random.nextInt(12) + 1;
-            if (randomNumber <= 3) addLeftField(gameField);
-            if (randomNumber > 3 && randomNumber <= 6) addRightField(gameField);
-            if (randomNumber > 6 && randomNumber <= 9) addBottomField(gameField);
-            if (randomNumber > 9) addTopField(gameField);
+            if (randomNumber <= 3) addLeftField(gameField,new EmptyField());
+            if (randomNumber > 3 && randomNumber <= 6) addRightField(gameField,new EmptyField());
+            if (randomNumber > 6 && randomNumber <= 9) addBottomField(gameField,new EmptyField());
+            if (randomNumber > 9) addTopField(gameField, new EmptyField());
         }
 
-    }
-
-    private void addBottomField(Field gameField) {
-        if(gameField.getFieldable(endPointX+4,endPointY).getFieldValue()=="s")
-            addTopField(gameField);
-        else {
-            for (int i = endPointX + 3; i < endPointX + 6; i++) {
-
-                for (int j = endPointY - 3; j < endPointY; j++)
-                    gameField.setFieldable(i, j, new EmptyField());
-            }
-            endPointX += 3;
-        }
-    }
-
-    private void addTopField(Field gameField) {
-        if(gameField.getFieldable(endPointX-4,endPointY).getFieldValue()=="s")
-            addBottomField(gameField);
-        else {
-            for (int i = endPointX - 3; i < endPointX; i++) {
-
-                for (int j = endPointY - 3; j < endPointY; j++)
-                    gameField.setFieldable(i, j, new EmptyField());
-            }
-            endPointX -= 3;
-        }
-    }
-
-    private void addLeftField(Field gameField) {
-        if(gameField.getFieldable(endPointX,endPointY-4).getFieldValue()=="s")
-            addRightField(gameField);
-        else {
-            for (int i = endPointX; i < endPointX + 3; i++) {
-
-                for (int j = endPointY - 6; j < endPointY - 3; j++)
-                    gameField.setFieldable(i, j, new EmptyField());
-            }
-            endPointY -= 3;
-        }
     }
 
     private void markAllFieldsBlank(Field field) {
@@ -146,20 +93,59 @@ public class Field {
         endPointY = STARTY+3;
     }
 
-    private void addRightField(Field gameField) {
-        if(gameField.getFieldable(endPointX,endPointY+4).getFieldValue()=="s")
-            addLeftField(gameField);
+    private void addBottomField(Field gameField,Fieldable fieldValue) {
+        if(gameField.getFieldable(endPointX+4,endPointY).getFieldValue()=="s")
+            addTopField(gameField,fieldValue);
+        else {
+            for (int i = endPointX + 3; i < endPointX + 6; i++) {
+
+                for (int j = endPointY - 3; j < endPointY; j++){
+                    gameField.setFieldable(i, j, fieldValue);}
+            }
+            endPointX += 3;
+        }
+    }
+    private void addTopField(Field gameField, Fieldable fieldValue) {
+        if(gameField.getFieldable(endPointX-4,endPointY).getFieldValue()=="s")
+            addBottomField(gameField,fieldValue);
+        else {
+            for (int i = endPointX - 3; i < endPointX; i++) {
+
+                for (int j = endPointY - 3; j < endPointY; j++){
+                    gameField.setFieldable(i, j,fieldValue);}
+            }
+            endPointX -= 3;
+        }
+    }
+    private void addLeftField(Field gameField,Fieldable fieldValue) {
+        if(gameField.getFieldable(endPointX,endPointY-4).getFieldValue()=="s")
+            addRightField(gameField,fieldValue);
         else {
             for (int i = endPointX; i < endPointX + 3; i++) {
 
-                for (int j = endPointY; j < endPointY + 3; j++)
-                    gameField.setFieldable(i, j, new EmptyField());
+                for (int j = endPointY - 6; j < endPointY - 3; j++){
+                    gameField.setFieldable(i, j, fieldValue);}
+            }
+            endPointY -= 3;
+        }
+    }
+    private void addRightField(Field gameField,Fieldable fieldValue) {
+        if(gameField.getFieldable(endPointX,endPointY+4).getFieldValue()=="s")
+            addLeftField(gameField,fieldValue);
+        else {
+            for (int i = endPointX; i < endPointX + 3; i++) {
+
+                for (int j = endPointY; j < endPointY + 3; j++){
+                    if(gameField.getFieldable(i,j).getFieldValue()=="s")
+                    {addLeftField(gameField,new EmptyField());
+                    break;}
+                    gameField.setFieldable(i, j, fieldValue);}
             }
             endPointY += 3;
         }
     }
 
-    public void drawField(Field field) {
+     public void drawField(Field field) {
 
         for (int i = 0; i < field.sizeX; i++) {
             System.out.println();

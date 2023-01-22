@@ -1,17 +1,26 @@
 package edu.geekhub.homework.players;
 
+import edu.geekhub.homework.field.Field;
+import edu.geekhub.homework.field.Fieldable;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public abstract class Transport {
+public abstract class Transport implements Fieldable {
 
     private int coordinateX;
     private int coordinateY;
 
     private String color;
 
-    public Transport() {
+    public static String name=null;
+    private Fieldable prevValue;
+
+    public Field field = null;
+
+    public Transport(Field field) {
+        this.field=field;
         ArrayList<String> colors = new ArrayList<String>();
         colors.add("Green");
         colors.add("Red");
@@ -31,6 +40,14 @@ public abstract class Transport {
 
     public String getColor() {
         return color;
+    }
+
+    public Fieldable getPrevValue() {
+        return prevValue;
+    }
+
+    public void setPrevValue(Fieldable prevValue) {
+        this.prevValue = prevValue;
     }
 
     public void setCoordinate(int coordinateX, int coordinateY) {
