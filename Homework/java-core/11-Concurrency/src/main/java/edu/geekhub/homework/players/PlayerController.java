@@ -55,6 +55,7 @@ public class PlayerController {
             return false;}
         player.setPrevValue(field.getFieldable(newX,newY));
         field.setFieldable(newX,newY,player);
+        player.setCoordinate(newX,newY);
 
         return true;
     }
