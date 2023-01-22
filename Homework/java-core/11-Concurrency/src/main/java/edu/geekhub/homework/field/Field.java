@@ -67,7 +67,7 @@ public class Field {
     private void generateEmptyFields(Field gameField) {
         Random random = new Random();
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 1; i++) {
 
             int randomNumber = random.nextInt(12) + 1;
             if (randomNumber <= 3) addLeftField(gameField,new EmptyField());

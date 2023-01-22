@@ -12,7 +12,7 @@ public class PlayerController {
         this.field = field;
     }
 
-    public void addPlayerOnTheStartField(Transport transport) {
+    public synchronized void addPlayerOnTheStartField(Transport transport) {
         Random random = new Random();
         boolean flag = true;
         do {
@@ -74,12 +74,12 @@ public class PlayerController {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            randomSide=random.nextInt(3);
+            randomSide=random.nextInt(4);
             switch (randomSide){
                 case 0: tmpX-=steps; break;
                 case 1: tmpX+=steps; break;
                 case 2: tmpY-=steps; break;
-                case 3: tmpY+=sleepTime; break;
+                case 3: tmpY+=steps; break;
             }
 
         }while (movePlayerOnTheField(transport,tmpX,tmpY));
