@@ -2,6 +2,7 @@ package edu.geekhub.homework.players;
 
 import edu.geekhub.homework.field.Field;
 import edu.geekhub.homework.field.Fieldable;
+import edu.geekhub.homework.field.StartField;
 
 import java.util.ArrayList;
 import java.util.Arrays;

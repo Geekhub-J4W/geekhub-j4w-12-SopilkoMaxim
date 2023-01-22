@@ -1,11 +1,12 @@
 package edu.geekhub.homework.players;
 
+import edu.geekhub.homework.field.EmptyField;
 import edu.geekhub.homework.field.Field;
 
 import java.util.Random;
 
 public class PlayerController {
-    Field field;
+    volatile Field field;
 
     public PlayerController(Field field) {
         this.field = field;
@@ -26,7 +27,7 @@ public class PlayerController {
         }
         while (flag);
     }
-    public boolean movePlayerOnTheField(Transport player, int newX,int newY){
+    public synchronized boolean movePlayerOnTheField(Transport player, int newX,int newY){
         field.setFieldable(player.getCoordinateX(),player.getCoordinateY(),player.getPrevValue());
         if(field.getFieldable(newX,newY).getFieldValue().isBlank()){
             System.out.println(player.getColor() + " "+ player.name + " left the road");
@@ -34,19 +35,32 @@ public class PlayerController {
         }
         if(field.getFieldable(newX,newY).getFieldValue()=="f")
         {
-            System.out.println(player.getColor() + " " + player.name + "is a winner!!!");
+            System.out.println(player.getColor() + " " + player.name + " is a winner!!!");
             field.setFieldable(newX,newY,player);
             field.drawField(field);
+            System.exit(0);
             return false;
         }
-        //if(field.getFieldable(newX,newY))
-
+        if(field.getFieldable(newX,newY).getFieldValue()=="c"){
+            System.out.println(player.getColor() + " " + player.name + " crashed into another Car");
+            field.setFieldable(newX,newY,new EmptyField());
+            return false;}
+        if(field.getFieldable(newX,newY).getFieldValue()=="m"){
+            System.out.println(player.getColor() + " " + player.name + " crashed into another Motorcycle");
+            field.setFieldable(newX,newY,new EmptyField());
+            return false;}
+        if(field.getFieldable(newX,newY).getFieldValue()=="t"){
+            System.out.println(player.getColor() + " " + player.name + " crashed into another Truck");
+            field.setFieldable(newX,newY,new EmptyField());
+            return false;}
+        player.setPrevValue(field.getFieldable(newX,newY));
         field.setFieldable(newX,newY,player);
+
         return true;
     }
 
 
-    public void movebility(Transport transport, int steps, int sleepTime){
+    public synchronized void movebility(Transport transport, int steps, int sleepTime){
         Random random = new Random();
         int randomSide;
         int tmpX;
