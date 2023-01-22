@@ -1,7 +1,6 @@
 package edu.geekhub.homework;
 
 import java.io.*;
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class ApplicationStarter {
@@ -14,14 +13,15 @@ public class ApplicationStarter {
         List<Song> songsEntities = new ArrayList<>();
         int menu=0;
         Scanner scan = new Scanner(System.in);
-        while(menu!=4){
+        while(menu!=5){
             System.out.println("Menu:");
             System.out.println("1.Copy songs from URl from file " +
                     "\n2.Copy song from URL keyboard" +
                     "\n3.Read Log file " +
-                    "\n4.Exit");
+                    "\n4.Copy songs from URL from file with threads" +
+                    "\n5.Exit");
             menu = scan.nextInt();
-            if(menu<0||menu>4)
+            if(menu<0||menu>5)
             {
                 System.out.println("Wrong number,try again:");
                 menu = scan.nextInt();
@@ -62,6 +62,44 @@ public class ApplicationStarter {
                     throw new RuntimeException(e);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
+                }
+            }
+            if (menu==4){
+                try {
+                    Scanner input = new Scanner(file);
+                    while (input.hasNextLine()) {
+                        songs.add(input.nextLine());
+                    }
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                songsEntities = Converter.stringsToEntities(songs);
+                /*DownloaderThreads downloaderTreads0 = new DownloaderThreads(songsEntities.get(0));
+                Thread firstSong = new Thread(downloaderTreads0);
+                DownloaderThreads downloaderTreads1 = new DownloaderThreads(songsEntities.get(1));
+                Thread secondSong = new Thread(downloaderTreads1);
+                DownloaderThreads downloaderTreads2 = new DownloaderThreads(songsEntities.get(2));
+                Thread thirdSong = new Thread(downloaderTreads2);
+                DownloaderThreads downloaderTreads3 = new DownloaderThreads(songsEntities.get(3));
+                Thread fourthSong = new Thread(downloaderTreads3);
+                DownloaderThreads downloaderTreads4 = new DownloaderThreads(songsEntities.get(4));
+                Thread fifthSong = new Thread(downloaderTreads4);
+                firstSong.start();
+                secondSong.start();
+                thirdSong.start();
+                fourthSong.start();
+                fifthSong.start();*/
+                List<DownloaderThreads> songsRunnableEntity= new ArrayList<>();
+                List<Thread> songsThreads = new ArrayList<>();
+                for(int i=0;i<songsEntities.size();i++){
+                    songsRunnableEntity.add(i,new DownloaderThreads(songsEntities.get(i)));
+                    songsThreads.add(i,new Thread(songsRunnableEntity.get(i)));
+                    songsThreads.get(i).start();
+                    try {
+                        songsThreads.get(i).join();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
 
