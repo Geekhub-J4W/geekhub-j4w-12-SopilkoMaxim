@@ -78,13 +78,13 @@ public class Field {
 
     }
 
-    private void markAllFieldsBlank(Field field) {
+    public void markAllFieldsBlank(Field field) {
         for (int i = 0; i < field.sizeX; i++)
             for (int j = 0; j < field.sizeY; j++)
                 field.setFieldable(i, j, new BlankField());
     }
 
-    private void generateStartField(Field field) {
+    public void generateStartField(Field field) {
         Field startField = new Field(3, 3);
         for (int i = STARTX; i < startField.sizeX + 20; i++)
             for (int j = STARTY; j < startField.sizeY + 20; j++)
@@ -93,7 +93,7 @@ public class Field {
         endPointY = STARTY+3;
     }
 
-    private void addBottomField(Field gameField,Fieldable fieldValue) {
+    public void addBottomField(Field gameField,Fieldable fieldValue) {
         if(gameField.getFieldable(endPointX+4,endPointY).getFieldValue()=="s")
             addTopField(gameField,fieldValue);
         else {
@@ -105,7 +105,7 @@ public class Field {
             endPointX += 3;
         }
     }
-    private void addTopField(Field gameField, Fieldable fieldValue) {
+    public void addTopField(Field gameField, Fieldable fieldValue) {
         if(gameField.getFieldable(endPointX-4,endPointY).getFieldValue()=="s")
             addBottomField(gameField,fieldValue);
         else {
@@ -117,7 +117,7 @@ public class Field {
             endPointX -= 3;
         }
     }
-    private void addLeftField(Field gameField,Fieldable fieldValue) {
+    public void addLeftField(Field gameField,Fieldable fieldValue) {
         if(gameField.getFieldable(endPointX,endPointY-4).getFieldValue()=="s")
             addRightField(gameField,fieldValue);
         else {
@@ -129,7 +129,7 @@ public class Field {
             endPointY -= 3;
         }
     }
-    private void addRightField(Field gameField,Fieldable fieldValue) {
+    public void addRightField(Field gameField,Fieldable fieldValue) {
         if(gameField.getFieldable(endPointX,endPointY+4).getFieldValue()=="s")
             addLeftField(gameField,fieldValue);
         else {

@@ -3,6 +3,9 @@ package edu.geekhub.homework.players;
 import edu.geekhub.homework.field.EmptyField;
 import edu.geekhub.homework.field.Field;
 
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 public class PlayerController {
@@ -28,6 +31,7 @@ public class PlayerController {
         while (flag);
     }
     public synchronized boolean movePlayerOnTheField(Transport player, int newX,int newY){
+        Date date = new Date();
         field.setFieldable(player.getCoordinateX(),player.getCoordinateY(),player.getPrevValue());
         if(field.getFieldable(newX,newY).getFieldValue().isBlank()){
             System.out.println(player.getColor() + " "+ player.name + " left the road");
@@ -42,15 +46,24 @@ public class PlayerController {
             return false;
         }
         if(field.getFieldable(newX,newY).getFieldValue()=="c"){
-            System.out.println(player.getColor() + " " + player.name + " crashed into another Car");
+            Car crashCar =(Car) field.getFieldable(newX,newY);
+            System.out.println(player.getColor() + " " + player.name + " crashed into "
+                    + crashCar.getColor()+ " " + crashCar.name + " at " + date
+                    + " at coordinates X:" + newX + " Y:" + newY);
             field.setFieldable(newX,newY,new EmptyField());
             return false;}
         if(field.getFieldable(newX,newY).getFieldValue()=="m"){
-            System.out.println(player.getColor() + " " + player.name + " crashed into another Motorcycle");
+            Motorcycle crashMoto =(Motorcycle) field.getFieldable(newX,newY);
+            System.out.println(player.getColor() + " " + player.name + " crashed into "
+                    + crashMoto.getColor()+ " " + crashMoto.name + " at " + date
+                    + " at coordinates X:" + newX + " Y:" + newY);
             field.setFieldable(newX,newY,new EmptyField());
             return false;}
         if(field.getFieldable(newX,newY).getFieldValue()=="t"){
-            System.out.println(player.getColor() + " " + player.name + " crashed into another Truck");
+            Truck crashTruck =(Truck) field.getFieldable(newX,newY);
+            System.out.println(player.getColor() + " " + player.name + " crashed into "
+                    + crashTruck.getColor()+ " " + crashTruck.name + " at " + date
+                    + " at coordinates X:" + newX + " Y:" + newY);
             field.setFieldable(newX,newY,new EmptyField());
             return false;}
         player.setPrevValue(field.getFieldable(newX,newY));
