@@ -2,6 +2,9 @@ package edu.geekhub.homework;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ApplicationStarter {
     public static void main(String[] args) {
@@ -74,33 +77,11 @@ public class ApplicationStarter {
                     throw new RuntimeException(e);
                 }
                 songsEntities = Converter.stringsToEntities(songs);
-                /*DownloaderThreads downloaderTreads0 = new DownloaderThreads(songsEntities.get(0));
-                Thread firstSong = new Thread(downloaderTreads0);
-                DownloaderThreads downloaderTreads1 = new DownloaderThreads(songsEntities.get(1));
-                Thread secondSong = new Thread(downloaderTreads1);
-                DownloaderThreads downloaderTreads2 = new DownloaderThreads(songsEntities.get(2));
-                Thread thirdSong = new Thread(downloaderTreads2);
-                DownloaderThreads downloaderTreads3 = new DownloaderThreads(songsEntities.get(3));
-                Thread fourthSong = new Thread(downloaderTreads3);
-                DownloaderThreads downloaderTreads4 = new DownloaderThreads(songsEntities.get(4));
-                Thread fifthSong = new Thread(downloaderTreads4);
-                firstSong.start();
-                secondSong.start();
-                thirdSong.start();
-                fourthSong.start();
-                fifthSong.start();*/
-                List<DownloaderThreads> songsRunnableEntity= new ArrayList<>();
-                List<Thread> songsThreads = new ArrayList<>();
-                for(int i=0;i<songsEntities.size();i++){
-                    songsRunnableEntity.add(i,new DownloaderThreads(songsEntities.get(i)));
-                    songsThreads.add(i,new Thread(songsRunnableEntity.get(i)));
-                    songsThreads.get(i).start();
-                    try {
-                        songsThreads.get(i).join();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
+                ExecutorService threatsPool = Executors.newFixedThreadPool(5);
+                for(int i=0;i<songsEntities.size();i++) {
+                        threatsPool.execute(new DownloaderThreads(songsEntities.get(i)));
                 }
+                threatsPool.shutdown();
             }
 
 
