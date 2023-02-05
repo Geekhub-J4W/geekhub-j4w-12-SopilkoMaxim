@@ -3,6 +3,8 @@ package edu.geekhub.homework;
 import edu.geekhub.homework.inject.Injectable;
 
 public class GeekHubCourse {
+
+
     @Injectable(propertyName = "courseName")
     private String name;
     @Injectable(propertyName = "duration")
@@ -52,5 +54,16 @@ public class GeekHubCourse {
 
     private void setRegistrations(int registrations) {
         this.registrations = registrations;
+    }
+
+    @Override
+    public String toString() {
+        return "GeekHubCourse{" +
+                "name='" + name + '\'' +
+                ", duration=" + duration +
+                ", description='" + description + '\'' +
+                ", mentorName='" + mentorName + '\'' +
+                ", registrations=" + registrations +
+                '}';
     }
 }
