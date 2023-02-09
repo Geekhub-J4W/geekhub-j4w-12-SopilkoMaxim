@@ -7,7 +7,7 @@ public class ApplicationStarter {
 
     public static void main(String[] args) throws IllegalAccessException, InstantiationException {
         InjectProcessor injectProcessor = new InjectProcessor();
-        injectProcessor.process(new GeekHubCourse());
+        System.out.println(injectProcessor.process(new GeekHubCourse()));
 
     }
 
