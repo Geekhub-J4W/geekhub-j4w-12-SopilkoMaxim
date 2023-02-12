@@ -44,17 +44,17 @@ public class ProductService {
         return repository.getProducts();
     }
 
-    public void showSortedListByPrice()
+    public List<Product> sortedListByPrice()
     {
         var sortedList = repository.getProducts();
         Collections.sort(sortedList,Product.COMPARE_BY_PRICE);
-        System.out.println(sortedList);
+        return sortedList;
     }
 
-    public void showSortedListByName()
+    public List<Product> sortedListByName()
     {
         var sortedList = repository.getProducts();
         Collections.sort(sortedList,Product.COMPARE_BY_NAME);
-        System.out.println(sortedList);
+        return sortedList;
     }
 }

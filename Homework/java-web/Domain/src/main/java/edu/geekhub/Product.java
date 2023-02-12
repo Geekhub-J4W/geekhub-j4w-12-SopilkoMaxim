@@ -43,7 +43,7 @@ public class Product {
     public static final Comparator<Product> COMPARE_BY_NAME = new Comparator<Product>() {
         @Override
         public int compare(Product o1, Product o2) {
-            return o1.getName().compareTo(o2.getName());
+            return o2.getName().compareTo(o1.getName());
         }
     };
 

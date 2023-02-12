@@ -36,10 +36,10 @@ public class Main {
                     System.out.println(productRepository.getProducts());
                 }
                 case 4 -> {
-                    productRepository.showSortedListByPrice();
+                    System.out.println(productRepository.sortedListByPrice());
                 }
                 case 5 -> {
-                    productRepository.showSortedListByName();
+                    System.out.println(productRepository.sortedListByName());;
                 }
             }
         }
