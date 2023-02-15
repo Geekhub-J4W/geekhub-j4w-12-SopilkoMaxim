@@ -38,3 +38,10 @@ include 'Homework:java-core:13-Reflection-Api'
 
 include 'Homework:java-web'
 include 'Homework:java-web:lecture:14-Gradle-CI'
+include 'Homework:java-web:domain2'
+findProject(':Homework:java-web:domain2')?.name = 'domain2'
+include 'Homework:java-web:Domain'
+findProject(':Homework:java-web:Domain')?.name = 'Domain'
+include 'Homework:java-web:ConsoleApp'
+findProject(':Homework:java-web:ConsoleApp')?.name = 'ConsoleApp'
+

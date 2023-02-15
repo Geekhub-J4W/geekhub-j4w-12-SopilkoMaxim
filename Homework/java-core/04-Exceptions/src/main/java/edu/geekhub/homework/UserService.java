@@ -16,6 +16,11 @@ public class UserService {
         this.userValidator = new UserValidator();
     }
 
+    public UserService(Repository memoryStorage) {
+        this.repository = memoryStorage;
+        this.userValidator=new UserValidator();
+    }
+
 
     public boolean add(User user){
         try {
