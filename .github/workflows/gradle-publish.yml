@@ -39,5 +39,5 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Start tests
-        uses: ./gradlew testClasses
+        run: ./gradlew testClasses
 
