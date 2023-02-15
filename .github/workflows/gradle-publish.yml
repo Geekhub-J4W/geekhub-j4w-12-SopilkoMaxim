@@ -23,6 +23,23 @@ jobs:
     - name: Execute gradle assemble
       run: ./gradlew assemble
 
+  checkstyle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check repo
+        uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Execute gradle assemble
+        run: ./gradlew Homework:checkstyleMain
+
   test:
     needs: build
     runs-on: ubuntu-latest
