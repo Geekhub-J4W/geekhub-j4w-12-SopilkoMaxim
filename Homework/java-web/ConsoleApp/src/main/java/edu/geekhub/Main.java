@@ -8,7 +8,6 @@ public class Main {
     public static void main(String[] args) {
 
         ProductService productRepository = new ProductService();
-        //Scanner scan = new Scanner(System.in);
         System.out.println("Menu:\n1.Add product\n2.Delete product\n3.Show all products\n4.Sort and show by price");
         System.out.println("5.Show and sort by name\n6.Exit");
         int menu = 0;
