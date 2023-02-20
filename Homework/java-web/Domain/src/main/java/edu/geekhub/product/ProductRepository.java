@@ -1,8 +1,10 @@
-package edu.geekhub;
+package edu.geekhub.product;
+
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class ProductRepository {
     private final List<Product> products = new ArrayList<>();
 

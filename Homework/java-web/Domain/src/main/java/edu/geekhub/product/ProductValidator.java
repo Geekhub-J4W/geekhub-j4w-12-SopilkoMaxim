@@ -1,4 +1,4 @@
-package edu.geekhub;
+package edu.geekhub.product;
 
 import java.util.logging.Logger;
 

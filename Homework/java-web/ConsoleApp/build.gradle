@@ -11,6 +11,8 @@ repositories {
 
 dependencies {
         implementation project (':Homework:java-web:Domain')
+        implementation libs.spring.context
+        implementation libs.javax.annotation
 }
 
 test {

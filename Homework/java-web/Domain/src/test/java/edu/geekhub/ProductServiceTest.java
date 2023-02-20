@@ -1,5 +1,8 @@
 package edu.geekhub;
 
+import edu.geekhub.product.Product;
+import edu.geekhub.product.ProductRepository;
+import edu.geekhub.product.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +14,7 @@ class ProductServiceTest {
 
     @BeforeEach
     void setUp() {
-        productService=new ProductService();
+        productService=new ProductService(new ProductRepository());
         productService.addProduct(new Product("First",50));
         productService.addProduct(new Product("Second",40));
         productService.addProduct(new Product("Third",30));
@@ -44,7 +47,7 @@ class ProductServiceTest {
     @Test
     public void sortListByName(){
         productService.addProduct(new Product("Aaaa",40));
-        var sortedList = productService.sortedListByPrice();
+        var sortedList = productService.sortedListByName();
 
         assertEquals("Aaaa",sortedList.get(0).getName());
     }
