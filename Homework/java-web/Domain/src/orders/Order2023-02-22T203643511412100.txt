@@ -1,0 +1,6 @@
+Order for customer:Locky with age:25:
+Second : 40
+Total price:40
+
+
+Order was created:2023-02-22T20:36:43.572415600   Some company, Stamp

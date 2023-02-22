@@ -22,7 +22,7 @@ public class Order {
         this.products = products;
     }
     public void createOrder(){
-        fileName="Order"+ LocalDateTime.now().toString().replace(".","").replace(":","") +".txt";
+        fileName="Homework/java-web/Domain/src/orders/Order"+ LocalDateTime.now().toString().replace(".","").replace(":","") +".txt";
 
         try {
 
