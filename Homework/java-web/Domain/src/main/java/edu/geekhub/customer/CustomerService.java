@@ -3,12 +3,13 @@ package edu.geekhub.customer;
 import edu.geekhub.product.Product;
 import edu.geekhub.product.ProductValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
-
+@Component
 public class CustomerService {
     private static final Logger logger = Logger.getLogger(edu.geekhub.customer.Customer.class.getName());
     @Autowired

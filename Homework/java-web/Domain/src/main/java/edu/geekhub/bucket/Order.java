@@ -3,6 +3,7 @@ package edu.geekhub.bucket;
 import edu.geekhub.customer.Customer;
 import edu.geekhub.product.Product;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -21,8 +22,10 @@ public class Order {
         this.products = products;
     }
     public void createOrder(){
-        fileName="Order"+ LocalDateTime.now().toString().replace(".","") +".txt";
+        fileName="Order"+ LocalDateTime.now().toString().replace(".","").replace(":","") +".txt";
+
         try {
+
             FileWriter fileWriter = new FileWriter(fileName);
             fileWriter.write("Order for customer:"+customer.getName()+" with age:"
                     +customer.getAge()+":\n");

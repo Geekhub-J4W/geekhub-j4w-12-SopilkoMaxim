@@ -4,7 +4,9 @@ import edu.geekhub.customer.Customer;
 import edu.geekhub.customer.CustomerService;
 import edu.geekhub.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class BucketController {
 
     @Autowired
