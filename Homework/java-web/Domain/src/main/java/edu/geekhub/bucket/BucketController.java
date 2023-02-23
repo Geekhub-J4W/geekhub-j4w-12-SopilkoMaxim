@@ -37,8 +37,14 @@ public class BucketController {
     }
 
     public void createOrder() {
+        if(bucket.getCustomer()==null)
+        {
+            System.out.println("You need to set customer id");
+
+        }
+        else{
         Order order = new Order(bucket.getCustomer(), bucket.getProducts());
-        order.createOrder();
+        order.createOrder();}
     }
 
 }
