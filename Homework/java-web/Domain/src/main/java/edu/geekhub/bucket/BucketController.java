@@ -13,35 +13,31 @@ public class BucketController {
     private CustomerService customerService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private Bucket bucket;
 
-    private Bucket bucket = new Bucket();
-
-    public void setCustomer(int id)
-    {
+    public void setCustomer(int id) {
         bucket.setCustomer(customerService.getCustomerById(id));
     }
 
-    public void setCustomer(String name)
-    {
+    public void setCustomer(String name) {
         bucket.setCustomer(customerService.getCustomerByName(name));
     }
 
-    public void addProduct(int id)
-    {
+    public void addProduct(int id) {
         bucket.addProduct(productService.getProductById(id));
     }
 
-    public void deleteProduct(int id)
-    {
+    public void deleteProduct(int id) {
         bucket.deleteProduct(id);
     }
 
-    public void showProductsInBucket(){
+    public void showProductsInBucket() {
         System.out.println(bucket.getProducts());
     }
 
-    public void createOrder(){
-        Order order = new Order(bucket.getCustomer(),bucket.getProducts());
+    public void createOrder() {
+        Order order = new Order(bucket.getCustomer(), bucket.getProducts());
         order.createOrder();
     }
 

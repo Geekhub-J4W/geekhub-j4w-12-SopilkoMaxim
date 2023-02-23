@@ -9,13 +9,13 @@ public class CustomerValidator {
     public static boolean validateName(Customer customer, Logger logger) {
 
         if (customer.getName().isBlank()) {
-            logger.warning("Product with id " + customer.getId() + " can not create, because Name is empty");
+            logger.warning("Customer with id " + customer.getId() + " can not create, because Name is empty");
             return false;
         }
 
         for (char c : customer.getName().toCharArray())
             if (Character.isDigit(c)) {
-                logger.warning("Product with id " + customer.getId() + " can not create, because Name contain digit");
+                logger.warning("Customer with id " + customer.getId() + " can not create, because Name contain digit");
                 return false;
             }
 
