@@ -65,7 +65,11 @@ public class Main {
                 case 3->{
                     System.out.println("Enter id of product to add");
                     id= scan.nextInt();
-                    bucketController.addProduct(id);
+                    System.out.println("Enter number of products");
+                    int quantity = scan.nextInt();
+                    while (bucketController.addProductWithQuanity(id,quantity)){
+                        quantity = scan.nextInt();
+                    }
                 }
                 case 4->{
                     System.out.println("Enter id of product to delete");
@@ -151,12 +155,21 @@ public class Main {
     private static void addProduct(ProductService productService) {
         String name;
         int price;
+        int quantityOnStock;
+        int rating;
         System.out.println("Enter name of product:");
         scan.nextLine();
         name = scan.nextLine();
         System.out.println("Enter price");
         price = scan.nextInt();
-        productService.addProduct(new Product(name, price));
+        System.out.println("Enter quantity on stock");
+        quantityOnStock=scan.nextInt();
+        System.out.println("Enter rating");
+        rating=scan.nextInt();
+        Product addProd = new Product(name,price);
+        addProd.setQuantityOnStock(quantityOnStock);
+        addProd.setRating(rating);
+        productService.addProduct(addProd);
     }
 
     private static int checkMenu(int menu, int expectedMax) {

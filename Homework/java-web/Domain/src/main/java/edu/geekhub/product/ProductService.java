@@ -12,17 +12,17 @@ import java.util.logging.Logger;
 public class ProductService {
 
     private static final Logger logger = Logger.getLogger(Product.class.getName());
-    @Autowired
+    //@Autowired
     private final ProductRepository repository;
 
-    @PostConstruct
+    /*@PostConstruct
     public void initBD(){
         repository.addProduct(new Product("First",50));
         repository.addProduct(new Product("Second",40));
         repository.addProduct(new Product("Third",30));
         repository.addProduct(new Product("Fourth",60));
         repository.addProduct(new Product("Fifth",70));
-    }
+    }*/
     public ProductService(ProductRepository productRepository) {
         this.repository = productRepository;
     }

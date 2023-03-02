@@ -4,17 +4,28 @@ import java.util.Comparator;
 
 
 public class Product {
-    public static int COUNTER = 0;
     private int id;
     private String name;
     private int price;
 
+    private int rating=0;
+
+    private int quantityToOrder =0;
+
+    private int quantityOnStock = 0;
+
     public Product(String name, int price) {
-        this.id=COUNTER++;
         this.name = name;
         this.price = price;
     }
 
+    public Product(int id, String name, int price, int rating, int quantityOnStock) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.rating = rating;
+        this.quantityOnStock=quantityOnStock;
+    }
 
     public String getName() {
         return name;
@@ -26,6 +37,30 @@ public class Product {
 
     public int getId() {
         return id;
+    }
+
+    public int getQuantityToOrder() {
+        return quantityToOrder;
+    }
+
+
+    public void setQuantityToOrder(int quantityToOrder) {
+        this.quantityToOrder = quantityToOrder;
+    }
+    public int getQuantityOnStock() {
+        return quantityOnStock;
+    }
+
+    public void setQuantityOnStock(int quantityOnStock) {
+        this.quantityOnStock = quantityOnStock;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 
     @Override

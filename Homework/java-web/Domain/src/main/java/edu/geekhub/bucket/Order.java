@@ -3,42 +3,48 @@ package edu.geekhub.bucket;
 import edu.geekhub.customer.Customer;
 import edu.geekhub.product.Product;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Order {
+    private int id;
+    private int quantity_products;
 
-    private Customer customer;
-    private List<Product> products;
-    private String fileName;
+    private LocalDateTime date;
+    private int id_customer;
+    private int id_product;
 
-    public Order(Customer customer, List<Product> products) {
-        this.customer = customer;
-        this.products = products;
+    public Order(int quantity_products, LocalDateTime date, int id_customer, int id_product) {
+        this.quantity_products = quantity_products;
+        this.date = date;
+        this.id_customer = id_customer;
+        this.id_product = id_product;
     }
-    public void createOrder(){
-        fileName="Homework/java-web/Domain/src/orders/Order"+ LocalDateTime.now().toString().replace(".","").replace(":","") +".txt";
 
-        try {
+    public void setId(int id) {
+        this.id = id;
+    }
 
-            FileWriter fileWriter = new FileWriter(fileName);
-            fileWriter.write("Order for customer:"+customer.getName()+" with age:"
-                    +customer.getAge()+":\n");
-            int totalPrice=0;
-            for (Product product : products) {
-                fileWriter.write(product.getName()+" : "+product.getPrice()+"\n");
-                totalPrice+=product.getPrice();
-            }
-            fileWriter.write("Total price:"+totalPrice+ "\n\n\n");
-            fileWriter.write("Order was created:"+LocalDateTime.now()+"   Some company, Stamp");
-            fileWriter.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public int getId() {
+        return id;
+    }
+
+    public int getQuantity_products() {
+        return quantity_products;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public int getId_customer() {
+        return id_customer;
+    }
+
+    public int getId_product() {
+        return id_product;
     }
 }

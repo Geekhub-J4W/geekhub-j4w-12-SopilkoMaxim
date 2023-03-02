@@ -5,6 +5,8 @@ import edu.geekhub.product.ProductRepository;
 import edu.geekhub.product.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,7 +16,7 @@ class ProductServiceTest {
 
     @BeforeEach
     void setUp() {
-        productService=new ProductService(new ProductRepository());
+        productService=new ProductService(new ProductRepository(new NamedParameterJdbcTemplate(new JdbcTemplate())));
         productService.addProduct(new Product("First",50));
         productService.addProduct(new Product("Second",40));
         productService.addProduct(new Product("Third",30));
