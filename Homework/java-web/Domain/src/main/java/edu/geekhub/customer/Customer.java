@@ -16,6 +16,9 @@ public class Customer {
         this.age = age;
     }
 
+    public Customer() {
+    }
+
     public String getName() {
         return name;
     }

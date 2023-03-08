@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Customers</title>
+</head>
+<body>
+<h2>Current time:
+    <span th:text="${dateTime}">2011-12-03T10:15:30</span>
+</h2>
+<form th:method="POST"  th:action="@{/customers}" th:object="${customer}">
+    <label for="name">Name</label>
+    <input th:field="*{name}" id ="name" type="text" placeholder=" ">
+    <label for="age">Age</label>
+    <input th:field="*{age}" id ="age" type="number" placeholder=" ">
+    <button type="submit">Submit</button>
+</form>
+
+<table>
+    <tr>
+        <th>index</th>
+        <th>id</th>
+        <th>name</th>
+        <th>age</th>
+
+    </tr>
+    <tr th:each="customer, customerStat : ${customers}">
+        <td th:text="${customerStat.index}">0</td>
+        <td th:text="${customer.id}">0</td>
+        <td th:text="${customer.name}">text</td>
+        <td th:text="${customer.age}">0</td>
+
+    </tr>
+</table>
+
+</body>
+</html>

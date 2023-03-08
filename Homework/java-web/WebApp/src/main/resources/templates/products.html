@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+</head>
+<body>
+<h2>Current time:
+    <span th:text="${dateTime}">2011-12-03T10:15:30</span>
+</h2>
+<form>
+
+</form>
+
+<table>
+    <tr>
+        <th>index</th>
+        <th>id</th>
+        <th>name</th>
+        <th>price</th>
+        <th>rating</th>
+        <th>quantityOnStock</th>
+    </tr>
+    <tr th:each="product, productStat : ${products}">
+        <td th:text="${productStat.index}">0</td>
+        <td th:text="${product.id}">0</td>
+        <td th:text="${product.name}">text</td>
+        <td th:text="${product.price}">0</td>
+        <td th:text="${product.rating}">0</td>
+        <td th:text="${product.quantityOnStock}">0</td>
+    </tr>
+</table>
+
+</body>
+</html>

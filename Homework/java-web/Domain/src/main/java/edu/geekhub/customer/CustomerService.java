@@ -16,14 +16,14 @@ public class CustomerService {
     private final CustomerRepository repository;
     private Scanner scan =new Scanner(System.in);
 
-    @PostConstruct
+    /*@PostConstruct
     public void initBD(){
         repository.addCustomer(new Customer("Tonny",20));
         repository.addCustomer(new Customer("Locky",25));
         repository.addCustomer(new Customer("Stive",30));
         repository.addCustomer(new Customer("Tchala",60));
         repository.addCustomer(new Customer("Tor",40));
-    }
+    }*/
     public CustomerService(CustomerRepository customerRepository) {
         this.repository = customerRepository;
     }
