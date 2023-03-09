@@ -13,11 +13,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
+@RequestMapping("/customers")
 public class CustomerController {
     @Autowired
     CustomerService customerService;
 
-    @RequestMapping("/customers")
+    @GetMapping()
     public String allNotes(Model model) {
         LocalDateTime now = LocalDateTime.now();
 
@@ -37,7 +38,6 @@ public class CustomerController {
     @PostMapping()
     public String create(@ModelAttribute("customer") Customer customer) {
         customerService.addCustomer(customer);
-        System.out.println("working");
         return "customers";
     }
 

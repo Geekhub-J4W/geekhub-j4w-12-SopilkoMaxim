@@ -5,7 +5,7 @@ import java.util.Comparator;
 
 public class Product {
     private int id;
-    private String name;
+    private String name="default";
     private int price;
 
     private int rating=0;
@@ -13,6 +13,9 @@ public class Product {
     private int quantityToOrder =0;
 
     private int quantityOnStock = 0;
+
+    public Product() {
+    }
 
     public Product(String name, int price) {
         this.name = name;
@@ -61,6 +64,14 @@ public class Product {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     @Override
