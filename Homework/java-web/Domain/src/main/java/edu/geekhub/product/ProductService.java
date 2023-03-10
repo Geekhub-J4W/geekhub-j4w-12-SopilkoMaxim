@@ -73,4 +73,8 @@ public class ProductService {
         Collections.sort(sortedList, Product.COMPARE_BY_NAME);
         return sortedList;
     }
+
+    public void update(int id, Product product) {
+        repository.update(id,product);
+    }
 }

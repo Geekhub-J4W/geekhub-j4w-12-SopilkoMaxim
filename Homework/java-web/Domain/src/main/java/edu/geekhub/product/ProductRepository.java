@@ -70,4 +70,16 @@ public class ProductRepository {
                 rs.getInt("quantity")
         ));
     }
+
+    public void update(int id, Product product) {
+        String updateQuery="update product set name = :name, price = :price, quantity = :quantity, rating = :rating where id = :id";
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("id",id)
+                .addValue("name",product.getName())
+                .addValue("price",product.getPrice())
+                .addValue("quantity",product.getQuantityOnStock())
+                .addValue("rating",product.getRating());
+
+        jdbcTemplate.update(updateQuery,parameters);
+    }
 }

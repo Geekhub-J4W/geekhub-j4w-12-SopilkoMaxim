@@ -5,10 +5,7 @@ import edu.geekhub.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -47,6 +44,23 @@ public class ProductController {
     public String create(@ModelAttribute("product") Product product)
     {
         productService.addProduct(product);
+        return "redirect:/products";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String edit(Model model, @PathVariable("id") int id){
+        model.addAttribute("product",productService.getProductById(id));
+        return "products/edit";
+    }
+
+    @PatchMapping("/{id}")
+    public String update(@ModelAttribute("product") Product product,@PathVariable("id") int id){
+        productService.update(id, product);
+        return "redirect:/products";
+    }
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") int id){
+        productService.deleteProduct(id);
         return "redirect:/products";
     }
 }
