@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+</head>
+<body>
+
+<h2>Current time:
+    <span th:text="${dateTime}">2011-12-03T10:15:30</span>
+</h2>
+<form th:method="POST"  th:action="@{/orders}" th:object="${order}">
+    <label for="quantity">Quantity</label>
+    <input th:field="*{quantity_products}" id ="quantity" type="text" placeholder=" ">
+    <label for="date">Date</label>
+    <input th:field="*{date}" id ="date" type="date" placeholder=" ">
+    <label for="customer">Customer id</label>
+    <input th:field="*{id_customer}" id ="customer" type="number" placeholder=" ">
+    <label for="product">Product id</label>
+    <input th:field="*{id_product}" id ="product" type="number" placeholder=" ">
+    <button type="submit">Submit</button>
+</form>
+
+<table>
+    <tr>
+        <th>index</th>
+        <th>id</th>
+        <th>product id</th>
+        <th>quantity</th>
+        <th>customer id</th>
+        <th>date</th>
+
+
+    </tr>
+    <tr th:each="order, orderStat : ${orders}">
+        <td th:text="${orderStat.index}">0</td>
+        <td th:text="${order.getId()}">0</td>
+        <td th:text="${order.id_product}">0</td>
+        <td th:text="${order.quantity_products}">0</td>
+        <td th:text="${order.id_customer}">0</td>
+        <td th:text="${order.date}">0</td>
+
+
+    </tr>
+</table>
+
+</body>
+</html>

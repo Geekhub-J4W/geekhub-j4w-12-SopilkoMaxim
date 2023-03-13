@@ -11,12 +11,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/products")
 public class ProductController {
     @Autowired
     ProductService productService;
     @GetMapping()
+
     public String index(Model model) {
         LocalDateTime now = LocalDateTime.now();
 

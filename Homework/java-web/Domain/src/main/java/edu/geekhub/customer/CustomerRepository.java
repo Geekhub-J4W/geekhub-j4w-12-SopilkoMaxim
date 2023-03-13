@@ -63,4 +63,14 @@ public class CustomerRepository {
                 rs.getInt("age")
         ));
     }
+
+    public void update(int id, Customer customer) {
+        String updateQuery="update customer set name = :name, age = :age where id = :id";
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("id",id)
+                .addValue("name",customer.getName())
+                .addValue("age",customer.getAge());
+
+        jdbcTemplate.update(updateQuery,parameters);
+    }
 }

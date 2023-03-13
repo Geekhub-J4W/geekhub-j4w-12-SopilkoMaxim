@@ -70,4 +70,8 @@ public class CustomerService {
     public List<Customer> getCustomers() {
         return repository.getCustomers();
     }
+
+    public void update(int id, Customer customer) {
+        repository.update(id,customer);
+    }
 }
