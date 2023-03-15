@@ -1,8 +1,8 @@
 package edu.geekhub.product;
 
+import edu.geekhub.product.image.Image;
+
 import java.util.Comparator;
-
-
 public class Product {
     private int id;
     private String name="default";
@@ -13,6 +13,9 @@ public class Product {
     private int quantityToOrder =0;
 
     private int quantityOnStock = 0;
+
+    private int id_image;
+
 
     public Product() {
     }
@@ -72,6 +75,18 @@ public class Product {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId_image() {
+        return id_image;
+    }
+
+    public void setId_image(int id_image) {
+        this.id_image = id_image;
     }
 
     @Override

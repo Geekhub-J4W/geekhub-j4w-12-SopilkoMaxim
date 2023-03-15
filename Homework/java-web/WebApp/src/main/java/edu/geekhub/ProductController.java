@@ -2,10 +2,12 @@ package edu.geekhub;
 
 import edu.geekhub.product.Product;
 import edu.geekhub.product.ProductService;
+import edu.geekhub.product.image.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -16,6 +18,8 @@ import java.util.List;
 public class ProductController {
     @Autowired
     ProductService productService;
+    @Autowired
+    ImageRepository imageRepository;
     @GetMapping()
 
     public String index(Model model) {
@@ -42,8 +46,10 @@ public class ProductController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute("product") Product product)
+    public String create(@ModelAttribute("product") Product product,@RequestParam("file") MultipartFile file)
     {
+        if(!file.isEmpty())
+            product = productService.addImage(product,file);
         productService.addProduct(product);
         return "redirect:/products";
     }

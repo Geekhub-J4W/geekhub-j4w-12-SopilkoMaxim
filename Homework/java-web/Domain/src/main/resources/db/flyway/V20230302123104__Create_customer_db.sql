@@ -5,3 +5,4 @@ create table public.customer
     name text    not null,
     age  integer not null
 );
+

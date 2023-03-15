@@ -2,7 +2,7 @@ create table public."order"
 (
     id                serial
         primary key,
-    quantiti_products integer not null,
+    quantity_products integer not null,
     order_date        date    not null,
     id_customer       serial
         constraint customer_fkey
