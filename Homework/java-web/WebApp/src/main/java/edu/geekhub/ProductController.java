@@ -35,7 +35,7 @@ public class ProductController {
                 )
         );
 
-        return "products/index";
+        return "redirect:/products/index.html";
     }
 
     @GetMapping("/new")

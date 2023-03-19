@@ -12,10 +12,6 @@ public class Order {
     private int id_customer;
     private int id_product;
 
-
-
-
-
     public Order(int quantity_products, LocalDateTime date, int id_customer, int id_product) {
         this.quantity_products = quantity_products;
         this.date = date;

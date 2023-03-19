@@ -20,6 +20,7 @@
         <th>price</th>
         <th>rating</th>
         <th>quantityOnStock</th>
+        <th>id_image</th>
     </tr>
     <tr th:each="product, productStat : ${products}">
         <td th:text="${productStat.index}">0</td>
@@ -28,10 +29,13 @@
         <td th:text="${product.price}">0</td>
         <td th:text="${product.rating}">0</td>
         <td th:text="${product.quantityOnStock}">0</td>
+        <td th:text="${product.id_image}">0</td>
     </tr>
 </table>
 </br>
-<a href="products/new"> Create new product </a>
+<a href="products/new.html"> Create new product </a>
+</br>
+<a href="products/edit.html"> edit </a>
 
 </body>
 </html>

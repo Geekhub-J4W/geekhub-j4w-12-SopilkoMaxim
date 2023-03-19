@@ -5,6 +5,6 @@ create table public."image"
     originalFileName text NOT NULL,
     size bigint NOT NULL,
     contentType text NOT NULL,
-    bytes bytea NOT NULL
+    bytes bytea
 
 );
