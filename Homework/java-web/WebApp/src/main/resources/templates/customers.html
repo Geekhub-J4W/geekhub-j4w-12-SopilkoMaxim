@@ -47,6 +47,7 @@
             cursor: pointer;
         }
     </style>
+    <script defer="defer" src="customers.js"></script>
 </head>
 <body>
 <h1>Customer Information</h1>
@@ -56,6 +57,7 @@
         <th>ID</th>
         <th>Name</th>
         <th>Age</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody id="customer-table"></tbody>
@@ -67,51 +69,8 @@
     <input type="number" id="age" name="age" required>
     <input type="submit" value="Add Customer">
 </form>
-<script>
-
-    fetch('http://localhost:8880/customers')
-        .then(response => response.json())
-        .then(customers => {
-            const customerTable = document.getElementById('customer-table');
-            customers.forEach(customer => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-						<td>${customer.id}</td>
-						<td>${customer.name}</td>
-						<td>${customer.age}</td>
-					`;
-                customerTable.appendChild(row);
-            });
-        });
-
-
-    const customerForm = document.getElementById('customer-form');
-    customerForm.addEventListener('submit', event => {
-        event.preventDefault();
-        const formData = new FormData(customerForm);
-        const customer = {
-            name: formData.get('name'),
-            age: formData.get('age')
-        };
-        fetch('/customers', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(customer)
-        })
-            .then(response => response.json())
-            .then(newCustomer => {
-                const customerTable = document.getElementById('customer-table');
-                const row = document.createElement('tr');
-                row.innerHTML = `
-	                <td>${newCustomer.name}</td>
-					<td>${newCustomer.age}</td>
-				`;
-                customerTable.appendChild(row);
-                customerForm.reset();
-            });
-    });
-    </script>
+<label for="id">Select a customer ID:</label>
+<input type="number" id="id">
+<button onclick="deleteCustomer()">Delete</button>
 </body>
 </html>

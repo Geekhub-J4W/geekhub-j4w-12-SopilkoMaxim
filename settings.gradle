@@ -61,4 +61,10 @@ dependencyResolutionManagement {
 }
 include 'Homework:java-web:WebApp'
 findProject(':Homework:java-web:WebApp')?.name = 'WebApp'
+include 'Homework:courseWork'
+findProject(':Homework:courseWork')?.name = 'courseWork'
+include 'Homework:courseWork:Domain'
+findProject(':Homework:courseWork:Domain')?.name = 'Domain'
+include 'Homework:courseWork:WebApp'
+findProject(':Homework:courseWork:WebApp')?.name = 'WebApp'
 

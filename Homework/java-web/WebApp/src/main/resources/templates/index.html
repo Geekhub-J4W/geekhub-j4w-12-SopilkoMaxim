@@ -1,19 +1,48 @@
-<!doctype html>
-<html lang="en" dir="ltr" style="font-size: 75%;">
+<!DOCTYPE html>
+<html>
 <head>
   <title>Shop</title>
-
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-
-<!--  <script defer="defer" src="index.js"></script>-->
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    header {
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+    nav {
+      background-color: #f2f2f2;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      display: inline-block;
+      padding: 10px;
+      margin: 10px;
+      background-color: #4CAF50;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+    nav a:hover {
+      background-color: #3e8e41;
+    }
+  </style>
 </head>
-<body style="margin: 0;">
-<ul>
-  <li><a href="products/index">Products</a></li>
-  <li><a href="customers">Customers</a></li>
-  <li><a href="orders">Orders</a></li>
-</ul>
+<body>
+<header>Shop</header>
+<nav>
+  <a href="/products.html">Products</a>
+  <a href="/customers.html">Customers</a>
+  <a href="/orders.html">Orders</a>
+</nav>
 </body>
 </html>
