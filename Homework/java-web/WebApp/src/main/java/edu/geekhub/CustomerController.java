@@ -6,9 +6,6 @@ import edu.geekhub.customer.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
-
-
 @RestController
 @RequestMapping("/customers")
 public class CustomerController {
@@ -26,9 +23,9 @@ public class CustomerController {
     }
 
     @PostMapping()
-    public String create(@RequestBody Customer customer) {
+    public boolean create(@RequestBody Customer customer) {
         customerService.addCustomer(customer);
-        return "customers";
+        return true;
     }
 
     @DeleteMapping("{id}")

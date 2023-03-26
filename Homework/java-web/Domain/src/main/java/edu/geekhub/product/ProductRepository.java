@@ -13,7 +13,7 @@ public class ProductRepository {
 
 
     private static final String INSERT_PRODUCT = """
-            INSERT INTO product (name,price,quantity,rating) VALUES (:name,:price,:quantity,:rating)
+            INSERT INTO product (name,price,quantity,rating,id_image) VALUES (:name,:price,:quantity,:rating,:id_image)
             """;
 
     public static final String FETCH_ALL_PRODUCTS = """
@@ -38,7 +38,8 @@ public class ProductRepository {
                 .addValue("name", product.getName())
                 .addValue("price", product.getPrice())
                 .addValue("quantity", product.getQuantityOnStock())
-                .addValue("rating", product.getRating());
+                .addValue("rating", product.getRating())
+                .addValue("imgBytes",product.getImgBytes());
         jdbcTemplate.update(INSERT_PRODUCT, parameters);
 
     }
@@ -49,7 +50,8 @@ public class ProductRepository {
                 rs.getString("name"),
                 rs.getInt("price"),
                 rs.getInt("rating"),
-                rs.getInt("quantity")));
+                rs.getInt("quantity"),
+                rs.getBytes("imgBytes")));
         return result.get(0);
 
     }
@@ -67,18 +69,20 @@ public class ProductRepository {
                 rs.getString("name"),
                 rs.getInt("price"),
                 rs.getInt("rating"),
-                rs.getInt("quantity")
+                rs.getInt("quantity"),
+                rs.getBytes("imgBytes")
         ));
     }
 
     public void update(int id, Product product) {
-        String updateQuery="update product set name = :name, price = :price, quantity = :quantity, rating = :rating where id = :id";
+        String updateQuery="update product set name = :name, price = :price, quantity = :quantity, rating = :rating, imgBytes = :imgBytes where id = :id";
         MapSqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("id",id)
                 .addValue("name",product.getName())
                 .addValue("price",product.getPrice())
                 .addValue("quantity",product.getQuantityOnStock())
-                .addValue("rating",product.getRating());
+                .addValue("rating",product.getRating())
+                .addValue("imgBytes",product.getImgBytes());
 
         jdbcTemplate.update(updateQuery,parameters);
     }

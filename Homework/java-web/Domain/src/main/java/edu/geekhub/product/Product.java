@@ -1,7 +1,8 @@
 package edu.geekhub.product;
 
-import edu.geekhub.product.image.Image;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Comparator;
 public class Product {
     private int id;
@@ -14,10 +15,16 @@ public class Product {
 
     private int quantityOnStock = 0;
 
-    private int id_image;
+    private byte[] imgBytes;
 
 
-    public Product() {
+    public Product(int id, String name, int price, int rating, int quantity, byte[] imgBytes) {
+        this.id=id;
+        this.name=name;
+        this.price=price;
+        this.rating=rating;
+        this.quantityOnStock=quantity;
+        this.imgBytes=imgBytes;
     }
 
     public Product(String name, int price) {
@@ -31,8 +38,20 @@ public class Product {
         this.price = price;
         this.rating = rating;
         this.quantityOnStock=quantityOnStock;
-    }
 
+    }
+    public Product(int id, String name, int price, int rating, int quantityOnStock, MultipartFile file) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.rating = rating;
+        this.quantityOnStock=quantityOnStock;
+        try {
+            this.imgBytes=file.getBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public String getName() {
         return name;
     }
@@ -44,6 +63,7 @@ public class Product {
     public int getId() {
         return id;
     }
+
 
     public int getQuantityToOrder() {
         return quantityToOrder;
@@ -81,12 +101,16 @@ public class Product {
         this.id = id;
     }
 
-    public int getId_image() {
-        return id_image;
+    public byte[] getImgBytes() {
+        return imgBytes;
     }
 
-    public void setId_image(int id_image) {
-        this.id_image = id_image;
+    public void setImgBytes(MultipartFile file) {
+        try {
+            this.imgBytes = file.getBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -95,8 +119,12 @@ public class Product {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
+                ", rating=" + rating +
+                ", quantityToOrder=" + quantityToOrder +
+                ", quantityOnStock=" + quantityOnStock +
                 '}';
     }
+
     public static final Comparator<Product> COMPARE_BY_PRICE = new Comparator<Product>() {
         @Override
         public int compare(Product o1, Product o2) {

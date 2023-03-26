@@ -1,48 +1,44 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Orders</title>
+  <meta charset="UTF-8">
+  <title>Orders</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<h2>Current time:
-    <span th:text="${dateTime}">2011-12-03T10:15:30</span>
-</h2>
-<form th:method="POST"  th:action="@{/orders}" th:object="${order}">
-    <label for="quantity">Quantity</label>
-    <input th:field="*{quantity_products}" id ="quantity" type="text" placeholder=" ">
-    <label for="date">Date</label>
-    <input th:field="*{date}" id ="date" type="date" placeholder=" ">
-    <label for="customer">Customer id</label>
-    <input th:field="*{id_customer}" id ="customer" type="number" placeholder=" ">
-    <label for="product">Product id</label>
-    <input th:field="*{id_product}" id ="product" type="number" placeholder=" ">
-    <button type="submit">Submit</button>
-</form>
-
-<table>
+<div class="container">
+  <h1>Orders</h1>
+  <table id="orders-table">
+    <thead>
     <tr>
-        <th>index</th>
-        <th>id</th>
-        <th>product id</th>
-        <th>quantity</th>
-        <th>customer id</th>
-        <th>date</th>
-
-
+      <th>ID</th>
+      <th>Quantity</th>
+      <th>Date</th>
+      <th>Product ID</th>
+      <th>Customer ID</th>
     </tr>
-    <tr th:each="order, orderStat : ${orders}">
-        <td th:text="${orderStat.index}">0</td>
-        <td th:text="${order.getId()}">0</td>
-        <td th:text="${order.id_product}">0</td>
-        <td th:text="${order.quantity_products}">0</td>
-        <td th:text="${order.id_customer}">0</td>
-        <td th:text="${order.date}">0</td>
-
-
-    </tr>
-</table>
-
+    </thead>
+    <tbody>
+    <!-- Orders will be dynamically added here -->
+    </tbody>
+  </table>
+  <button id="add-order-button">Add Order</button>
+  <dialog id="order-dialog">
+    <form id="order-form">
+      <label for="quantity-input">Quantity:</label>
+      <input id="quantity-input" name="quantity" type="number" required>
+      <label for="date-input">Date:</label>
+      <input id="date-input" name="date" type="date" required>
+      <label for="product-id-input">Product ID:</label>
+      <input id="product-id-input" name="productId" type="text" required>
+      <label for="customer-id-input">Customer ID:</label>
+      <input id="customer-id-input" name="customerId" type="text" required>
+      <input id="order-id-input" name="id" type="hidden">
+      <button id="save-order-button" type="submit">Save</button>
+      <button id="cancel-order-button" type="button">Cancel</button>
+    </form>
+  </dialog>
+</div>
+<script src="script.js"></script>
 </body>
 </html>

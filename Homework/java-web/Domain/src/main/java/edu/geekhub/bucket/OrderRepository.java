@@ -42,7 +42,7 @@ public class OrderRepository {
         List<Order> result = jdbcTemplate.query(getOrder, (rs, rowNum) -> new Order(
                 rs.getInt("id"),
                 rs.getInt("quantity_products"),
-                rs.getDate("date"),
+                rs.getDate("order_date"),
                 rs.getInt("id_customer"),
                 rs.getInt("id_product")));
         return result.get(0);
@@ -58,7 +58,7 @@ public class OrderRepository {
         return jdbcTemplate.query(FETCH_ALL_ORDERS, (rs, rowNum) -> new Order(
                 rs.getInt("id"),
                 rs.getInt("quantity_products"),
-                rs.getDate("date"),
+                rs.getDate("order_date"),
                 rs.getInt("id_customer"),
                 rs.getInt("id_product")));
     }

@@ -1,14 +1,9 @@
 package edu.geekhub.product;
 
-import edu.geekhub.product.image.Image;
-import edu.geekhub.product.image.ImageRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 
-import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
@@ -20,8 +15,7 @@ public class ProductService {
     private static final Logger logger = Logger.getLogger(Product.class.getName());
     //@Autowired
     private final ProductRepository repository;
-    @Autowired
-    private ImageRepository imageRepository;
+
 
     /*@PostConstruct
     public void initBD(){
@@ -35,16 +29,12 @@ public class ProductService {
         this.repository = productRepository;
     }
 
-    public Product addImage(Product product, MultipartFile file1) {
+    public Product addImage(Product product, MultipartFile file) {
 
-        if (file1.getSize() != 0) {
-            Image image = toImageEntity(file1);
-            imageRepository.addImage(image);
-            image = imageRepository.getImageByOrigName(image.getOriginalFileName());
-            product.setId_image(image.getId());
-            return product;
+        if (file.getSize() != 0) {
+            product.setImgBytes(file);
         }
-        return null;
+        return product;
     }
 
     public void addProduct(Product product) {
@@ -55,19 +45,7 @@ public class ProductService {
         repository.addProduct(product);
     }
 
-    private Image toImageEntity(MultipartFile file)  {
-        Image image = new Image();
-        image.setName(file.getName());
-        image.setOriginalFileName(file.getOriginalFilename());
-        image.setContentType(file.getContentType());
-        image.setSize((int)file.getSize());
-        try {
-            image.setBytes(file.getBytes());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return image;
-    }
+
 
     public void deleteProduct(int id) {
         if (ProductValidator.validateIdExist(id, repository, logger)) {

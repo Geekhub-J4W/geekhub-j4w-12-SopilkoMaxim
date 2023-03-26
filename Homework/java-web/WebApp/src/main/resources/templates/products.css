@@ -1,0 +1,141 @@
+body {
+    background-color: #f9f9f9;
+    font-family: sans-serif;
+    margin: 0;
+}
+
+h1 {
+    background-color: #333;
+    color: #fff;
+    margin: 0;
+    padding: 1em;
+}
+
+#product-table {
+    border-collapse: collapse;
+    margin: 1em;
+    width: calc(100% - 2em);
+}
+
+#product-table th {
+    background-color: #333;
+    color: #fff;
+    padding: 0.5em;
+    text-align: left;
+}
+
+#product-table td {
+    border: 1px solid #ddd;
+    padding: 0.5em;
+}
+
+#product-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+#product-table tbody td:last-child {
+    text-align: center;
+}
+
+#product-table .btn-edit {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#product-table .btn-watch {
+    background-color: #2196F3;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#product-table .btn-delete {
+    background-color: #f44336;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#create-product-button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 1em;
+    cursor: pointer;
+}
+
+#product-dialog {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 1em;
+    width: 400px;
+}
+
+#product-dialog label {
+    display: inline-block;
+    margin-bottom: 0.5em;
+}
+
+#product-dialog input[type="text"],
+#product-dialog input[type="number"],
+#product-dialog input[type="file"] {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 0.5em;
+    width: 100%;
+}
+
+#product-dialog input[type="submit"],
+#product-dialog input[type="button"] {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-top: 1em;
+    cursor: pointer;
+}
+
+#product-dialog input[type="submit"]:hover,
+#product-dialog input[type="button"]:hover {
+    background-color: #3e8e41;
+}
+
+#image-dialog {
+    padding: 1em;
+    background-color: #fff;
+}
+
+#image-preview {
+    max-width: 100%;
+    max-height: 100%;
+}

@@ -1,5 +1,6 @@
 package edu.geekhub;
 
+import com.google.gson.Gson;
 import edu.geekhub.bucket.Order;
 import edu.geekhub.bucket.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,20 +20,8 @@ public class OrderController {
     OrderService orderService;
 
     @GetMapping()
-    public String allOrders(Model model) {
-        LocalDateTime now = LocalDateTime.now();
-
-        String formattedDateTime = DateTimeFormatter.ISO_DATE_TIME.format(now);
-
-        model.addAttribute("dateTime", formattedDateTime);
-        model.addAttribute(
-                "orders",
-                List.copyOf(
-                        orderService.getOrders()
-                )
-        );
-        model.addAttribute("order", new Order());
-        return "orders";
+    public String allOrders() {
+        return new Gson().toJson(orderService.getOrders());
     }
 
     @PostMapping()
