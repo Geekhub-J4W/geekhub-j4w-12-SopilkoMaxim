@@ -5,6 +5,7 @@ import edu.geekhub.product.Product;
 import edu.geekhub.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,8 +45,18 @@ public class ProductController {
         return true;
     }
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") int id){
+    public boolean delete(@PathVariable("id") int id){
         productService.deleteProduct(id);
-        return "redirect:/products";
+        return true;
+    }
+
+    @GetMapping(value = "/products/{id}/picture", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> getProductPicture(@PathVariable int id) {
+        try {
+            byte[] imageBytes = productService.getProductById(id).getImgBytes();
+            return ResponseEntity.ok().body(imageBytes);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

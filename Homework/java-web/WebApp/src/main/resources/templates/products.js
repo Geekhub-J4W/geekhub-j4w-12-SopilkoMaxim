@@ -21,12 +21,50 @@ fetch('http://localhost:8080/products')
                 <td>
                     <button class="btn-edit" data-id="${product.id}">Edit</button>
                     <button class="btn-picture" data-id="${product.id}">Picture</button>
+                    <button class="btn-delete" data-id="${product.id}">Delete</button>
                 </td>
             `;
             productTable.appendChild(row);
+
+
+
+            const pictureButton = row.querySelector('.btn-picture');
+            pictureButton.addEventListener('click', () => {
+                const id = pictureButton.dataset.id;
+                fetch(`http://localhost:8080/products/${id}/picture`)
+                    .then(response => response.arrayBuffer())
+                    .then(buffer => {
+                        const blob = new Blob([buffer]);
+                        const imageUrl = URL.createObjectURL(blob);
+                        imagePreview.src = imageUrl;
+                        imageDialog.showModal();
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            });
+
+            const deleteButton = row.querySelector('.btn-delete');
+            deleteButton.addEventListener('click', () => {
+                const id = deleteButton.dataset.id;
+                fetch(`http://localhost:8080/products/${id}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            row.remove();
+                        } else {
+                            throw new Error('Error deleting product');
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            });
         });
     })
     .catch(error => console.error('Error fetching products:', error));
+
 
 createProductButton.addEventListener('click', () => {
     productForm.reset();
