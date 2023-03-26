@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
-
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -21,31 +20,53 @@ public class ProductController {
     public String getAllProducts() {
         return new Gson().toJson(productService.getProducts());
     }
+
     @GetMapping("{id}")
     public String productById(@PathVariable("id") Integer id) {
         return new Gson().toJson(productService.getProductById(id));
     }
 
-
-    @RequestMapping(method = RequestMethod.POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public boolean create(@ModelAttribute Product product, @RequestPart("file") MultipartFile file) {
-        if (!file.isEmpty()) {
-            product = productService.addImage(product, file);
+    @PostMapping
+    public boolean saveProduct(@RequestParam(value = "file", required = false) MultipartFile file,
+                               @RequestParam("name") String name,
+                               @RequestParam("price") int price,
+                               @RequestParam("rating") int rating,
+                               @RequestParam("quantityOnStock") int quantityOnStock) {
+        Product product = new Product();
+        product.setName(name);
+        product.setPrice(price);
+        product.setRating(rating);
+        product.setQuantityOnStock(quantityOnStock);
+        if (file != null) {
+            product.setImgBytes(file);
         }
         productService.addProduct(product);
         return true;
     }
 
 
-
-    //@PutMapping("/{id}")
-    @RequestMapping(path = "/{id}",method = RequestMethod.PUT, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    public boolean update(@RequestBody Product product,@RequestPart("file") MultipartFile file){
-        productService.update(product.getId(), product);
+    @PutMapping("/{id}")
+    public boolean updateProduct(@PathVariable int id,
+                                 @RequestParam(value = "file", required = false) MultipartFile file,
+                                 @RequestParam("name") String name,
+                                 @RequestParam("price") int price,
+                                 @RequestParam("rating") int rating,
+                                 @RequestParam("quantityOnStock") int quantityOnStock) {
+        Product product = productService.getProductById(id);
+        product.setName(name);
+        product.setPrice(price);
+        product.setRating(rating);
+        product.setQuantityOnStock(quantityOnStock);
+        if (file != null) {
+            product.setImgBytes(file);
+        }
+        productService.update(id,product);
         return true;
     }
+
+
     @DeleteMapping("/{id}")
-    public boolean delete(@PathVariable("id") int id){
+    public boolean delete(@PathVariable("id") int id) {
         productService.deleteProduct(id);
         return true;
     }

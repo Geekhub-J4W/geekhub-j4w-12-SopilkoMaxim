@@ -6,5 +6,5 @@ create table public.product
     price    integer not null,
     quantity integer not null,
     rating   integer not null,
-    imgBytes bytea
+    imgBytes bytea[]
 );

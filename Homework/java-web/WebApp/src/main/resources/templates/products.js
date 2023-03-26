@@ -27,7 +27,6 @@ fetch('http://localhost:8080/products')
             productTable.appendChild(row);
 
 
-
             const pictureButton = row.querySelector('.btn-picture');
             pictureButton.addEventListener('click', () => {
                 const id = pictureButton.dataset.id;
@@ -99,7 +98,9 @@ saveProductButton.addEventListener('click', () => {
         <td>${product.quantityOnStock}</td>
         <td>
           <button class="btn-edit" data-id="${product.id}">Edit</button>
-          <button class="btn-picture" data-id="${product.id}">Picture</button>
+          <button class="btn-picture" data-id="${product.id}">Picture</button>                    <button class="btn-delete" data-id="${product.id}">Delete</button>
+          <button class="btn-delete" data-id="${product.id}">Delete</button>
+
         </td>
       `;
             productTable.appendChild(row);
@@ -124,44 +125,37 @@ productTable.addEventListener('click', event => {
                 productForm.rating.value = product.rating;
                 productForm.quantityOnStock.value = product.quantityOnStock;
 
-                productForm.addEventListener('submit', event => {
-                    event.preventDefault();
-
-                    const name = productForm.name.value;
-                    const price = productForm.price.value;
-                    const rating = productForm.rating.value;
-                    const quantityOnStock = productForm.quantityOnStock.value;
-
+                saveProductButton.addEventListener('click', () => {
+                    const productData = new FormData(productForm);
+                    const imageInput = document.getElementById('product-image');
+                    let imageFile;
+                    if (imageInput) {
+                        imageFile = imageInput.files[0];
+                        productData.append('file', imageFile);
+                    }
                     fetch(`http://localhost:8080/products/${id}`, {
                         method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            name,
-                            price,
-                            rating,
-                            quantityOnStock
-                        })
+                        body: productData
                     })
                         .then(response => response.json())
                         .then(product => {
                             productDialog.close();
 
                             const productRow = document.querySelector(`tr[data-id="${product.id}"]`);
-                            productRow.querySelector('.product-name').textContent = product.name;
-                            productRow.querySelector('.product-price').textContent = product.price;
-                            productRow.querySelector('.product-rating').textContent = product.rating;
-                             productRow.querySelector('.product-quantity').textContent = product.quantity;
+                            if (productRow) {
+                                productRow.querySelector('.product-name').textContent = product.name;
+                                productRow.querySelector('.product-price').textContent = product.price;
+                                productRow.querySelector('.product-rating').textContent = product.rating;
+                                productRow.querySelector('.product-quantity').textContent = product.quantityOnStock;
+                            } else {
+                                console.error(`Could not find product row with id ${product.id}`);
+                            }
                         })
-                        .catch(error => {
-                            console.error(error);
-                        });
+                        .catch(error => console.error('Error updating product:', error));
                 });
             })
-            .catch(error => {
-                console.error(error);
-            });
+            .catch(error => console.error('Error fetching product:', error));
     }
 });
+
 

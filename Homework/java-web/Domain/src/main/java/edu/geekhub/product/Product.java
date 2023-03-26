@@ -17,6 +17,8 @@ public class Product {
 
     private byte[] imgBytes;
 
+    public Product() {
+    }
 
     public Product(int id, String name, int price, int rating, int quantity, byte[] imgBytes) {
         this.id=id;
