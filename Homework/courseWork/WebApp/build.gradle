@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.4'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group 'edu.geekhub'
+version 'unspecified'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(path: ':Homework:courseWork:Domain')
+    implementation 'org.projectlombok:lombok:1.18.22'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+    implementation group: 'org.springframework', name: 'spring-web', version: '6.0.6'
+    implementation "org.springframework:spring-context-support"
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
+
+}
+
+test {
+    useJUnitPlatform()
+}
