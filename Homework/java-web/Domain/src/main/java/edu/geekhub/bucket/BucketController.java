@@ -1,8 +1,8 @@
 package edu.geekhub.bucket;
 
-import edu.geekhub.customer.CustomerService;
 import edu.geekhub.product.Product;
 import edu.geekhub.product.ProductService;
+import edu.geekhub.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ import java.util.List;
 public class BucketController {
 
     @Autowired
-    private CustomerService customerService;
+    private UserService customerService;
     @Autowired
     private ProductService productService;
     @Autowired
@@ -25,11 +25,11 @@ public class BucketController {
     private Bucket bucket;
 
     public void setCustomer(int id) {
-        bucket.setCustomer(customerService.getCustomerById(id));
+        bucket.setCustomer(customerService.getUserById(id));
     }
 
     public void setCustomer(String name) {
-        bucket.setCustomer(customerService.getCustomerByName(name));
+        bucket.setCustomer(customerService.getUserByEmail(name).get());
     }
 
     public boolean addProductWithQuanity(int id, int quantity) {
@@ -73,8 +73,8 @@ public class BucketController {
         try {
 
             FileWriter fileWriter = new FileWriter(fileName);
-            fileWriter.write("Order for customer:"+bucket.getCustomer().getName()+" with age:"
-                    +bucket.getCustomer().getAge()+":\n");
+            fileWriter.write("Order for customer:"+bucket.getCustomer().getFullName()+" with email:"
+                    +bucket.getCustomer().getEmail()+":\n");
             int totalPrice=0;
             for (Product product : bucket.getProducts()) {
                 fileWriter.write(product.getName()+" : price:"+product.getPrice()+"\n" + " quantity:"+product.getQuantityToOrder());

@@ -1,10 +1,7 @@
 package edu.geekhub.bucket;
 
-import edu.geekhub.customer.Customer;
-import edu.geekhub.customer.CustomerService;
 import edu.geekhub.product.Product;
-import edu.geekhub.product.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import edu.geekhub.user.User;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -13,10 +10,10 @@ import java.util.List;
 @Component
 @Scope("prototype")
 public class Bucket {
-    private Customer customer;
+    private User customer;
     private List<Product> products = new ArrayList<>();
 
-    public void setCustomer(Customer customer)
+    public void setCustomer(User customer)
     {
         this.customer = customer;
     }
@@ -32,7 +29,7 @@ public class Bucket {
         );
     }
 
-    public Customer getCustomer() {
+    public User getCustomer() {
         return customer;
     }
 
