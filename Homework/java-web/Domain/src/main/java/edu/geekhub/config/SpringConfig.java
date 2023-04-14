@@ -1,4 +1,4 @@
-package edu.geekhub;
+package edu.geekhub.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

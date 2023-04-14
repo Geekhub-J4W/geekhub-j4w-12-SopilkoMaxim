@@ -1,8 +1,8 @@
 package edu.geekhub;
 
 import com.google.gson.Gson;
-import edu.geekhub.customer.Customer;
-import edu.geekhub.customer.CustomerService;
+import edu.geekhub.user.User;
+import edu.geekhub.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,33 +10,33 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/customers")
 public class CustomerController {
     @Autowired
-    CustomerService customerService;
+    UserService userService;
 
     @GetMapping()
     public String allCustomers() {
-        return new Gson().toJson(customerService.getCustomers());
+        return new Gson().toJson(userService.getUsers());
     }
 
     @GetMapping("customers/{id}")
     public String customerById(@PathVariable("id") Integer id) {
-        return new Gson().toJson(customerService.getCustomerById(id));
+        return new Gson().toJson(userService.getUserById(id));
     }
 
     @PostMapping()
-    public boolean create(@RequestBody Customer customer) {
-        customerService.addCustomer(customer);
+    public boolean create(@RequestBody User user) {
+        userService.addUser(user);
         return true;
     }
 
     @DeleteMapping("{id}")
     public boolean delete(@PathVariable("id") Integer id){
-        customerService.deleteCustomer(id);
+        userService.deleteUser(id);
         return true;
     }
 
     @PutMapping("customers/{id}")
-    public boolean update(@RequestBody Customer customer){
-        customerService.update(customer.getId(), customer);
+    public boolean update(@RequestBody User user){
+        userService.update(user.getId(), user);
         return true;
     }
 }

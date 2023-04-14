@@ -21,8 +21,10 @@ public class OrderController {
 
     @GetMapping()
     public String allOrders() {
+        System.out.println(orderService.getOrders());
         return new Gson().toJson(orderService.getOrders());
     }
+
 
     @PostMapping()
     public String create(@ModelAttribute("order") Order order) {

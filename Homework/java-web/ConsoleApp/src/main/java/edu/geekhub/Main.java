@@ -1,10 +1,11 @@
 package edu.geekhub;
 
 import edu.geekhub.bucket.BucketController;
-import edu.geekhub.customer.Customer;
-import edu.geekhub.customer.CustomerService;
+import edu.geekhub.config.SpringConfig;
 import edu.geekhub.product.Product;
 import edu.geekhub.product.ProductService;
+import edu.geekhub.user.User;
+import edu.geekhub.user.UserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Scanner;
@@ -17,7 +18,7 @@ public class Main {
 
 
         ProductService productService = context.getBean(ProductService.class);
-        CustomerService customerService = context.getBean(CustomerService.class);
+        UserService customerService = context.getBean(UserService.class);
         BucketController bucketController = context.getBean(BucketController.class);
         int menu = 0;
         while (menu != 4) {
@@ -88,7 +89,7 @@ public class Main {
         }
     }
 
-    private static void customerMenu(CustomerService customerService) {
+    private static void customerMenu(UserService customerService) {
         int customerMenu = 0;
         while (customerMenu != 4) {
             System.out.println("1.Add customer\n2.Delete customer\3Show all\n4.Back");
@@ -101,18 +102,18 @@ public class Main {
                     System.out.println("Enter name of customer:");
                     scan.nextLine();
                     name = scan.nextLine();
-                    System.out.println("Enter customers Age:");
-                    age = scan.nextInt();
-                    customerService.addCustomer(new Customer(name, age));
+                    System.out.println("Enter customers Email:");
+                    String email = scan.nextLine();
+                    customerService.addUser(new User(name, email));
                 }
                 case 2 -> {
                     int id;
                     System.out.println("Enter customer Id which you want to delete");
                     id = scan.nextInt();
-                    customerService.deleteCustomer(id);
+                    customerService.deleteUser(id);
                 }
                 case 3 -> {
-                    System.out.println(customerService.getCustomers());
+                    System.out.println(customerService.getUsers());
                 }
             }
         }
