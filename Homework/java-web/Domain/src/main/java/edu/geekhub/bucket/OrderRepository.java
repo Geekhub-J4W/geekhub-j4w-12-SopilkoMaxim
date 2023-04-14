@@ -1,6 +1,5 @@
 package edu.geekhub.bucket;
 
-import edu.geekhub.customer.Customer;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;

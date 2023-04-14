@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 public class OrderService {
     @Autowired
     OrderRepository repository;
-    private static final Logger logger = Logger.getLogger(edu.geekhub.customer.Customer.class.getName());
+    private static final Logger logger = Logger.getLogger(edu.geekhub.user.User.class.getName());
 
     public void addOrder(Order order)
         {
