@@ -49,6 +49,11 @@ public class User {
 
     }
 
+    public User(String name, String email) {
+        this.fullName=name;
+        this.email=email;
+    }
+
 
     public int getId() {
         return id;
