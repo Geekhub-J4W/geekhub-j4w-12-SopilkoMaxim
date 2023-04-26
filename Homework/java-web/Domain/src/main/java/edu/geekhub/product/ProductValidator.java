@@ -1,11 +1,13 @@
 package edu.geekhub.product;
 
+import org.springframework.stereotype.Component;
+
 import java.util.logging.Logger;
 
 public class ProductValidator {
 
 
-    public static boolean validateName(Product product, Logger logger) {
+    public boolean validateName(Product product, Logger logger) {
 
         if (product.getName().isBlank()) {
             logger.warning("Product with id " + product.getId() + " can not create, because Name is empty");
@@ -22,7 +24,7 @@ public class ProductValidator {
 
     }
 
-    public static boolean validatePrice(Product product, Logger logger) {
+    public boolean validatePrice(Product product, Logger logger) {
         if(product.getPrice() < 0)
         {
             logger.warning("Product with id " + product.getId() + " can not create, because price less than 0");
@@ -32,7 +34,7 @@ public class ProductValidator {
 
     }
 
-    public static boolean validateIdExist(int id, ProductRepository productRepository, Logger logger){
+    public boolean validateIdExist(int id, ProductRepository productRepository, Logger logger){
         for (Product product : productRepository.getProducts()) {
             if(product.getId()==id)
                 return true;

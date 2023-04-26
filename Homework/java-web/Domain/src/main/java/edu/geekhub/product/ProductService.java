@@ -1,5 +1,6 @@
 package edu.geekhub.product;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,20 +14,19 @@ import java.util.logging.Logger;
 public class ProductService {
 
     private static final Logger logger = Logger.getLogger(Product.class.getName());
-    //@Autowired
+
     private final ProductRepository repository;
 
+    private ProductValidator validator;
 
-    /*@PostConstruct
-    public void initBD(){
-        repository.addProduct(new Product("First",50));
-        repository.addProduct(new Product("Second",40));
-        repository.addProduct(new Product("Third",30));
-        repository.addProduct(new Product("Fourth",60));
-        repository.addProduct(new Product("Fifth",70));
-    }*/
     public ProductService(ProductRepository productRepository) {
+
         this.repository = productRepository;
+        this.validator = new ProductValidator();
+    }
+
+    public void setValidator(ProductValidator validator) {
+        this.validator = validator;
     }
 
     public Product addImage(Product product, MultipartFile file) {
@@ -38,17 +38,17 @@ public class ProductService {
     }
 
     public void addProduct(Product product) {
-        if (ProductValidator.validateName(product, logger) && ProductValidator.validatePrice(product, logger)) {
+        if (validator.validateName(product, logger) && validator.validatePrice(product, logger)) {
             logger.info("Product " + product.getName() + " with Id " + product.getId() + " with price "
                     + product.getPrice() + " was added to Database");
+            repository.addProduct(product);
         }
-        repository.addProduct(product);
     }
 
 
 
     public void deleteProduct(int id) {
-        if (ProductValidator.validateIdExist(id, repository, logger)) {
+        if (validator.validateIdExist(id, repository, logger)) {
             Product product = repository.getProductById(id);
             logger.info("Product " + product.getName() + " with Id " + product.getId() + " with price "
                     + product.getPrice() + " was deleted from Database");
@@ -57,7 +57,7 @@ public class ProductService {
     }
 
     public Product getProductById(int id) {
-        if (ProductValidator.validateIdExist(id, repository, logger))
+        if (validator.validateIdExist(id, repository, logger))
             return repository.getProductById(id);
         else {
             System.out.println("Wrong Id try again");

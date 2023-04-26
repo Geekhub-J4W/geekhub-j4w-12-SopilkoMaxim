@@ -3,54 +3,111 @@ package edu.geekhub;
 import edu.geekhub.product.Product;
 import edu.geekhub.product.ProductRepository;
 import edu.geekhub.product.ProductService;
+import edu.geekhub.product.ProductValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class ProductServiceTest {
 
-    public ProductService productService;
+    private ProductService productService;
+
+    @Mock
+    private ProductRepository repository;
+    
+    @Mock
+    private ProductValidator validator;
 
     @BeforeEach
     void setUp() {
-        productService=new ProductService(new ProductRepository(new NamedParameterJdbcTemplate(new JdbcTemplate())));
-        productService.addProduct(new Product("First",50));
-        productService.addProduct(new Product("Second",40));
-        productService.addProduct(new Product("Third",30));
-        productService.addProduct(new Product("Fourth",60));
-        productService.addProduct(new Product("Fifth",70));
+        MockitoAnnotations.openMocks(this);
+        productService = new ProductService(repository);
     }
 
     @Test
-    public void addProduct(){
-        productService.addProduct(new Product("Six",70));
+    void addImage_whenFileIsNotEmpty_setsImageBytes() {
+        Product product = new Product("Test Product", 10);
+        byte[] imageBytes = {1, 2, 3};
+        MultipartFile file = new MockMultipartFile("test.jpg", imageBytes);
 
-        assertEquals(6,productService.getProducts().size());
+        Product result = productService.addImage(product, file);
 
+        assertArrayEquals(imageBytes, result.getImgBytes());
     }
 
     @Test
-    public void deleteProduct(){
-        productService.deleteProduct(1);
+    void addImage_whenFileIsEmpty_doesNotSetImageBytes() {
+        Product product = new Product("Test Product", 10);
+        MultipartFile file = new MockMultipartFile("test.jpg", new byte[]{});
 
-        assertEquals(4,productService.getProducts().size());
+        Product result = productService.addImage(product, file);
+
+        assertNull(result.getImgBytes());
     }
 
     @Test
-    public void sortListByPrice(){
-        var sortedList = productService.sortedListByPrice();
+    void addProduct_whenProductIsValid_addsProductToRepository() {
+        Product product = new Product("Test Product", 10);
 
-        assertEquals(30,sortedList.get(0).getPrice());
+        productService.addProduct(product);
+
+        verify(repository, times(1)).addProduct(product);
     }
 
     @Test
-    public void sortListByName(){
-        productService.addProduct(new Product("Aaaa",40));
-        var sortedList = productService.sortedListByName();
+    void addProduct_whenProductIsNotValid_doesNotAddProductToRepository() throws Exception {
+        Product product = new Product("Test Product", -10);
 
-        assertEquals("Aaaa",sortedList.get(0).getName());
+        productService.addProduct(product);
+
+        verify(repository, never()).addProduct(product);
     }
+
+
+    @Test
+    void deleteProduct_whenProductExists_deletesProductFromRepository() {
+
+        Product product = new Product("Test Product", 10);
+        int productId = product.getId();
+        when(repository.getProductById(productId)).thenReturn(product);
+
+
+        when(validator.validateIdExist(productId, repository, Logger.getLogger(Product.class.getName()))).thenReturn(true);
+        productService.setValidator(validator);
+
+        productService.deleteProduct(productId);
+        verify(repository, times(1)).deleteProduct(productId);
+    }
+
+    @Test
+    void deleteProduct_whenProductDoesNotExist_doesNotDeleteProductFromRepository() {
+        int productId = 1;
+        when(repository.getProductById(productId)).thenReturn(null);
+
+        productService.deleteProduct(productId);
+
+        verify(repository, never()).deleteProduct(productId);
+    }
+
+    @Test
+    void getProductById_whenProductExists_returnsProduct() {
+        int productId = 1;
+        Product product = new Product("Test Product", 10);
+        when(repository.getProductById(productId)).thenReturn(product);
+        when(validator.validateIdExist(productId, repository, Logger.getLogger(Product.class.getName()))).thenReturn(true);
+        productService.setValidator(validator);
+
+        Product result = productService.getProductById(productId);
+
+        assertEquals(product, result);
+    }
+
 }
