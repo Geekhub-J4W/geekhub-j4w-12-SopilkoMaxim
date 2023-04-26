@@ -15,18 +15,26 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
     private static final Logger logger = Logger.getLogger(User.class.getName());
 
+    private UserValidator validator;
+
     private final UserRepository repository;
-    private Scanner scan = new Scanner(System.in);
+
 
     @Autowired
     public UserService(UserRepository repository) {
+        this.validator= new UserValidator();
         this.repository = repository;
     }
 
 
+
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
     public void addUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if (UserValidator.validateName(user, logger) && UserValidator.validateEmail(user)) {
+        if (validator.validateName(user, logger) && validator.validateEmail(user)) {
             logger.info("User " + user.getFullName() + " with Id " + user.getId() +
                     "was added to Database");
             repository.addUser(user);
@@ -34,7 +42,7 @@ public class UserService {
     }
 
     public void deleteUser(int id) {
-        if (UserValidator.validateIdExist(id, repository, logger)) {
+        if (validator.validateIdExist(id, repository, logger)) {
             User user = repository.getUserById(id);
             logger.info("User " + user.getFullName() + " with Id " + user.getId() +
                     " was deleted from Database");
@@ -43,13 +51,10 @@ public class UserService {
     }
 
     public User getUserById(int id) {
-        if (UserValidator.validateIdExist(id, repository, logger))
+        if (validator.validateIdExist(id, repository, logger))
             return repository.getUserById(id);
-        else {
-            System.out.println("Wrong Id try again");
-            int newId = scan.nextInt();
-            return this.getUserById(newId);
-        }
+        else
+            return null;
     }
 
     public Optional<User> getUserByEmail(String email) {
@@ -62,5 +67,9 @@ public class UserService {
 
     public void update(int id, User user) {
         repository.update(id, user);
+    }
+
+    public void setValidator(UserValidator validator) {
+        this.validator=validator;
     }
 }
