@@ -1,6 +1,7 @@
 package edu.geekhub.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.logging.Logger;
 
 @Component
 public class UserService {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     private static final Logger logger = Logger.getLogger(User.class.getName());
 
     private final UserRepository repository;
@@ -22,6 +25,7 @@ public class UserService {
 
 
     public void addUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         if (UserValidator.validateName(user, logger) && UserValidator.validateEmail(user)) {
             logger.info("User " + user.getFullName() + " with Id " + user.getId() +
                     "was added to Database");

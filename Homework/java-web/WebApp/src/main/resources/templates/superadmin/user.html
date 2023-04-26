@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Information</title>
+    <link rel="stylesheet" href="superadmin/user.css">
+</head>
+<body>
+<h1>User Information</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Full Name</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody id="user-table"></tbody>
+</table>
+
+<form id="user-form">
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    <label for="full-name">Full Name:</label>
+    <input type="text" id="full-name" name="full-name" required>
+    <label for="role">Role:</label>
+    <select id="role" name="role">
+        <option value="USER">User</option>
+        <option value="ADMIN">Admin</option>
+        <option value="SUPERADMIN">Super Admin</option>
+    </select>
+    <label for="status">Status:</label>
+    <select id="status" name="status">
+        <option value="ACTIVE">Active</option>
+        <option value="BANNED">Banned</option>
+    </select>
+    <input type="submit" value="Add User">
+</form>
+<label for="id">Select a user ID:</label>
+<input type="number" id="id">
+<button onclick="deleteUser()">Delete</button>
+<script src="superadmin/user.js"></script>
+
+</body>
+</html>

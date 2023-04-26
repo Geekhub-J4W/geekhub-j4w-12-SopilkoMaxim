@@ -1,4 +1,4 @@
-create table public.user
+create table public.userdb
 (
     id   bigserial
         primary key,
@@ -7,6 +7,6 @@ create table public.user
     password text    not null,
     fullName text    not null,
     role text    not null,
-    status text    not null,
+    status text    not null
 );
 

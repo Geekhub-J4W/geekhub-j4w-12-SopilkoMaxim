@@ -13,9 +13,9 @@ public class User {
     private String fullName;
 
     @Enumerated(value = EnumType.STRING)
-    private Role role;
+    private Role role = Role.USER;
     @Enumerated(value = EnumType.STRING)
-    private Status status;
+    private Status status = Status.ACTIVE;
 
     public User() {
     }
@@ -28,11 +28,19 @@ public class User {
         this.role= Role.valueOf(role);
         this.status= Status.valueOf(status);
     }
+    public User(int id, String email, String password, String fullName) {
+        this.id=id;
+        this.email=email;
+        this.password=password;
+        this.fullName=fullName;
+
+    }
 
     public User(String name, String email) {
         this.fullName=name;
         this.email=email;
     }
+
 
     public int getId() {
         return id;

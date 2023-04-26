@@ -13,21 +13,21 @@ public class UserRepository {
 
 
     private static final String INSERT_USER = """
-            INSERT INTO user (email,password,fullName,role,status) VALUES (:email,:password,:fullName,:role,:status)
+            INSERT INTO userdb (email,password,fullName,role,status) VALUES (:email,:password,:fullName,:role,:status)
             """;
 
     public static final String FETCH_ALL_USERS = """
-            SELECT * FROM user
+            SELECT  id, email, password, fullName, role, status FROM userdb
             """;
 
     public static final String GET_USER_BY_ID = """
-            SELECT * FROM user WHERE id = 
+            SELECT * FROM userdb WHERE id = 
             """;
     public static final String GET_USER_BY_EMAIL = """
-            SELECT * FROM user WHERE email = 
+            SELECT * FROM userdb WHERE email = '%s'
             """;
     public static final String DELETE_BY_ID = """
-            DELETE FROM user WHERE id = :id
+            DELETE FROM userdb WHERE id = :id
             """;
 
     public UserRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -57,7 +57,7 @@ public class UserRepository {
     }
 
     public User getUserByEmail(String email) {
-        String getUser = GET_USER_BY_EMAIL + email;
+        String getUser = String.format(GET_USER_BY_EMAIL, email);
         List<User> result = jdbcTemplate.query(getUser, (rs, rowNum) -> new User(
                 rs.getInt("id"),
                 rs.getString("email"),

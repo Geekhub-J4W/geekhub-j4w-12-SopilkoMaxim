@@ -6,7 +6,7 @@ create table public."order"
     order_date        date    not null,
     id_user       serial
         constraint user_fkey
-            references public.user,
+            references public.userdb,
     id_product        serial
         constraint product_fkey
             references public.product

@@ -1,4 +1,4 @@
-package edu.geekhub;
+package edu.geekhub.controllers;
 
 import com.google.gson.Gson;
 import edu.geekhub.product.Product;

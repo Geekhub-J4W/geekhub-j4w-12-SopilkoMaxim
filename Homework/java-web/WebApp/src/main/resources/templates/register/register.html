@@ -3,23 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>User Registration</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="register.css">
 </head>
 <body>
 <h1>User Registration</h1>
-<form id="register-form">
+<form id="register-form" action="#">
     <label for="email">Email:</label>
     <input type="email" id="email" name="email" required>
     <label for="password">Password:</label>
     <input type="password" id="password" name="password" required>
-    <label for="password-confirm">Confirm Password:</label>
-    <input type="password" id="password-confirm" name="password-confirm" required>
-    <label for="name">Full Name:</label>
-    <input type="text" id="name" name="name" required>
-    <label for="age">Age:</label>
-    <input type="text" id="age" name="age" required>
+    <label for="confirm-password">Confirm Password:</label>
+    <input type="password" id="confirm-password" name="confirm-password" required>
+    <label for="full-name">Full Name:</label>
+    <input type="text" id="full-name" name="full-name" required>
     <button type="submit">Register</button>
 </form>
-<script src="app.js"></script>
+<script src="register.js"></script>
 </body>
 </html>

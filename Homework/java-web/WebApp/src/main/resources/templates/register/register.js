@@ -1,34 +1,37 @@
 const form = document.getElementById('register-form');
 const password = document.getElementById('password');
-const passwordConfirm = document.getElementById('password-confirm');
+const confirmPassword = document.getElementById('confirm-password');
 
-form.addEventListener('submit', (event) => {
+form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    if (password.value !== passwordConfirm.value) {
+    if (password.value !== confirmPassword.value) {
         alert('Passwords do not match. Please try again.');
         return;
     }
 
-    const email = document.getElementById('email').value;
-    const name = document.getElementById('name').value;
-    const age = document.getElementById('age').value;
+    const formData = new FormData(form);
+    const data = {};
+    for (let [key, value] of formData.entries()) {
+        data[key] = value;
+    }
 
-    const data = {
-        email,
-        password: password.value,
-        name,
-        age
-    };
+    try {
+        const response = await fetch('/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
 
-    fetch('your_api_endpoint', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error(error));
+        if (!response.ok) {
+            throw new Error('An error occurred while processing your request.');
+        }
+
+        const responseData = await response.json();
+        console.log(responseData);
+    } catch (error) {
+        console.error(error);
+    }
 });
