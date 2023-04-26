@@ -1,5 +1,8 @@
-package edu.geekhub.bucket;
+package edu.geekhub;
 
+import edu.geekhub.bucket.Bucket;
+import edu.geekhub.bucket.BucketController;
+import edu.geekhub.bucket.OrderRepository;
 import edu.geekhub.product.Product;
 import edu.geekhub.product.ProductService;
 import edu.geekhub.user.User;
