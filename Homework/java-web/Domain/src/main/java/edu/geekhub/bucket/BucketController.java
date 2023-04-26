@@ -2,6 +2,7 @@ package edu.geekhub.bucket;
 
 import edu.geekhub.product.Product;
 import edu.geekhub.product.ProductService;
+import edu.geekhub.user.User;
 import edu.geekhub.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,8 +10,7 @@ import org.springframework.stereotype.Component;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Component
 public class BucketController {
@@ -24,9 +24,27 @@ public class BucketController {
     @Autowired
     private Bucket bucket;
 
+    public void setCustomerService(UserService customerService) {
+        this.customerService = customerService;
+    }
+
+    public void setProductService(ProductService productService) {
+        this.productService = productService;
+    }
+
+    public void setOrderRepository(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
+
+    public void setBucket(Bucket bucket) {
+        this.bucket = bucket;
+    }
+
     public void setCustomer(int id) {
         bucket.setCustomer(customerService.getUserById(id));
     }
+
+    public void setCustomer(User user){bucket.setCustomer(user);}
 
     public void setCustomer(String name) {
         bucket.setCustomer(customerService.getUserByEmail(name).get());
@@ -59,7 +77,6 @@ public class BucketController {
 
         } else {
             LocalDateTime date = LocalDateTime.now();
-            List<Order> order = new ArrayList<>();
             for (Product product : bucket.getProducts()) {
                 orderRepository.addOrder(new Order(product.getQuantityToOrder(),
                         date,bucket.getCustomer().getId(),product.getId()));

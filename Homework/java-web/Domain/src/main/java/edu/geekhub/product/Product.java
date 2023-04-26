@@ -54,6 +54,15 @@ public class Product {
             throw new RuntimeException(e);
         }
     }
+
+    public Product(int id, String name, int price, int quantityOnStock) {
+        this.id=id;
+        this.name=name;
+        this.price=price;
+        this.quantityOnStock=quantityOnStock;
+
+    }
+
     public String getName() {
         return name;
     }
