@@ -14,11 +14,6 @@ import org.springframework.stereotype.Component;
 @SpringBootApplication
 public class CryptoScraper implements CommandLineRunner {
 
-    //    private final Task task;
-//
-//    public CryptoScraper(Task task) {
-//        this.task = task;
-//    }
     @Autowired
     private ApplicationContext context;
 

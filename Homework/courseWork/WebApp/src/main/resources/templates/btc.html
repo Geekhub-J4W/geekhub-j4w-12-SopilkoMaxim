@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>BTC Graph</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<canvas id="btc-chart"></canvas>
+<script th:inline="javascript">
+  var btcData = [[${btcData}]];
+  var ctx = document.getElementById("btc-chart").getContext("2d");
+  var btcChart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: Object.keys(btcData),
+      datasets: [
+        {
+          label: "BTC",
+          data: Object.values(btcData),
+          fill: false,
+          borderColor: "rgb(75, 192, 192)",
+          tension: 0.1
+        }
+      ]
+    },
+    options: {
+      scales: {
+        xAxes: [
+          {
+            type: "time",
+            time: {
+              unit: "minute",
+              displayFormats: {
+                minute: "MMM DD HH MM"
+              }
+            }
+          }
+        ],
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true
+            }
+          }
+        ]
+      }
+    }
+  });
+</script>
+</body>
+</html>

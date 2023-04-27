@@ -8,7 +8,10 @@ import org.springframework.stereotype.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class CryptoCoinRepository {
@@ -39,6 +42,21 @@ public class CryptoCoinRepository {
                 .addValue("Dogecoin",values.get("Dogecoin"));
         jdbcTemplate.update(INSERT_COIN, parameters);
     }
+
+    public Map<Date, Float> listOfBtc() {
+        String sql = "SELECT date, Bitcoin FROM coin";
+        Map<Date, Float> result = jdbcTemplate.query(sql, rs -> {
+            Map<Date, Float> map = new HashMap<>();
+            while (rs.next()) {
+                Date date = rs.getTimestamp("date");
+                Float btcValue = rs.getFloat("Bitcoin");
+                map.put(date, btcValue);
+            }
+            return map;
+        });
+        return result;
+    }
+
 
 //    public float getPriceByName(String coinName){
 //

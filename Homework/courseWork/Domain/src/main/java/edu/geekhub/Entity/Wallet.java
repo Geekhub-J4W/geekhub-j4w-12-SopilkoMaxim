@@ -3,7 +3,7 @@ package edu.geekhub.Entity;
 public class Wallet {
 
     int id;
-    private float LSE;
+    private float lse;
     private float bitcoin;
     private float ethereum;
     private float bnb;
@@ -22,12 +22,12 @@ public class Wallet {
         this.id = id;
     }
 
-    public float getLSE() {
-        return LSE;
+    public float getLse() {
+        return lse;
     }
 
-    public void setLSE(float LSE) {
-        this.LSE = LSE;
+    public void setLse(float lse) {
+        this.lse = lse;
     }
 
     public float getBitcoin() {
@@ -100,5 +100,39 @@ public class Wallet {
 
     public void setDogecoin(float dogecoin) {
         this.dogecoin = dogecoin;
+    }
+
+    public float returnByName(String name)
+    {
+        switch (name)
+        {
+            case "lse": return lse;
+            case "bitcoin": return bitcoin;
+            case "ethereum": return ethereum;
+            case "bnb": return bnb;
+            case "xrp": return xrp;
+            case "polygon": return polygon;
+            case "tether": return tether;
+            case "usd": return usd;
+            case "cardano": return cardano;
+            case "dogecoin": return dogecoin;
+            default: return 0;
+        }
+    }
+
+    public void setByName(float amount, String name) {
+        switch (name)
+        {
+            case "lse": this.lse = amount;
+            case "bitcoin": this.bitcoin=amount;
+            case "ethereum": this.ethereum=amount;
+            case "bnb": this.bnb=amount;
+            case "xrp": this.xrp=amount;
+            case "polygon": this.polygon=amount;
+            case "tether": this.tether=amount;
+            case "usd": this.usd=amount;
+            case "cardano": this.cardano=amount;
+            case "dogecoin": this.dogecoin=amount;
+        }
     }
 }

@@ -12,6 +12,14 @@ public class User {
 
     private Wallet wallet;
 
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
+    }
+
     public User(String name, int age, String email, String password) {
         this.name = name;
         this.age = age;

@@ -8,7 +8,7 @@ create table public.user
     fullName  text not null,
     role      text not null,
     status    text not null,
-    id_wallet serial
+    id_wallet int
         constraint wallet_fkey
             references public.wallet
 );

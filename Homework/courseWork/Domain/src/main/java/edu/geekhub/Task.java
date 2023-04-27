@@ -62,6 +62,7 @@ class Task extends TimerTask {
             System.out.println(result);
 
             coinService.AddValues(result, LocalDateTime.now());
+            System.out.println(coinService.returnListBts().toString());
 
 
         } catch (IOException | InterruptedException e) {
