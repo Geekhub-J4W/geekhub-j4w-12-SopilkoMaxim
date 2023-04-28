@@ -8,10 +8,8 @@ import org.springframework.stereotype.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class CryptoCoinRepository {
@@ -55,6 +53,24 @@ public class CryptoCoinRepository {
             return map;
         });
         return result;
+    }
+
+    public Map<Date, Float> getByName(String name) {
+        String sql = "SELECT date, "+name+" FROM coin ORDER BY date";
+        Map<Date, Float> result = jdbcTemplate.query(sql, rs -> {
+            Map<Date, Float> map = new HashMap<>();
+            while (rs.next()) {
+                Date date = rs.getTimestamp("date");
+                Float coin = rs.getFloat(name);
+                map.put(date, coin);
+            }
+            return map;
+        });
+        return result.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue, HashMap::new));
     }
 
 

@@ -102,6 +102,19 @@ public class Wallet {
         this.dogecoin = dogecoin;
     }
 
+    public Wallet(float lse, float bitcoin, float ethereum, float bnb, float xrp, float polygon, float tether, float usd, float cardano, float dogecoin) {
+        this.lse = lse;
+        this.bitcoin = bitcoin;
+        this.ethereum = ethereum;
+        this.bnb = bnb;
+        this.xrp = xrp;
+        this.polygon = polygon;
+        this.tether = tether;
+        this.usd = usd;
+        this.cardano = cardano;
+        this.dogecoin = dogecoin;
+    }
+
     public float returnByName(String name)
     {
         switch (name)

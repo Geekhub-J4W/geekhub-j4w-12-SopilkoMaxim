@@ -23,7 +23,7 @@ public class CoinController {
 
     @GetMapping("/btc")
     public String getBtcData(Model model) {
-        Map<Date, Float> btcData = cryptoCoinService.returnListBts();
+        Map<Date, Float> btcData = cryptoCoinService.getByName("Bitcoin");
         model.addAttribute("btcData", btcData);
         return "btc";
     }

@@ -21,13 +21,17 @@ public class CryptoCoinService {
     }
 
 
-    public void AddValues(HashMap<String, Float> values, LocalDateTime date){
+    public void AddValues(HashMap<String, Float> values, LocalDateTime date) {
 
-       repository.addCoin(values,date);
+        repository.addCoin(values, date);
 
     }
 
-    public Map<Date, Float> returnListBts(){
+    public Map<Date, Float> returnListBts() {
         return repository.listOfBtc();
+    }
+
+    public Map<Date, Float> getByName(String name) {
+        return repository.getByName(name);
     }
 }
