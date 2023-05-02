@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>BTC Graph</title>
+  <title>Lido_Staked_Ether Graph</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-<canvas id="btc-chart"></canvas>
+<canvas id="lse-chart"></canvas>
 <script th:inline="javascript">
-  fetch('/btc')
+  fetch('/lse')
           .then(response => response.json())
-          .then(btcData => {
-            var ctx = document.getElementById("btc-chart").getContext("2d");
+          .then(lseData => {
+            var ctx = document.getElementById("lse-chart").getContext("2d");
 
             var formattedData = {
               labels: [],
               datasets: [{
-                label: 'BTC',
+                label: 'LSE',
                 data: [],
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
@@ -23,7 +23,7 @@
               }]
             };
 
-            Object.entries(btcData).forEach(([key, value]) => {
+            Object.entries(lseData).forEach(([key, value]) => {
               formattedData.labels.push(new Date(key).toLocaleString('en-US', {
                 year: 'numeric',
                 month: '2-digit',
@@ -34,7 +34,7 @@
               formattedData.datasets[0].data.push(value);
             });
 
-            var btcChart = new Chart(ctx, {
+            var lseChart = new Chart(ctx, {
               type: "line",
               data: formattedData,
               options: {

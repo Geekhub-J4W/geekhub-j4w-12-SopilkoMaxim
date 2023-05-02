@@ -102,6 +102,9 @@ public class Wallet {
         this.dogecoin = dogecoin;
     }
 
+    public Wallet() {
+    }
+
     public Wallet(float lse, float bitcoin, float ethereum, float bnb, float xrp, float polygon, float tether, float usd, float cardano, float dogecoin) {
         this.lse = lse;
         this.bitcoin = bitcoin;

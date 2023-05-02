@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>BTC Graph</title>
+  <title>Tether Graph</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-<canvas id="btc-chart"></canvas>
+<canvas id="tether-chart"></canvas>
 <script th:inline="javascript">
-  fetch('/btc')
+  fetch('/tether')
           .then(response => response.json())
-          .then(btcData => {
-            var ctx = document.getElementById("btc-chart").getContext("2d");
+          .then(tetherData => {
+            var ctx = document.getElementById("tether-chart").getContext("2d");
 
             var formattedData = {
               labels: [],
               datasets: [{
-                label: 'BTC',
+                label: 'TETHER',
                 data: [],
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
@@ -23,7 +23,7 @@
               }]
             };
 
-            Object.entries(btcData).forEach(([key, value]) => {
+            Object.entries(tetherData).forEach(([key, value]) => {
               formattedData.labels.push(new Date(key).toLocaleString('en-US', {
                 year: 'numeric',
                 month: '2-digit',
@@ -34,7 +34,7 @@
               formattedData.datasets[0].data.push(value);
             });
 
-            var btcChart = new Chart(ctx, {
+            var tetherChart = new Chart(ctx, {
               type: "line",
               data: formattedData,
               options: {

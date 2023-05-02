@@ -28,11 +28,12 @@ public class User {
         this.wallet = wallet;
     }
 
-    public User(String name, int age, String email, String password) {
+    public User(String name, String email, String password) {
         this.name = name;
-        this.age = age;
         this.email = email;
         this.password = password;
+        this.balance=5000;
+        this.wallet=new Wallet();
     }
 
     public User(int id, String name, int age, String email, String password, float balance,float rating, String role,String status,Wallet wallet) {
@@ -50,6 +51,26 @@ public class User {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getName() {

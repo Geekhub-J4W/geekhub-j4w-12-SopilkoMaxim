@@ -41,6 +41,13 @@ public class UserRepository {
             JOIN wallet w ON u.id_wallet = w.id
             WHERE u.id = :id
             """;
+    public static final String GET_USER_BY_EMAIL = """
+            SELECT u.id, u.name, u.age, u.email, u.password, u.balance, u.rating, u.role, u.status,
+                   w.Lido_Staked_Ether, w.Bitcoin, w.Ethereum, w.BNB, w.XRP, w.Polygon, w.Tether, w.USD_Coin, w.Cardano, w.Dogecoin
+            FROM userdb u
+            JOIN wallet w ON u.id_wallet = w.id
+            WHERE u.email = :email
+            """;
     public static final String DELETE_BY_ID = """
         DELETE FROM userdb WHERE id = :id;
         DELETE FROM walletdb WHERE user_id = :id;
@@ -61,7 +68,7 @@ public class UserRepository {
                 .addValue("rating", user.getBalance())
                 .addValue("role", user.getRole().toString())
                 .addValue("status", user.getStatus().toString())
-                .addValue("id_wallet", null); // Will be updated later
+                .addValue("id_wallet", null);
 
         jdbcTemplate.update(INSERT_USER, userParams, keyHolder);
 
@@ -87,13 +94,32 @@ public class UserRepository {
         MapSqlParameterSource updateParams = new MapSqlParameterSource()
                 .addValue("id_wallet", walletId)
                 .addValue("id", userId);
-
+        user.getWallet().setId((int) walletId);
         jdbcTemplate.update("UPDATE userdb SET id_wallet = :id_wallet WHERE id = :id", updateParams);
     }
 
     public User getUserById(int id) {
         MapSqlParameterSource parameters = new MapSqlParameterSource().addValue("id", id);
         List<User> result = jdbcTemplate.query(GET_USER_BY_ID, parameters, (rs, rowNum) -> new User(
+                rs.getInt("id"),
+                rs.getString("name"),
+                rs.getInt("age"),
+                rs.getString("email"),
+                rs.getString("password"),
+                rs.getFloat("balance"),
+                rs.getFloat("rating"),
+                rs.getString("role"),
+                rs.getString("status"),
+                new Wallet(rs.getFloat("Lido_Staked_Ether"), rs.getFloat("Bitcoin"), rs.getFloat("Ethereum"),
+                        rs.getFloat("BNB"), rs.getFloat("XRP"), rs.getFloat("Polygon"), rs.getFloat("Tether"),
+                        rs.getFloat("USD_Coin"), rs.getFloat("Cardano"), rs.getFloat("Dogecoin"))
+        ));
+        return result.isEmpty() ? null : result.get(0);
+    }
+
+    public User getUserByEmail(String email) {
+        MapSqlParameterSource parameters = new MapSqlParameterSource().addValue("email", email);
+        List<User> result = jdbcTemplate.query(GET_USER_BY_EMAIL, parameters, (rs, rowNum) -> new User(
                 rs.getInt("id"),
                 rs.getString("name"),
                 rs.getInt("age"),
@@ -173,7 +199,7 @@ public class UserRepository {
         jdbcTemplate.update(updateQuery,parameters);
     }
     public void updateUserWallet(int walletId, Wallet wallet) {
-        String updateQuery = "UPDATE wallet SET Lido_Staked_Ether = :lidoStakedEther, Bitcoin = :bitcoin, Ethereum = :ethereum, BNB = :bnb, XRP = :xrp, Polygon = :polygon, Tether = :tether, USD_Coin = :usdCoin, Cardano = :cardano, Dogecoin = :dogecoin WHERE id = :id";
+        String updateQuery = "UPDATE wallet SET Lido_Staked_Ether = :lidoStakedEther, Bitcoin = :bitcoin, Ethereum = :ethereum, BNB = :bnb, XRP = :xrp, Polygon = :Polygon, Tether = :tether, USD_Coin = :usdCoin, Cardano = :cardano, Dogecoin = :dogecoin WHERE id = :id";
 
         MapSqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("id", walletId)
@@ -182,7 +208,7 @@ public class UserRepository {
                 .addValue("ethereum", wallet.getEthereum())
                 .addValue("bnb", wallet.getBnb())
                 .addValue("xrp", wallet.getXrp())
-                .addValue("polygon", wallet.getPolygon())
+                .addValue("Polygon", wallet.getPolygon())
                 .addValue("tether", wallet.getTether())
                 .addValue("usdCoin", wallet.getUsd())
                 .addValue("cardano", wallet.getCardano())

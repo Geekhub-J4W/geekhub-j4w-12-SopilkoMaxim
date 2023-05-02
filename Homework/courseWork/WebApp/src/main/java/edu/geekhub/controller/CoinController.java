@@ -2,16 +2,14 @@ package edu.geekhub.controller;
 
 
 import edu.geekhub.Service.CryptoCoinService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("/")
 public class CoinController {
 
@@ -22,9 +20,45 @@ public class CoinController {
     }
 
     @GetMapping("/btc")
-    public String getBtcData(Model model) {
-        Map<Date, Float> btcData = cryptoCoinService.getByName("Bitcoin");
-        model.addAttribute("btcData", btcData);
-        return "btc";
+    public ResponseEntity<Map<String, Float>> getBtcData() {
+        return ResponseEntity.ok(cryptoCoinService.getByName("Bitcoin"));
+    }
+    @GetMapping("/polygon")
+    public ResponseEntity<Map<String, Float>> getPolygonData() {
+        return ResponseEntity.ok(cryptoCoinService.getByName("polygon"));
+    }
+    @GetMapping("/eth")
+    public ResponseEntity<Map<String, Float>> getEthData() {
+        return ResponseEntity.ok(cryptoCoinService.getByName("ethereum"));
+    }
+    @GetMapping("/bnb")
+    public ResponseEntity<Map<String, Float>> getBnbData() {
+        return ResponseEntity.ok(cryptoCoinService.getByName("bnb"));
+    }
+    @GetMapping("/xrp")
+    public ResponseEntity<Map<String, Float>> getXrpData() {
+        return ResponseEntity.ok(cryptoCoinService.getByName("xrp"));
+    }
+
+    @GetMapping("/lse")
+    public ResponseEntity<Map<String, Float>> getLseData() {
+        return ResponseEntity.ok(cryptoCoinService.getByName("lido_staked_ether"));
+    }
+    @GetMapping("/tether")
+    public ResponseEntity<Map<String, Float>> getTetherData() {
+        return ResponseEntity.ok(cryptoCoinService.getByName("tether"));
+    }
+    @GetMapping("/usd_coin")
+    public ResponseEntity<Map<String, Float>> getUsdData() {
+        return ResponseEntity.ok(cryptoCoinService.getByName("usd_coin"));
+    }
+
+    @GetMapping("/cardano")
+    public ResponseEntity<Map<String, Float>> getCardanoData() {
+        return ResponseEntity.ok(cryptoCoinService.getByName("cardano"));
+    }
+    @GetMapping("/dogecoin")
+    public ResponseEntity<Map<String, Float>> getDogecoinData() {
+        return ResponseEntity.ok(cryptoCoinService.getByName("dogecoin"));
     }
 }

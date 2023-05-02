@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>BTC Graph</title>
+      <html>
+      <head>
+      <title>ETH Graph</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-<canvas id="btc-chart"></canvas>
+<canvas id="eth-chart"></canvas>
 <script th:inline="javascript">
-  fetch('/btc')
+  fetch('/eth')
           .then(response => response.json())
-          .then(btcData => {
-            var ctx = document.getElementById("btc-chart").getContext("2d");
+          .then(ethData => {
+            var ctx = document.getElementById("eth-chart").getContext("2d");
 
             var formattedData = {
               labels: [],
               datasets: [{
-                label: 'BTC',
+                label: 'ETH',
                 data: [],
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
@@ -23,7 +23,7 @@
               }]
             };
 
-            Object.entries(btcData).forEach(([key, value]) => {
+            Object.entries(ethData).forEach(([key, value]) => {
               formattedData.labels.push(new Date(key).toLocaleString('en-US', {
                 year: 'numeric',
                 month: '2-digit',
@@ -34,7 +34,7 @@
               formattedData.datasets[0].data.push(value);
             });
 
-            var btcChart = new Chart(ctx, {
+            var ethChart = new Chart(ctx, {
               type: "line",
               data: formattedData,
               options: {

@@ -55,7 +55,12 @@ class Task extends TimerTask {
             for (JsonElement element : array) {
                 JsonObject coin = element.getAsJsonObject();
                 String name = coin.get("name").getAsString();
-                Float price = coin.get("current_price").getAsFloat();
+                Float price;
+                if (coin.get("current_price").isJsonNull()) {
+                    price = 0.0F;
+                } else {
+                    price = coin.get("current_price").getAsFloat();
+                }
                 result.put(name, price);
             }
             System.out.println("Top 10 cryptocurrencies:");
