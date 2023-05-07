@@ -1,112 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>Login Page</title>
-  <style>
-    body {
-      background-color: #f2f2f2;
-      font-family: Arial, sans-serif;
-    }
-
-    .container {
-      margin: 100px auto;
-      width: 400px;
-      padding: 20px;
-      border: 1px solid #ccc;
-      background-color: #fff;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    input[type="email"],
-    input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    button {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 4px;
-      background-color: #4CAF50;
-      color: #fff;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #3e8e41;
-    }
-
-    .error {
-      color: red;
-      margin-top: 10px;
-    }
-  </style>
+  <title>Login</title>
 </head>
 <body>
-<div class="container">
-  <h1>Login Page</h1>
-  <form id="login-form">
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
-
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-
-    <button type="submit" id="submit-btn">Confirm</button>
-  </form>
-  <p>Don't have an account? <a href="register.html">Register</a></p>
-  <div id="error-message" class="error" style="display:none"></div>
-</div>
-
-<script>
-  const form = document.getElementById('login-form');
-  const submitBtn = document.getElementById('submit-btn');
-  const errorMessage = document.getElementById('error-message');
-
-  form.addEventListener('submit', function (event) {
-    event.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-
-    fetch('/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password
-      })
-    })
-            .then(response => {
-              if (response.ok) {
-                window.location.href = '/';
-              } else {
-                errorMessage.style.display = 'block';
-                errorMessage.textContent = 'Incorrect email or password';
-              }
-            })
-            .catch(error => {
-              console.error(error);
-            });
-  });
-</script>
-
+<h1>Login</h1>
+<form action="/login" method="POST">
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="username" required><br>
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" required><br>
+  <button type="submit">Login</button>
+</form>
+<p>Don't have an account? <a href="register.html">Register</a></p>
 </body>
 </html>

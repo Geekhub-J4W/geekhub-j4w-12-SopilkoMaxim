@@ -16,12 +16,17 @@ public class UserDb implements UserDetails {
     private String password;
     private List<GrantedAuthority> authorities;
 
+    private boolean status=true;
+
     public UserDb(User user) {
         name=user.getEmail();
         password=user.getPassword();
         authorities= Arrays.stream(user.getRole().toString().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
+        if(user.getStatus().toString().equals("BANNED"))
+            status=false;
+
     }
 
     @Override
@@ -46,7 +51,7 @@ public class UserDb implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return status;
     }
 
     @Override

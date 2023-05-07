@@ -29,9 +29,6 @@ public class CryptoCoinService {
 
     }
 
-    public Map<Date, Float> returnListBts() {
-        return repository.listOfBtc();
-    }
 
     public Map<String, Float> getByName(String name) {
         Map<Date, Float> data = repository.getByName(name);
@@ -42,5 +39,9 @@ public class CryptoCoinService {
             formattedData.put(sdf.format(date), data.get(date));
         }
         return formattedData;
+    }
+
+    public float getLastPriceByName(String name){
+        return repository.getLastPriceByName(name);
     }
 }

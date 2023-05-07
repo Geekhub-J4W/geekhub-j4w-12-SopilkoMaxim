@@ -1,93 +1,154 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>BTC Graph</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>BTC Graph</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="btc.css">
+
 </head>
 <body>
 <canvas id="btc-chart"></canvas>
 <script th:inline="javascript">
-  fetch('/btc')
-          .then(response => response.json())
-          .then(btcData => {
+    fetch('/btc')
+        .then(response => response.json())
+        .then(btcData => {
             var ctx = document.getElementById("btc-chart").getContext("2d");
 
             var formattedData = {
-              labels: [],
-              datasets: [{
-                label: 'BTC',
-                data: [],
-                fill: false,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
-              }]
+                labels: [],
+                datasets: [{
+                    label: 'BTC',
+                    data: [],
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
             };
 
             Object.entries(btcData).forEach(([key, value]) => {
-              formattedData.labels.push(new Date(key).toLocaleString('en-US', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit'
-              }));
-              formattedData.datasets[0].data.push(value);
+                formattedData.labels.push(new Date(key).toLocaleString('en-US', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }));
+                formattedData.datasets[0].data.push(value);
             });
 
             var btcChart = new Chart(ctx, {
-              type: "line",
-              data: formattedData,
-              options: {
-                scales: {
-                  xAxes: [
-                    {
-                      type: "time",
-                      time: {
-                        unit: "minute",
-                        tooltipFormat: "YYYY-MM-DD HH:mm",
-                        displayFormats: {
-                          minute: "YYYY-MM-DD HH:mm"
-                        }
-                      }
-                    }
-                  ],
-                  yAxes: [
-                    {
-                      ticks: {
-                        beginAtZero: true
-                      }
-                    }
-                  ]
-                },
-                tooltips: {
-                  callbacks: {
-                    label: function(tooltipItem, data) {
-                      var label = data.datasets[tooltipItem.datasetIndex].label || '';
-                      if (label) {
-                        label += ': ';
-                      }
-                      label += tooltipItem.yLabel.toFixed(2);
-                      return label;
+                type: "line",
+                data: formattedData,
+                options: {
+                    scales: {
+                        xAxes: [
+                            {
+                                type: "time",
+                                time: {
+                                    unit: "minute",
+                                    tooltipFormat: "YYYY-MM-DD HH:mm",
+                                    displayFormats: {
+                                        minute: "YYYY-MM-DD HH:mm"
+                                    }
+                                }
+                            }
+                        ],
+                        yAxes: [
+                            {
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }
+                        ]
                     },
-                    title: function(tooltipItem, data) {
-                      var title = '';
-                      if (tooltipItem.length > 0) {
-                        var dateObj = new Date(tooltipItem[0].xLabel);
-                        title = dateObj.toLocaleString('en-US', {
-                          year: 'numeric',
-                          month: '2-digit',
-                          day: '2-digit',
-                          hour: '2-digit',
-                          minute: '2-digit'
-                        });
-                      }
-                      return title;
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += tooltipItem.yLabel.toFixed(2);
+                                return label;
+                            },
+                            title: function (tooltipItem, data) {
+                                var title = '';
+                                if (tooltipItem.length > 0) {
+                                    var dateObj = new Date(tooltipItem[0].xLabel);
+                                    title = dateObj.toLocaleString('en-US', {
+                                        year: 'numeric',
+                                        month: '2-digit',
+                                        day: '2-digit',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    });
+                                }
+                                return title;
+                            }
+                        }
                     }
-                  }
                 }
-              }
             });
-          });
+        });
 </script>
+
+<div>
+    <h1>Bitcoin</h1>
+    <p>Last Price: <span id="lastPrice"></span></p>
+    <p>Balance: <span id="balance"></span></p>
+    <p>BTC amount: <span id="btc_amount"></span></p>
+
+    <form id="buyForm" action="/buy-btc" method="POST">
+        <label for="buyAmount">Buy Amount:</label>
+        <input type="number" id="buyAmount" name="amount" step="0.01" min="0">
+        <button type="submit">Buy</button>
+    </form>
+    <form id="sellForm" action="/sell-btc" method="POST">
+        <label for="sellAmount">Sell Amount:</label>
+        <input type="number" id="sellAmount" name="amount" step="0.01" min="0">
+        <button type="submit">Sell</button>
+    </form>
+    <table>
+        <thead>
+        <tr>
+            <th>Coin Name</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Price</th>
+            <th>Operation</th>
+        </tr>
+        </thead>
+        <tbody id="transfersTableBody">
+        </tbody>
+    </table>
+</div>
+
+<script>
+    fetch('/btc-info')
+        .then(response => response.json())
+        .then(btc => {
+            document.getElementById('lastPrice').textContent = btc.lastPrice;
+            document.getElementById('balance').textContent = btc.balance;
+            document.getElementById('btc_amount').textContent = btc.btc_amount;
+            let transfersTableBody = document.getElementById('transfersTableBody');
+            transfersTableBody.innerHTML = '';
+            btc.transfers.forEach((transfer) => {
+                let row = transfersTableBody.insertRow();
+                let coinNameCell = row.insertCell();
+                let amountCell = row.insertCell();
+                let dateCell = row.insertCell();
+                let priceCell = row.insertCell();
+                let operationCell = row.insertCell();
+                coinNameCell.textContent = transfer.coinName;
+                amountCell.textContent = transfer.amount;
+                dateCell.textContent = transfer.date;
+                priceCell.textContent = transfer.price;
+                operationCell.textContent = transfer.operation;
+            });
+        });
+
+
+</script>
+
 </body>
 </html>

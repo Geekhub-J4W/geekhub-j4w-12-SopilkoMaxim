@@ -20,14 +20,14 @@ public class UserRepository {
 
 
     private static final String INSERT_USER = """
-        INSERT INTO userdb (name,age,email,password,balance,rating,role,status,id_wallet) 
-        VALUES (:name,:age,:email,:password,:balance,:rating,:role,:status,:id_wallet)
-        """;
+            INSERT INTO userdb (name,age,email,password,balance,rating,role,status,id_wallet) 
+            VALUES (:name,:age,:email,:password,:balance,:rating,:role,:status,:id_wallet)
+            """;
     private static final String INSERT_WALLET = """
-        INSERT INTO wallet (Lido_Staked_Ether, Bitcoin, Ethereum, BNB, XRP, Polygon, Tether, USD_Coin, Cardano, Dogecoin)
-        VALUES (:Lido_Staked_Ether, :Bitcoin, :Ethereum, :BNB, :XRP, :Polygon, :Tether, :USD_Coin, :Cardano, :Dogecoin)
-        RETURNING id
-        """;
+            INSERT INTO wallet (Lido_Staked_Ether, Bitcoin, Ethereum, BNB, XRP, Polygon, Tether, USD_Coin, Cardano, Dogecoin)
+            VALUES (:Lido_Staked_Ether, :Bitcoin, :Ethereum, :BNB, :XRP, :Polygon, :Tether, :USD_Coin, :Cardano, :Dogecoin)
+            RETURNING id
+            """;
 
     public static final String FETCH_ALL_USERS = """
             SELECT u.*, w.* FROM userdb u
@@ -42,16 +42,16 @@ public class UserRepository {
             WHERE u.id = :id
             """;
     public static final String GET_USER_BY_EMAIL = """
-            SELECT u.id, u.name, u.age, u.email, u.password, u.balance, u.rating, u.role, u.status,
+            SELECT u.id, u.name, u.age, u.email, u.password, u.balance, u.rating, u.role, u.status,w.id AS wallet_id,
                    w.Lido_Staked_Ether, w.Bitcoin, w.Ethereum, w.BNB, w.XRP, w.Polygon, w.Tether, w.USD_Coin, w.Cardano, w.Dogecoin
             FROM userdb u
             JOIN wallet w ON u.id_wallet = w.id
             WHERE u.email = :email
             """;
     public static final String DELETE_BY_ID = """
-        DELETE FROM userdb WHERE id = :id;
-        DELETE FROM walletdb WHERE user_id = :id;
-        """;
+            DELETE FROM userdb WHERE id = :id;
+            DELETE FROM walletdb WHERE user_id = :id;
+            """;
 
     public UserRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -129,7 +129,7 @@ public class UserRepository {
                 rs.getFloat("rating"),
                 rs.getString("role"),
                 rs.getString("status"),
-                new Wallet(rs.getFloat("Lido_Staked_Ether"), rs.getFloat("Bitcoin"), rs.getFloat("Ethereum"),
+                new Wallet(rs.getInt("wallet_id"),rs.getFloat("Lido_Staked_Ether"), rs.getFloat("Bitcoin"), rs.getFloat("Ethereum"),
                         rs.getFloat("BNB"), rs.getFloat("XRP"), rs.getFloat("Polygon"), rs.getFloat("Tether"),
                         rs.getFloat("USD_Coin"), rs.getFloat("Cardano"), rs.getFloat("Dogecoin"))
         ));
@@ -184,20 +184,39 @@ public class UserRepository {
     }
 
     public void updateUser(int id, User user) {
-        String updateQuery="update userdb set name = :name, age = :age,email = :email, password = :password, balance = :balance, rating = :rating, role = :role, status = :status where id = :id";
+        String updateQuery = "update userdb set name = :name, age = :age,email = :email, password = :password, balance = :balance, rating = :rating, role = :role, status = :status where id = :id";
         MapSqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("id",id)
-                .addValue("name",user.getName())
-                .addValue("age",user.getAge())
-                .addValue("email",user.getEmail())
-                .addValue("password",user.getPassword())
-                .addValue("balance",user.getBalance())
-                .addValue("rating",user.getRating())
-                .addValue("role",user.getRole().toString())
-                .addValue("status",user.getStatus().toString());
+                .addValue("id", id)
+                .addValue("name", user.getName())
+                .addValue("age", user.getAge())
+                .addValue("email", user.getEmail())
+                .addValue("password", user.getPassword())
+                .addValue("balance", user.getBalance())
+                .addValue("rating", user.getRating())
+                .addValue("role", user.getRole().toString())
+                .addValue("status", user.getStatus().toString());
 
-        jdbcTemplate.update(updateQuery,parameters);
+        jdbcTemplate.update(updateQuery, parameters);
+
+
+        String updateQueryWallet = "UPDATE wallet SET Lido_Staked_Ether = :lidoStakedEther, Bitcoin = :bitcoin, Ethereum = :ethereum, BNB = :bnb, XRP = :xrp, Polygon = :Polygon, Tether = :tether, USD_Coin = :usdCoin, Cardano = :cardano, Dogecoin = :dogecoin WHERE id = :id";
+        Wallet wallet = user.getWallet();
+        MapSqlParameterSource parametersWallet = new MapSqlParameterSource()
+                .addValue("id", wallet.getId())
+                .addValue("lidoStakedEther", wallet.getLse())
+                .addValue("bitcoin", wallet.getBitcoin())
+                .addValue("ethereum", wallet.getEthereum())
+                .addValue("bnb", wallet.getBnb())
+                .addValue("xrp", wallet.getXrp())
+                .addValue("Polygon", wallet.getPolygon())
+                .addValue("tether", wallet.getTether())
+                .addValue("usdCoin", wallet.getUsd())
+                .addValue("cardano", wallet.getCardano())
+                .addValue("dogecoin", wallet.getDogecoin());
+
+        jdbcTemplate.update(updateQueryWallet, parametersWallet);
     }
+
     public void updateUserWallet(int walletId, Wallet wallet) {
         String updateQuery = "UPDATE wallet SET Lido_Staked_Ether = :lidoStakedEther, Bitcoin = :bitcoin, Ethereum = :ethereum, BNB = :bnb, XRP = :xrp, Polygon = :Polygon, Tether = :tether, USD_Coin = :usdCoin, Cardano = :cardano, Dogecoin = :dogecoin WHERE id = :id";
 
@@ -216,6 +235,5 @@ public class UserRepository {
 
         jdbcTemplate.update(updateQuery, parameters);
     }
-
 
 }

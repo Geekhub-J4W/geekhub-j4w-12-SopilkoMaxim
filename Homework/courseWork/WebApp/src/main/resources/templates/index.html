@@ -2,28 +2,94 @@
 <html>
 <head>
   <title>My Crypto Dashboard</title>
+  <style>
+    body {
+      background-color: #f8f8f8;
+      font-family: Arial, sans-serif;
+    }
+
+    h1, h2 {
+      color: #333;
+    }
+
+    div {
+      background-color: #fff;
+      padding: 20px;
+      margin: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    a {
+      color: #0077cc;
+      text-decoration: none;
+    }
+
+    span {
+      font-weight: bold;
+      color: #333;
+    }
+
+    hr {
+      margin: 20px;
+      border: 0;
+      height: 1px;
+      background-color: #ddd;
+    }
+  </style>
 </head>
 <body>
 <div>
   <h1>User Info:</h1>
-  <p>Full Name: </p>
-  <p>Email: </p>
-  <p>Balance:</p>
-  <p>Rating: </p>
+  <p>Full Name: <span id="fullName"></span></p>
+  <p>Email: <span id="email"></span></p>
+  <p>Balance: <span id="balance"></span></p>
+  <p>Rating: <span id="rating"></span></p>
 </div>
 <hr>
 <h2>My Cryptocurrencies</h2>
 <ul>
-  <li><a href="lse.html">Lido_Staked_Ether</a></li>
-  <li><a href="btc.html">Bitcoin</a></li>
-  <li><a href="eth.html">Ethereum</a></li>
-  <li><a href="bnb.html">BNB</a></li>
-  <li><a href="xrp.html">XRP</a></li>
-  <li><a href="polygon.html">Polygon</a></li>
-  <li><a href="tether.html">Tether</a></li>
-  <li><a href="usd.html">USD_Coin</a></li>
-  <li><a href="cardano.html">Cardano</a></li>
-  <li><a href="dogecoin.html">Dogecoin</a></li>
+  <li><a href="lse.html">Lido_Staked_Ether: <span id="lse"></span></a></li>
+  <li><a href="btc.html">Bitcoin: <span id="bitcoin"></span></a></li>
+  <li><a href="eth.html">Ethereum: <span id="ethereum"></span></a></li>
+  <li><a href="bnb.html">BNB: <span id="bnb"></span></a></li>
+  <li><a href="xrp.html">XRP: <span id="xrp"></span></a></li>
+  <li><a href="polygon.html">Polygon: <span id="polygon"></span></a></li>
+  <li><a href="tether.html">Tether: <span id="tether"></span></a></li>
+  <li><a href="usd.html">USD_Coin: <span id="usd"></span></a></li>
+  <li><a href="cardano.html">Cardano: <span id="cardano"></span></a></li>
+  <li><a href="dogecoin.html">Dogecoin: <span id="dogecoin"></span></a></li>
 </ul>
+<script>
+  fetch('/user-info')
+          .then(response => response.json())
+          .then(user => {
+            document.getElementById('fullName').textContent = user.fullName;
+            document.getElementById('email').textContent = user.email;
+            document.getElementById('balance').textContent = user.balance;
+            document.getElementById('rating').textContent = user.rating;
+            document.getElementById('lse').textContent = user.wallet.lse;
+            document.getElementById('bitcoin').textContent = user.wallet.bitcoin;
+            document.getElementById('ethereum').textContent = user.wallet.ethereum;
+            document.getElementById('bnb').textContent = user.wallet.bnb;
+            document.getElementById('xrp').textContent = user.wallet.xrp;
+            document.getElementById('polygon').textContent = user.wallet.polygon;
+            document.getElementById('tether').textContent = user.wallet.tether;
+            document.getElementById('usd').textContent = user.wallet.usd;
+            document.getElementById('cardano').textContent = user.wallet.cardano;
+            document.getElementById('dogecoin').textContent = user.wallet.dogecoin;
+          });
+
+</script>
 </body>
 </html>

@@ -30,10 +30,11 @@ public class UserService {
         }
     }
 
-    public void buyCoin(String name, int amount, User user){
-        //user.setBalance(amount*);
-        user.getWallet().setByName(amount,name);
-    }
+   public void updateUser(User user){
+        logger.info("User with id "+ user.getId() + " was updated");
+        userRepository.updateUser(user.getId(),user);
+        //userRepository.updateUserWallet(user.getWallet().getId(),user.getWallet());
+   }
 
     public Optional<User> getUserByEmail(String email) {
 

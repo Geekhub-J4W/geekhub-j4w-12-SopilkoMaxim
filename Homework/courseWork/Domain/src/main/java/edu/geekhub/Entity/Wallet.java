@@ -105,6 +105,19 @@ public class Wallet {
     public Wallet() {
     }
 
+    public Wallet(int id,float lse, float bitcoin, float ethereum, float bnb, float xrp, float polygon, float tether, float usd, float cardano, float dogecoin) {
+        this.id=id;
+        this.lse = lse;
+        this.bitcoin = bitcoin;
+        this.ethereum = ethereum;
+        this.bnb = bnb;
+        this.xrp = xrp;
+        this.polygon = polygon;
+        this.tether = tether;
+        this.usd = usd;
+        this.cardano = cardano;
+        this.dogecoin = dogecoin;
+    }
     public Wallet(float lse, float bitcoin, float ethereum, float bnb, float xrp, float polygon, float tether, float usd, float cardano, float dogecoin) {
         this.lse = lse;
         this.bitcoin = bitcoin;
@@ -139,16 +152,16 @@ public class Wallet {
     public void setByName(float amount, String name) {
         switch (name)
         {
-            case "lse": this.lse = amount;
-            case "bitcoin": this.bitcoin=amount;
-            case "ethereum": this.ethereum=amount;
-            case "bnb": this.bnb=amount;
-            case "xrp": this.xrp=amount;
-            case "polygon": this.polygon=amount;
-            case "tether": this.tether=amount;
-            case "usd": this.usd=amount;
-            case "cardano": this.cardano=amount;
-            case "dogecoin": this.dogecoin=amount;
+            case "lse": {this.lse = amount;break;}
+            case "bitcoin": {this.bitcoin=amount;break;}
+            case "ethereum": {this.ethereum=amount;break;}
+            case "bnb": {this.bnb=amount;break;}
+            case "xrp": {this.xrp=amount;break;}
+            case "polygon": {this.polygon=amount;break;}
+            case "tether": {this.tether=amount;break;}
+            case "usd": {this.usd=amount;break;}
+            case "cardano": {this.cardano=amount;break;}
+            case "dogecoin": {this.dogecoin=amount;break;}
         }
     }
 }

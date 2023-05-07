@@ -9,14 +9,9 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
 
 
 @Configuration
@@ -27,6 +22,7 @@ public class SecurityConfig {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Bean
     public UserDetailsService userDetailsService() {
 //        UserDetails admin = User.withUsername("admin@gmail.com")
@@ -38,29 +34,30 @@ public class SecurityConfig {
         return new UserDbUserDetailsService();
     }
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf().disable()
-//                .authorizeHttpRequests(authRegistry -> authRegistry
-//                        .requestMatchers( "/swagger-ui/**","/").permitAll()
-//                        .requestMatchers( "/swagger-ui.html").permitAll()
-//                        .requestMatchers("/register.html").permitAll()
-//                        .requestMatchers(HttpMethod.POST, "/register.html").permitAll()
-//                        .requestMatchers("/btc.html").hasRole("ADMIN")
-//                        .anyRequest().authenticated()
-//                );
-//                http.formLogin()
-//                        .loginPage("/login.html")
-//                        .permitAll();
-//                http.logout()
-//                        .permitAll();
-//
-//        return http.build();
-//    }
     @Bean
-    public AuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider();
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable()
+                .authorizeHttpRequests(authRegistry -> authRegistry
+                        .requestMatchers("/swagger-ui/**", "/").permitAll()
+                        .requestMatchers("/swagger-ui.html").permitAll()
+                        .requestMatchers("/register.html").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/register.html").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin()
+                .defaultSuccessUrl("/index.html")
+                //.loginPage("/login")
+                .permitAll().and()
+                .logout()
+                .permitAll();
+
+        return http.build();
+    }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService());
         authenticationProvider.setPasswordEncoder(passwordEncoder);
         return authenticationProvider;

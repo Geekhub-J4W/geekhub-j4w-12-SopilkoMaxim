@@ -27,34 +27,21 @@ public class CryptoCoinRepository {
         MapSqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("date", date)
                 .addValue("Lido_Staked_Ether", values.get("Lido Staked Ether"))
-                .addValue("Bitcoin",values.get("Bitcoin"))
-                .addValue("Ethereum",values.get("Ethereum"))
-                .addValue("BNB",values.get("BNB"))
-                .addValue("XRP",values.get("XRP"))
-                .addValue("Polygon",values.get("Polygon"))
-                .addValue("Tether",values.get("Tether"))
-                .addValue("USD_Coin",values.get("USD Coin"))
-                .addValue("Cardano",values.get("Cardano"))
-                .addValue("Dogecoin",values.get("Dogecoin"));
+                .addValue("Bitcoin", values.get("Bitcoin"))
+                .addValue("Ethereum", values.get("Ethereum"))
+                .addValue("BNB", values.get("BNB"))
+                .addValue("XRP", values.get("XRP"))
+                .addValue("Polygon", values.get("Polygon"))
+                .addValue("Tether", values.get("Tether"))
+                .addValue("USD_Coin", values.get("USD Coin"))
+                .addValue("Cardano", values.get("Cardano"))
+                .addValue("Dogecoin", values.get("Dogecoin"));
         jdbcTemplate.update(INSERT_COIN, parameters);
     }
 
-    public Map<Date, Float> listOfBtc() {
-        String sql = "SELECT date, Bitcoin FROM coin";
-        Map<Date, Float> result = jdbcTemplate.query(sql, rs -> {
-            Map<Date, Float> map = new HashMap<>();
-            while (rs.next()) {
-                Date date = rs.getTimestamp("date");
-                Float btcValue = rs.getFloat("Bitcoin");
-                map.put(date, btcValue);
-            }
-            return map;
-        });
-        return result;
-    }
 
     public Map<Date, Float> getByName(String name) {
-        String sql = "SELECT date, "+name+" FROM coin ORDER BY date";
+        String sql = "SELECT date, " + name + " FROM coin ORDER BY date";
         Map<Date, Float> result = jdbcTemplate.query(sql, rs -> {
             Map<Date, Float> map = new HashMap<>();
             while (rs.next()) {
@@ -68,15 +55,14 @@ public class CryptoCoinRepository {
                 .stream()
                 .sorted(Map.Entry.comparingByKey())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
-                        (oldValue, newValue) -> oldValue, HashMap::new));
+                        (oldValue, newValue) -> oldValue, LinkedHashMap::new));
     }
 
 
-//    public float getPriceByName(String coinName){
-//
-//        String sql = "SELECT " + coinName + " FROM coin WHERE date = (SELECT MAX(date) FROM coin)";
-//
-//        return jdbcTemplate.queryForObject(sql, Float.class);
-//    }
-
+    public float getLastPriceByName(String coinName) {
+        String query = "SELECT " + coinName + " FROM public.coin ORDER BY date DESC LIMIT 1";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        Float price = jdbcTemplate.queryForObject(query,params , Float.class);
+        return price != null ? price : 0.0f;
+    }
 }
