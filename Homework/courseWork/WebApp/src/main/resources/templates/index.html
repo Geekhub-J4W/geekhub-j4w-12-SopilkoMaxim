@@ -2,59 +2,42 @@
 <html>
 <head>
   <title>My Crypto Dashboard</title>
-  <style>
-    body {
-      background-color: #f8f8f8;
-      font-family: Arial, sans-serif;
-    }
+  <link rel="stylesheet" href="index.css">
 
-    h1, h2 {
-      color: #333;
-    }
-
-    div {
-      background-color: #fff;
-      padding: 20px;
-      margin: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    li {
-      margin-bottom: 10px;
-    }
-
-    a {
-      color: #0077cc;
-      text-decoration: none;
-    }
-
-    span {
-      font-weight: bold;
-      color: #333;
-    }
-
-    hr {
-      margin: 20px;
-      border: 0;
-      height: 1px;
-      background-color: #ddd;
-    }
-  </style>
 </head>
 <body>
+<div class="navbar">
+  <div class="dropdown">
+    <button class="dropbtn">Crypto Coins
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="lse.html">LSE</a>
+      <a href="btc.html">BTC</a>
+      <a href="cardano.html">Cardano</a>
+      <a href="dogecoin.html">Dogecoin</a>
+      <a href="eth.html">ETH</a>
+      <a href="polygon.html">Polygon</a>
+      <a href="tether.html">Tether</a>
+      <a href="usd.html">USD</a>
+      <a href="xrp.html">XRP</a>
+    </div>
+  </div>
+  <a href="rating.html">Rating</a>
+  <a href="transaction.html">Transactions</a>
+  <div class="navbar-right">
+    <a href="logout">Logout</a>
+  </div>
+</div>
 <div>
   <h1>User Info:</h1>
   <p>Full Name: <span id="fullName"></span></p>
   <p>Email: <span id="email"></span></p>
-  <p>Balance: <span id="balance"></span></p>
+  <p>Balance: <span id="balance"></span>USD</p>
+  <p>Balance with coins: <span id="balance_coins"></span>USD</p>
   <p>Rating: <span id="rating"></span></p>
+  <button onclick="updateRating()">Update Rating</button>
+
 </div>
 <hr>
 <h2>My Cryptocurrencies</h2>
@@ -77,6 +60,7 @@
             document.getElementById('fullName').textContent = user.fullName;
             document.getElementById('email').textContent = user.email;
             document.getElementById('balance').textContent = user.balance;
+            document.getElementById('balance_coins').textContent = user.balance_coins;
             document.getElementById('rating').textContent = user.rating;
             document.getElementById('lse').textContent = user.wallet.lse;
             document.getElementById('bitcoin').textContent = user.wallet.bitcoin;
@@ -89,6 +73,19 @@
             document.getElementById('cardano').textContent = user.wallet.cardano;
             document.getElementById('dogecoin').textContent = user.wallet.dogecoin;
           });
+  function updateRating() {
+    fetch('/update-rating')
+            .then(response => {
+              if (response.ok) {
+                window.location.reload();
+              } else {
+                throw new Error('Network response was not ok.');
+              }
+            })
+            .catch(error => {
+              console.error('Error updating rating:', error);
+            });
+  }
 
 </script>
 </body>

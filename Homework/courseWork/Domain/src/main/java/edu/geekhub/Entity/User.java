@@ -32,7 +32,7 @@ public class User {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.balance=5000;
+        this.balance=1_000_000;
         this.wallet=new Wallet();
     }
 

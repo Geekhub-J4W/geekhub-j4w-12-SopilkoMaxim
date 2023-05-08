@@ -8,10 +8,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Component;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.ResultSet;
+import java.util.*;
 
 @Component
 public class UserRepository {
@@ -58,7 +56,6 @@ public class UserRepository {
     }
 
     public void addUser(User user) {
-        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         MapSqlParameterSource userParams = new MapSqlParameterSource()
                 .addValue("name", user.getName())
                 .addValue("age", user.getAge())
@@ -70,9 +67,11 @@ public class UserRepository {
                 .addValue("status", user.getStatus().toString())
                 .addValue("id_wallet", null);
 
-        jdbcTemplate.update(INSERT_USER, userParams, keyHolder);
+        GeneratedKeyHolder userKeyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(INSERT_USER, userParams, userKeyHolder);
 
-        long userId = keyHolder.getKey().longValue();
+        List<Map<String, Object>> userKeys = userKeyHolder.getKeyList();
+        int userId = (int) userKeys.get(0).get("id");
 
         MapSqlParameterSource walletParams = new MapSqlParameterSource()
                 .addValue("Lido_Staked_Ether", 0)
@@ -89,7 +88,8 @@ public class UserRepository {
         GeneratedKeyHolder walletKeyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(INSERT_WALLET, walletParams, walletKeyHolder);
 
-        long walletId = walletKeyHolder.getKey().longValue();
+        List<Map<String, Object>> walletKeys = walletKeyHolder.getKeyList();
+        int walletId = (int) walletKeys.get(0).get("id");
 
         MapSqlParameterSource updateParams = new MapSqlParameterSource()
                 .addValue("id_wallet", walletId)
@@ -234,6 +234,17 @@ public class UserRepository {
                 .addValue("dogecoin", wallet.getDogecoin());
 
         jdbcTemplate.update(updateQuery, parameters);
+    }
+
+    public Map<String, Float> getSortedUserRatings() {
+        String sql = "SELECT name, rating FROM userdb ORDER BY rating DESC";
+        Map<String, Float> userRatings = new LinkedHashMap<>();
+        jdbcTemplate.query(sql, (ResultSet rs) -> {
+            String name = rs.getString("name");
+            Float rating = rs.getFloat("rating");
+            userRatings.put(name, rating);
+        });
+        return userRatings;
     }
 
 }

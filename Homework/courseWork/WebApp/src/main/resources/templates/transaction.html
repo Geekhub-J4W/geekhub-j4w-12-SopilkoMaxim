@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transfers</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+</head>
+<body>
+<h1>Transfers</h1>
+<div>
+    <button onclick="downloadTransfers()">Save Transfers</button>
+</div>
+<table>
+    <thead>
+    <tr>
+        <th>Coin Name</th>
+        <th>Amount</th>
+        <th>Date</th>
+        <th>Price</th>
+        <th>Operation</th>
+    </tr>
+    </thead>
+    <tbody id="transfersTableBody">
+    </tbody>
+</table>
+<div>
+    <button id="prevPageButton" disabled>Previous Page</button>
+    <button id="nextPageButton" disabled>Next Page</button>
+</div>
+<script>
+    let transfers = [];
+    let page = 0;
+    const pageSize = 20;
+    const transfersTableBody = document.getElementById('transfersTableBody');
+
+    const updateTable = () => {
+        transfersTableBody.innerHTML = '';
+        const start = page * pageSize;
+        const end = (page + 1) * pageSize;
+        const currentPageTransfers = transfers.slice(start, end);
+        currentPageTransfers.forEach((transfer) => {
+            let row = transfersTableBody.insertRow();
+            let coinNameCell = row.insertCell();
+            let amountCell = row.insertCell();
+            let dateCell = row.insertCell();
+            let priceCell = row.insertCell();
+            let operationCell = row.insertCell();
+            coinNameCell.textContent = transfer.coinName;
+            amountCell.textContent = transfer.amount;
+            dateCell.textContent = transfer.date;
+            priceCell.textContent = transfer.price;
+            operationCell.textContent = transfer.operation;
+        });
+
+        const prevPageButton = document.getElementById('prevPageButton');
+        const nextPageButton = document.getElementById('nextPageButton');
+        prevPageButton.disabled = page === 0;
+        nextPageButton.disabled = end >= transfers.length;
+    };
+
+    fetch('/transfers')
+        .then(response => response.json())
+        .then(data => {
+            transfers = data;
+            updateTable();
+        });
+
+    document.getElementById('prevPageButton').addEventListener('click', () => {
+        if (page > 0) {
+            page--;
+            updateTable();
+        }
+    });
+
+    document.getElementById('nextPageButton').addEventListener('click', () => {
+        if ((page + 1) * pageSize < transfers.length) {
+            page++;
+            updateTable();
+        }
+    });
+
+    function downloadTransfers() {
+        const transfers = document.getElementById('transfersTableBody').innerText;
+        const blob = new Blob([transfers], {type: "text/plain;charset=utf-8"});
+        saveAs(blob, "transfers.txt");
+    }
+</script>
+
+</body>
+</html>

@@ -5,7 +5,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -43,4 +42,20 @@ public class TransferRepository {
         ));
         return result;
     }
+    public List<Transfer> getTransfersByUserIdAndCoinName(int userId, String coinName) {
+        String query = "SELECT id, coinName, amount, date, price, operation FROM transfer WHERE user_id = :userId AND coinName = :coinName";
+        MapSqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("userId", userId)
+                .addValue("coinName", coinName);
+        List<Transfer> result = jdbcTemplate.query(query, parameters, (rs, rowNum) -> new Transfer(
+                rs.getLong("id"),
+                rs.getString("coinName"),
+                rs.getFloat("amount"),
+                rs.getTimestamp("date").toLocalDateTime(),
+                rs.getFloat("price"),
+                rs.getString("operation")
+        ));
+        return result;
+    }
+
 }

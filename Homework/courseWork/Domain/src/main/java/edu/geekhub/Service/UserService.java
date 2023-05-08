@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import edu.geekhub.Entity.User;
 
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -39,5 +40,28 @@ public class UserService {
     public Optional<User> getUserByEmail(String email) {
 
         return Optional.ofNullable(userRepository.getUserByEmail(email));
+    }
+
+    public float getUserTotalBalance(User user){
+       return user.getWallet().getBitcoin()*cryptoCoinService.getLastPriceByName("bitcoin")+
+               user.getWallet().getLse()*cryptoCoinService.getLastPriceByName("Lido_Staked_Ether")+
+               user.getWallet().getBnb()*cryptoCoinService.getLastPriceByName("bnb")+
+               user.getWallet().getEthereum()*cryptoCoinService.getLastPriceByName("ethereum")+
+               user.getWallet().getXrp()*cryptoCoinService.getLastPriceByName("xrp")+
+               user.getWallet().getPolygon()*cryptoCoinService.getLastPriceByName("polygon")+
+               user.getWallet().getUsd()*cryptoCoinService.getLastPriceByName("usd_coin")+
+               user.getWallet().getCardano()*cryptoCoinService.getLastPriceByName("cardano")+
+               user.getWallet().getDogecoin()*cryptoCoinService.getLastPriceByName("dogecoin")+
+               user.getWallet().getTether()*cryptoCoinService.getLastPriceByName("tether")+
+               user.getBalance();
+    }
+
+    public void updateRating(User user){
+        user.setRating(getUserTotalBalance(user)-1_000_000);
+        userRepository.updateUser(user.getId(),user);
+    }
+
+    public Map<String, Float> getSortedUserRatings(){
+        return userRepository.getSortedUserRatings();
     }
 }

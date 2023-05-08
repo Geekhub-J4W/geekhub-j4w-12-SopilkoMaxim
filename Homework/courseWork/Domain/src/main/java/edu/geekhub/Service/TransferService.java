@@ -19,4 +19,8 @@ public class TransferService {
     public List<Transfer> getTransfersByUserId(int userId) {
         return transferRepository.getTransfersByUserId(userId);
     }
+
+    public List<Transfer> getTransfersByUserIdAndCoinName(int userId, String coinName) {
+        return transferRepository.getTransfersByUserIdAndCoinName(userId,coinName);
+    }
 }

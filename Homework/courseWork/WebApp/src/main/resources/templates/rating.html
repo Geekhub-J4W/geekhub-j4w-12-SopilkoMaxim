@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Rating Table</title>
+</head>
+<body>
+<table id="rating-table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Rating</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<script>
+    function populateTable() {
+        fetch('/ratings')
+            .then(response => response.json())
+            .then(data => {
+                const dataArray = Object.keys(data).map(key => ({ name: key, rating: data[key] }));
+
+                const table = document.getElementById('rating-table');
+
+                dataArray.forEach(row => {
+                    const name = row.name;
+                    const rating = row.rating;
+
+                    const tr = document.createElement('tr');
+                    const nameTd = document.createElement('td');
+                    const ratingTd = document.createElement('td');
+
+                    nameTd.textContent = name;
+                    ratingTd.textContent = rating;
+
+                    tr.appendChild(nameTd);
+                    tr.appendChild(ratingTd);
+                    table.appendChild(tr);
+                });
+            })
+            .catch(error => {
+                console.error('Error retrieving data:', error);
+            });
+    }
+    window.addEventListener('load', populateTable);
+</script>
+</body>
+</html>

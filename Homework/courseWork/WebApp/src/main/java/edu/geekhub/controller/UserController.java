@@ -4,6 +4,7 @@ import edu.geekhub.Entity.User;
 import edu.geekhub.Service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,9 +25,7 @@ public class UserController {
     private UserService userService;
     @GetMapping("/user-info")
     public ResponseEntity<Object> getUserInfo() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        User user = userService.getUserByEmail(email).get();
+        User user = getUser();
         if (user == null) {
             return new ResponseEntity<>("{\"message\":\"User not found\"}", HttpStatus.NOT_FOUND);
         }
@@ -35,6 +34,7 @@ public class UserController {
         userInfo.put("email", user.getEmail());
         userInfo.put("balance", user.getBalance());
         userInfo.put("rating", user.getRating());
+        userInfo.put("balance_coins",userService.getUserTotalBalance(user));
 
         Map<String, Float> wallet = new HashMap<>();
         wallet.put("lse", user.getWallet().getLse());
@@ -54,19 +54,40 @@ public class UserController {
 
     @PostMapping("/register")
     @PreAuthorize("permitAll()")
-    public ResponseEntity<Object> registerNewUser(@RequestParam String email,
-                                                  @RequestParam String password,
-                                                  @RequestParam String fullName,
+    public ResponseEntity<Object> registerNewUser(@RequestBody Map<String, Object> userData,
                                                   HttpServletResponse response) throws IOException {
+        String email = (String) userData.get("email");
+        String password = (String) userData.get("password");
+        String fullName = (String) userData.get("full-name");
+
         User user = new User(fullName, email, password);
         userService.addUser(user);
-        response.sendRedirect("/login.html");
-        return null;
+
+        return ResponseEntity.status(HttpStatus.SEE_OTHER)
+                .header(HttpHeaders.LOCATION, "/login.html")
+                .build();
     }
+
     @GetMapping("/register")
     public ModelAndView register() {
         ModelAndView mav = new ModelAndView("register");
         return mav;
+    }
+    @GetMapping("/ratings")
+    public Map<String, Float> getSortedUserRatings() {
+        return userService.getSortedUserRatings();
+    }
+
+    @GetMapping("/update-rating")
+    public ResponseEntity updateRating(){
+        userService.updateRating(getUser());
+        return ResponseEntity.ok().build();
+    }
+
+    private User getUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return userService.getUserByEmail(email).get();
     }
 
 

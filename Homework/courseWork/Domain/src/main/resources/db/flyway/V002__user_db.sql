@@ -1,6 +1,6 @@
 create table public.userdb
 (
-    id        bigserial
+    id        serial
         primary key,
 
     email     text not null,

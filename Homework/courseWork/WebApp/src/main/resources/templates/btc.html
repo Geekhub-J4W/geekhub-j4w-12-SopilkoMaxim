@@ -4,151 +4,285 @@
     <title>BTC Graph</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="btc.css">
+    <style>
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
 
+        .navbar a {
+            float: left;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .dropdown {
+            float: left;
+            overflow: hidden;
+        }
+
+        .dropdown .dropbtn {
+            font-size: 17px;
+            border: none;
+            outline: none;
+            color: white;
+            padding: 14px 16px;
+            background-color: inherit;
+            margin: 0;
+        }
+
+        .navbar a:hover, .dropdown:hover .dropbtn {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 2;
+        }
+
+        .dropdown-content a {
+            float: none;
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .navbar-right {
+            margin-left: auto;
+        }
+
+    </style>
 </head>
 <body>
-<canvas id="btc-chart"></canvas>
-<script th:inline="javascript">
-    fetch('/btc')
-        .then(response => response.json())
-        .then(btcData => {
-            var ctx = document.getElementById("btc-chart").getContext("2d");
+<div class="navbar">
+    <a href="index.html">Home</a>
+    <div class="dropdown">
+        <button class="dropbtn">Crypto Coins
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            <a href="lse.html">LSE</a>
+            <a href="btc.html">BTC</a>
+            <a href="cardano.html">Cardano</a>
+            <a href="dogecoin.html">Dogecoin</a>
+            <a href="eth.html">ETH</a>
+            <a href="polygon.html">Polygon</a>
+            <a href="tether.html">Tether</a>
+            <a href="usd.html">USD</a>
+            <a href="xrp.html">XRP</a>
+        </div>
+    </div>
+    <a href="rating.html">Rating</a>
+    <a href="transaction.html">Transactions</a>
+    <div class="navbar-right">
+        <a href="logout">Logout</a>
+    </div>
+</div>
+<div class="graph-container">
+    <canvas id="btc-chart"></canvas>
+</div>
+    <script th:inline="javascript">
+        fetch('/btc')
+            .then(response => response.json())
+            .then(btcData => {
+                var ctx = document.getElementById("btc-chart").getContext("2d");
 
-            var formattedData = {
-                labels: [],
-                datasets: [{
-                    label: 'BTC',
-                    data: [],
-                    fill: false,
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.1
-                }]
-            };
+                var formattedData = {
+                    labels: [],
+                    datasets: [{
+                        label: 'BTC',
+                        data: [],
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                };
 
-            Object.entries(btcData).forEach(([key, value]) => {
-                formattedData.labels.push(new Date(key).toLocaleString('en-US', {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                }));
-                formattedData.datasets[0].data.push(value);
-            });
+                Object.entries(btcData).forEach(([key, value]) => {
+                    formattedData.labels.push(new Date(key).toLocaleString('en-US', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }));
+                    formattedData.datasets[0].data.push(value);
+                });
 
-            var btcChart = new Chart(ctx, {
-                type: "line",
-                data: formattedData,
-                options: {
-                    scales: {
-                        xAxes: [
-                            {
-                                type: "time",
-                                time: {
-                                    unit: "minute",
-                                    tooltipFormat: "YYYY-MM-DD HH:mm",
-                                    displayFormats: {
-                                        minute: "YYYY-MM-DD HH:mm"
+                var btcChart = new Chart(ctx, {
+                    type: "line",
+                    data: formattedData,
+                    options: {
+                        scales: {
+                            xAxes: [
+                                {
+                                    type: "time",
+                                    time: {
+                                        unit: "minute",
+                                        tooltipFormat: "YYYY-MM-DD HH:mm",
+                                        displayFormats: {
+                                            minute: "YYYY-MM-DD HH:mm"
+                                        }
                                     }
                                 }
-                            }
-                        ],
-                        yAxes: [
-                            {
-                                ticks: {
-                                    beginAtZero: true
+                            ],
+                            yAxes: [
+                                {
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
                                 }
-                            }
-                        ]
-                    },
-                    tooltips: {
-                        callbacks: {
-                            label: function (tooltipItem, data) {
-                                var label = data.datasets[tooltipItem.datasetIndex].label || '';
-                                if (label) {
-                                    label += ': ';
+                            ]
+                        },
+                        tooltips: {
+                            callbacks: {
+                                label: function (tooltipItem, data) {
+                                    var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    label += tooltipItem.yLabel.toFixed(2);
+                                    return label;
+                                },
+                                title: function (tooltipItem, data) {
+                                    var title = '';
+                                    if (tooltipItem.length > 0) {
+                                        var dateObj = new Date(tooltipItem[0].xLabel);
+                                        title = dateObj.toLocaleString('en-US', {
+                                            year: 'numeric',
+                                            month: '2-digit',
+                                            day: '2-digit',
+                                            hour: '2-digit',
+                                            minute: '2-digit'
+                                        });
+                                    }
+                                    return title;
                                 }
-                                label += tooltipItem.yLabel.toFixed(2);
-                                return label;
-                            },
-                            title: function (tooltipItem, data) {
-                                var title = '';
-                                if (tooltipItem.length > 0) {
-                                    var dateObj = new Date(tooltipItem[0].xLabel);
-                                    title = dateObj.toLocaleString('en-US', {
-                                        year: 'numeric',
-                                        month: '2-digit',
-                                        day: '2-digit',
-                                        hour: '2-digit',
-                                        minute: '2-digit'
-                                    });
-                                }
-                                return title;
                             }
                         }
                     }
-                }
+                });
             });
-        });
-</script>
+    </script>
 
-<div>
-    <h1>Bitcoin</h1>
-    <p>Last Price: <span id="lastPrice"></span></p>
-    <p>Balance: <span id="balance"></span></p>
-    <p>BTC amount: <span id="btc_amount"></span></p>
+    <div>
+        <h1>Bitcoin</h1>
+        <p>Last Price: <span id="lastPrice"></span></p>
+        <p>Balance: <span id="balance"></span></p>
+        <p>BTC amount: <span id="btc_amount"></span></p>
 
-    <form id="buyForm" action="/buy-btc" method="POST">
-        <label for="buyAmount">Buy Amount:</label>
-        <input type="number" id="buyAmount" name="amount" step="0.01" min="0">
-        <button type="submit">Buy</button>
-    </form>
-    <form id="sellForm" action="/sell-btc" method="POST">
-        <label for="sellAmount">Sell Amount:</label>
-        <input type="number" id="sellAmount" name="amount" step="0.01" min="0">
-        <button type="submit">Sell</button>
-    </form>
-    <table>
-        <thead>
-        <tr>
-            <th>Coin Name</th>
-            <th>Amount</th>
-            <th>Date</th>
-            <th>Price</th>
-            <th>Operation</th>
-        </tr>
-        </thead>
-        <tbody id="transfersTableBody">
-        </tbody>
-    </table>
-</div>
+        <form id="buyForm" action="/buy-btc" method="POST">
+            <label for="buyAmount">Buy Amount:</label>
+            <input type="number" id="buyAmount" name="amount" step="0.01" min="0">
+            <button type="submit">Buy</button>
+        </form>
+        <form id="sellForm" action="/sell-btc" method="POST">
+            <label for="sellAmount">Sell Amount:</label>
+            <input type="number" id="sellAmount" name="amount" step="0.01" min="0">
+            <button type="submit">Sell</button>
+        </form>
+        <table>
+            <thead>
+            <tr>
+                <th>Coin Name</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Price</th>
+                <th>Operation</th>
+            </tr>
+            </thead>
+            <tbody id="transfersTableBody">
+            </tbody>
+        </table>
 
-<script>
-    fetch('/btc-info')
-        .then(response => response.json())
-        .then(btc => {
-            document.getElementById('lastPrice').textContent = btc.lastPrice;
-            document.getElementById('balance').textContent = btc.balance;
-            document.getElementById('btc_amount').textContent = btc.btc_amount;
+        <div>
+            <button id="previousPageButton" disabled>Previous Page</button>
+            <button id="nextPageButton">Next Page</button>
+        </div>
+    </div>>
+
+        <script>
+            const PAGE_SIZE = 10;
+            let currentPage = 0;
+            let btcData = null;
             let transfersTableBody = document.getElementById('transfersTableBody');
-            transfersTableBody.innerHTML = '';
-            btc.transfers.forEach((transfer) => {
-                let row = transfersTableBody.insertRow();
-                let coinNameCell = row.insertCell();
-                let amountCell = row.insertCell();
-                let dateCell = row.insertCell();
-                let priceCell = row.insertCell();
-                let operationCell = row.insertCell();
-                coinNameCell.textContent = transfer.coinName;
-                amountCell.textContent = transfer.amount;
-                dateCell.textContent = transfer.date;
-                priceCell.textContent = transfer.price;
-                operationCell.textContent = transfer.operation;
+            let nextPageButton = document.getElementById('nextPageButton');
+            let previousPageButton = document.getElementById('previousPageButton');
+
+            function updateTable() {
+                transfersTableBody.innerHTML = '';
+                let transfers = btcData.transfers.slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE);
+                transfers.forEach((transfer) => {
+                    let row = transfersTableBody.insertRow();
+                    let coinNameCell = row.insertCell();
+                    let amountCell = row.insertCell();
+                    let dateCell = row.insertCell();
+                    let priceCell = row.insertCell();
+                    let operationCell = row.insertCell();
+                    coinNameCell.textContent = transfer.coinName;
+                    amountCell.textContent = transfer.amount;
+                    dateCell.textContent = transfer.date;
+                    priceCell.textContent = transfer.price;
+                    operationCell.textContent = transfer.operation;
+                });
+
+                if (currentPage === 0) {
+                    previousPageButton.disabled = true;
+                } else {
+                    previousPageButton.disabled = false;
+                }
+
+                if ((currentPage + 1) * PAGE_SIZE >= btcData.transfers.length) {
+                    nextPageButton.disabled = true;
+                } else {
+                    nextPageButton.disabled = false;
+                }
+            }
+            fetch('/btc-info')
+                .then(response => response.json())
+                .then(btc => {
+                    btcData = btc;
+                    document.getElementById('lastPrice').textContent = btc.lastPrice;
+                    document.getElementById('balance').textContent = btc.balance;
+                    document.getElementById('btc_amount').textContent = btc.btc_amount;
+                    updateTable();
+                });
+            nextPageButton.addEventListener('click', () => {
+                currentPage++;
+                updateTable();
             });
-        });
 
-
-</script>
+            previousPageButton.addEventListener('click', () => {
+                currentPage--;
+                updateTable();
+            });
+        </script>
 
 </body>
 </html>

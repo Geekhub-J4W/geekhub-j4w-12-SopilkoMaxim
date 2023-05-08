@@ -30,11 +30,11 @@ public class UserValidator {
     }
 
     public static boolean validateAge(User user, Logger logger) {
-        if(user.getAge() < 18)
-        {
-            logger.warning("User with id " + user.getId() + " can not create, because age less than 18");
-            return false;
-        }
+//        if(user.getAge() < 18)
+//        {
+//            logger.warning("User with id " + user.getId() + " can not create, because age less than 18");
+//            return false;
+//        }
         if(user.getAge() > 100)
         {
             logger.warning("User with id " + user.getId() + " can not create, because age more than 100");

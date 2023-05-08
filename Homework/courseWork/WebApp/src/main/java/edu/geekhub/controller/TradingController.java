@@ -45,7 +45,7 @@ public class TradingController {
         btcInfo.put("lastPrice", cryptoCoinService.getLastPriceByName("bitcoin"));
         btcInfo.put("btc_amount", user.getWallet().getBitcoin());
 
-        List<Transfer> transfers = transferService.getTransfersByUserId(getUser().getId());
+        List<Transfer> transfers = transferService.getTransfersByUserIdAndCoinName(getUser().getId(),"bitcoin");
         List<Map<String, Object>> transferData = new ArrayList<>();
         for (Transfer transfer : transfers) {
             Map<String, Object> transferMap = new HashMap<>();
@@ -81,6 +81,10 @@ public class TradingController {
         tradingService.sellCoins(getUser(),"bitcoin", amount);
         response.sendRedirect("/btc.html");
         return null;
+    }
+    @GetMapping("/transfers")
+    public List<Transfer> getAllTransfersForCurrentUser() {
+        return transferService.getTransfersByUserId(getUser().getId());
     }
 
 }
