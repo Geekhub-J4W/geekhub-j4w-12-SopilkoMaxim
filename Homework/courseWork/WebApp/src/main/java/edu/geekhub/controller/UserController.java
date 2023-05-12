@@ -23,6 +23,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
     @GetMapping("/user-info")
     public ResponseEntity<Object> getUserInfo() {
         User user = getUser();
@@ -34,7 +35,7 @@ public class UserController {
         userInfo.put("email", user.getEmail());
         userInfo.put("balance", user.getBalance());
         userInfo.put("rating", user.getRating());
-        userInfo.put("balance_coins",userService.getUserTotalBalance(user));
+        userInfo.put("balance_coins", userService.getUserTotalBalance(user));
 
         Map<String, Float> wallet = new HashMap<>();
         wallet.put("lse", user.getWallet().getLse());
@@ -42,7 +43,7 @@ public class UserController {
         wallet.put("ethereum", user.getWallet().getEthereum());
         wallet.put("bnb", user.getWallet().getBnb());
         wallet.put("xrp", user.getWallet().getXrp());
-        wallet.put("polygon", user.getWallet().getPolygon());
+        wallet.put("solana", user.getWallet().getSolana());
         wallet.put("tether", user.getWallet().getTether());
         wallet.put("usd", user.getWallet().getUsd());
         wallet.put("cardano", user.getWallet().getCardano());
@@ -54,32 +55,32 @@ public class UserController {
 
     @PostMapping("/register")
     @PreAuthorize("permitAll()")
-    public ResponseEntity<Object> registerNewUser(@RequestBody Map<String, Object> userData,
-                                                  HttpServletResponse response) throws IOException {
+    public ResponseEntity<Object> registerNewUser(@RequestBody Map<String, Object> userData) {
         String email = (String) userData.get("email");
         String password = (String) userData.get("password");
         String fullName = (String) userData.get("full-name");
 
         User user = new User(fullName, email, password);
-        userService.addUser(user);
+        if (userService.getUserByEmail(email).isPresent()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("User with this email already exists.");
+        } else {
+            userService.addUser(user);
 
-        return ResponseEntity.status(HttpStatus.SEE_OTHER)
-                .header(HttpHeaders.LOCATION, "/login.html")
-                .build();
+            return ResponseEntity.status(HttpStatus.SEE_OTHER)
+                    .header(HttpHeaders.LOCATION, "/login.html")
+                    .build();
+        }
     }
 
-    @GetMapping("/register")
-    public ModelAndView register() {
-        ModelAndView mav = new ModelAndView("register");
-        return mav;
-    }
+
     @GetMapping("/ratings")
     public Map<String, Float> getSortedUserRatings() {
         return userService.getSortedUserRatings();
     }
 
     @GetMapping("/update-rating")
-    public ResponseEntity updateRating(){
+    public ResponseEntity updateRating() {
         userService.updateRating(getUser());
         return ResponseEntity.ok().build();
     }
@@ -89,7 +90,6 @@ public class UserController {
         String email = authentication.getName();
         return userService.getUserByEmail(email).get();
     }
-
 
 
 }

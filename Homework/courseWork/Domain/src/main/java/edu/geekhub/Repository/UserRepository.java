@@ -22,8 +22,8 @@ public class UserRepository {
             VALUES (:name,:age,:email,:password,:balance,:rating,:role,:status,:id_wallet)
             """;
     private static final String INSERT_WALLET = """
-            INSERT INTO wallet (Lido_Staked_Ether, Bitcoin, Ethereum, BNB, XRP, Polygon, Tether, USD_Coin, Cardano, Dogecoin)
-            VALUES (:Lido_Staked_Ether, :Bitcoin, :Ethereum, :BNB, :XRP, :Polygon, :Tether, :USD_Coin, :Cardano, :Dogecoin)
+            INSERT INTO wallet (Lido_Staked_Ether, Bitcoin, Ethereum, BNB, XRP, Solana, Tether, USD_Coin, Cardano, Dogecoin)
+            VALUES (:Lido_Staked_Ether, :Bitcoin, :Ethereum, :BNB, :XRP, :Solana, :Tether, :USD_Coin, :Cardano, :Dogecoin)
             RETURNING id
             """;
 
@@ -34,14 +34,14 @@ public class UserRepository {
 
     public static final String GET_USER_BY_ID = """
             SELECT u.id, u.name, u.age, u.email, u.password, u.balance, u.rating, u.role, u.status,
-                   w.Lido_Staked_Ether, w.Bitcoin, w.Ethereum, w.BNB, w.XRP, w.Polygon, w.Tether, w.USD_Coin, w.Cardano, w.Dogecoin
+                   w.Lido_Staked_Ether, w.Bitcoin, w.Ethereum, w.BNB, w.XRP, w.Solana, w.Tether, w.USD_Coin, w.Cardano, w.Dogecoin
             FROM userdb u
             JOIN wallet w ON u.id_wallet = w.id
             WHERE u.id = :id
             """;
     public static final String GET_USER_BY_EMAIL = """
             SELECT u.id, u.name, u.age, u.email, u.password, u.balance, u.rating, u.role, u.status,w.id AS wallet_id,
-                   w.Lido_Staked_Ether, w.Bitcoin, w.Ethereum, w.BNB, w.XRP, w.Polygon, w.Tether, w.USD_Coin, w.Cardano, w.Dogecoin
+                   w.Lido_Staked_Ether, w.Bitcoin, w.Ethereum, w.BNB, w.XRP, w.Solana, w.Tether, w.USD_Coin, w.Cardano, w.Dogecoin
             FROM userdb u
             JOIN wallet w ON u.id_wallet = w.id
             WHERE u.email = :email
@@ -79,7 +79,7 @@ public class UserRepository {
                 .addValue("Ethereum", 0)
                 .addValue("BNB", 0)
                 .addValue("XRP", 0)
-                .addValue("Polygon", 0)
+                .addValue("Solana", 0)
                 .addValue("Tether", 0)
                 .addValue("USD_Coin", 0)
                 .addValue("Cardano", 0)
@@ -111,7 +111,7 @@ public class UserRepository {
                 rs.getString("role"),
                 rs.getString("status"),
                 new Wallet(rs.getFloat("Lido_Staked_Ether"), rs.getFloat("Bitcoin"), rs.getFloat("Ethereum"),
-                        rs.getFloat("BNB"), rs.getFloat("XRP"), rs.getFloat("Polygon"), rs.getFloat("Tether"),
+                        rs.getFloat("BNB"), rs.getFloat("XRP"), rs.getFloat("Solana"), rs.getFloat("Tether"),
                         rs.getFloat("USD_Coin"), rs.getFloat("Cardano"), rs.getFloat("Dogecoin"))
         ));
         return result.isEmpty() ? null : result.get(0);
@@ -130,7 +130,7 @@ public class UserRepository {
                 rs.getString("role"),
                 rs.getString("status"),
                 new Wallet(rs.getInt("wallet_id"),rs.getFloat("Lido_Staked_Ether"), rs.getFloat("Bitcoin"), rs.getFloat("Ethereum"),
-                        rs.getFloat("BNB"), rs.getFloat("XRP"), rs.getFloat("Polygon"), rs.getFloat("Tether"),
+                        rs.getFloat("BNB"), rs.getFloat("XRP"), rs.getFloat("Solana"), rs.getFloat("Tether"),
                         rs.getFloat("USD_Coin"), rs.getFloat("Cardano"), rs.getFloat("Dogecoin"))
         ));
         return result.isEmpty() ? null : result.get(0);
@@ -171,7 +171,7 @@ public class UserRepository {
                     rs.getFloat("Ethereum"),
                     rs.getFloat("BNB"),
                     rs.getFloat("XRP"),
-                    rs.getFloat("Polygon"),
+                    rs.getFloat("Solana"),
                     rs.getFloat("Tether"),
                     rs.getFloat("USD_Coin"),
                     rs.getFloat("Cardano"),
@@ -199,7 +199,7 @@ public class UserRepository {
         jdbcTemplate.update(updateQuery, parameters);
 
 
-        String updateQueryWallet = "UPDATE wallet SET Lido_Staked_Ether = :lidoStakedEther, Bitcoin = :bitcoin, Ethereum = :ethereum, BNB = :bnb, XRP = :xrp, Polygon = :Polygon, Tether = :tether, USD_Coin = :usdCoin, Cardano = :cardano, Dogecoin = :dogecoin WHERE id = :id";
+        String updateQueryWallet = "UPDATE wallet SET Lido_Staked_Ether = :lidoStakedEther, Bitcoin = :bitcoin, Ethereum = :ethereum, BNB = :bnb, XRP = :xrp, solana = :solana, Tether = :tether, USD_Coin = :usdCoin, Cardano = :cardano, Dogecoin = :dogecoin WHERE id = :id";
         Wallet wallet = user.getWallet();
         MapSqlParameterSource parametersWallet = new MapSqlParameterSource()
                 .addValue("id", wallet.getId())
@@ -208,7 +208,7 @@ public class UserRepository {
                 .addValue("ethereum", wallet.getEthereum())
                 .addValue("bnb", wallet.getBnb())
                 .addValue("xrp", wallet.getXrp())
-                .addValue("Polygon", wallet.getPolygon())
+                .addValue("solana", wallet.getSolana())
                 .addValue("tether", wallet.getTether())
                 .addValue("usdCoin", wallet.getUsd())
                 .addValue("cardano", wallet.getCardano())
@@ -218,7 +218,7 @@ public class UserRepository {
     }
 
     public void updateUserWallet(int walletId, Wallet wallet) {
-        String updateQuery = "UPDATE wallet SET Lido_Staked_Ether = :lidoStakedEther, Bitcoin = :bitcoin, Ethereum = :ethereum, BNB = :bnb, XRP = :xrp, Polygon = :Polygon, Tether = :tether, USD_Coin = :usdCoin, Cardano = :cardano, Dogecoin = :dogecoin WHERE id = :id";
+        String updateQuery = "UPDATE wallet SET Lido_Staked_Ether = :lidoStakedEther, Bitcoin = :bitcoin, Ethereum = :ethereum, BNB = :bnb, XRP = :xrp, solana = :solana, Tether = :tether, USD_Coin = :usdCoin, Cardano = :cardano, Dogecoin = :dogecoin WHERE id = :id";
 
         MapSqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("id", walletId)
@@ -227,7 +227,7 @@ public class UserRepository {
                 .addValue("ethereum", wallet.getEthereum())
                 .addValue("bnb", wallet.getBnb())
                 .addValue("xrp", wallet.getXrp())
-                .addValue("Polygon", wallet.getPolygon())
+                .addValue("solana", wallet.getSolana())
                 .addValue("tether", wallet.getTether())
                 .addValue("usdCoin", wallet.getUsd())
                 .addValue("cardano", wallet.getCardano())

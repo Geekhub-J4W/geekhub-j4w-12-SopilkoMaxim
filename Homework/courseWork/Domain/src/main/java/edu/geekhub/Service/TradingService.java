@@ -2,7 +2,6 @@ package edu.geekhub.Service;
 
 import edu.geekhub.Entity.Transfer;
 import edu.geekhub.Entity.User;
-import edu.geekhub.Entity.Wallet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +17,9 @@ public class TradingService {
 
     @Autowired
     private TransferService transferService;
+
+
+
     public void buyCoins(User user, String coinName, double quantity) {
         user.getWallet().setByName(user.getWallet().getBitcoin()+(float) quantity,coinName);
         float updateBalace = (float) (user.getBalance() - (cryptoCoinService.getLastPriceByName(coinName)*quantity));

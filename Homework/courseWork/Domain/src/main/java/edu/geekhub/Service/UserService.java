@@ -15,53 +15,51 @@ import java.util.logging.Logger;
 public class UserService {
     private static final Logger logger = Logger.getLogger(edu.geekhub.Entity.User.class.getName());
     @Autowired
-    private UserRepository userRepository;
+    public UserRepository userRepository;
     @Autowired
-    private CryptoCoinService cryptoCoinService;
+    public CryptoCoinService cryptoCoinService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    public PasswordEncoder passwordEncoder;
 
     public void addUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        if (UserValidator.validateName(user, logger) && UserValidator.validateAge(user, logger)&&UserValidator.validateEmail(user,logger)) {
-            logger.info("User with id " + user.getId() +" with name: " + user.getName() + " was add to database");
-            userRepository.addUser(user);
-        }
+        logger.info("User with id " + user.getId() + " with name: " + user.getName() + " was add to database");
+        userRepository.addUser(user);
+
     }
 
-   public void updateUser(User user){
-        logger.info("User with id "+ user.getId() + " was updated");
-        userRepository.updateUser(user.getId(),user);
-        //userRepository.updateUserWallet(user.getWallet().getId(),user.getWallet());
-   }
+    public void updateUser(User user) {
+        logger.info("User with id " + user.getId() + " was updated");
+        userRepository.updateUser(user.getId(), user);
+    }
 
     public Optional<User> getUserByEmail(String email) {
 
         return Optional.ofNullable(userRepository.getUserByEmail(email));
     }
 
-    public float getUserTotalBalance(User user){
-       return user.getWallet().getBitcoin()*cryptoCoinService.getLastPriceByName("bitcoin")+
-               user.getWallet().getLse()*cryptoCoinService.getLastPriceByName("Lido_Staked_Ether")+
-               user.getWallet().getBnb()*cryptoCoinService.getLastPriceByName("bnb")+
-               user.getWallet().getEthereum()*cryptoCoinService.getLastPriceByName("ethereum")+
-               user.getWallet().getXrp()*cryptoCoinService.getLastPriceByName("xrp")+
-               user.getWallet().getPolygon()*cryptoCoinService.getLastPriceByName("polygon")+
-               user.getWallet().getUsd()*cryptoCoinService.getLastPriceByName("usd_coin")+
-               user.getWallet().getCardano()*cryptoCoinService.getLastPriceByName("cardano")+
-               user.getWallet().getDogecoin()*cryptoCoinService.getLastPriceByName("dogecoin")+
-               user.getWallet().getTether()*cryptoCoinService.getLastPriceByName("tether")+
-               user.getBalance();
+    public float getUserTotalBalance(User user) {
+        return user.getWallet().getBitcoin() * cryptoCoinService.getLastPriceByName("bitcoin") +
+                user.getWallet().getLse() * cryptoCoinService.getLastPriceByName("Lido_Staked_Ether") +
+                user.getWallet().getBnb() * cryptoCoinService.getLastPriceByName("bnb") +
+                user.getWallet().getEthereum() * cryptoCoinService.getLastPriceByName("ethereum") +
+                user.getWallet().getXrp() * cryptoCoinService.getLastPriceByName("xrp") +
+                user.getWallet().getSolana() * cryptoCoinService.getLastPriceByName("solana") +
+                user.getWallet().getUsd() * cryptoCoinService.getLastPriceByName("usd_coin") +
+                user.getWallet().getCardano() * cryptoCoinService.getLastPriceByName("cardano") +
+                user.getWallet().getDogecoin() * cryptoCoinService.getLastPriceByName("dogecoin") +
+                user.getWallet().getTether() * cryptoCoinService.getLastPriceByName("tether") +
+                user.getBalance();
     }
 
-    public void updateRating(User user){
-        user.setRating(getUserTotalBalance(user)-1_000_000);
-        userRepository.updateUser(user.getId(),user);
+    public void updateRating(User user) {
+        user.setRating(getUserTotalBalance(user) - 1_000_000);
+        userRepository.updateUser(user.getId(), user);
     }
 
-    public Map<String, Float> getSortedUserRatings(){
+    public Map<String, Float> getSortedUserRatings() {
         return userRepository.getSortedUserRatings();
     }
 }

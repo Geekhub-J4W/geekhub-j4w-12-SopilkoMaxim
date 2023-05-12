@@ -8,7 +8,7 @@ public class Wallet {
     private float ethereum;
     private float bnb;
     private float xrp;
-    private float polygon;
+    private float solana;
     private float tether;
     private float usd;
     private float cardano;
@@ -62,12 +62,12 @@ public class Wallet {
         this.xrp = xrp;
     }
 
-    public float getPolygon() {
-        return polygon;
+    public float getSolana() {
+        return solana;
     }
 
-    public void setPolygon(float polygon) {
-        this.polygon = polygon;
+    public void setSolana(float solana) {
+        this.solana = solana;
     }
 
     public float getTether() {
@@ -105,26 +105,26 @@ public class Wallet {
     public Wallet() {
     }
 
-    public Wallet(int id,float lse, float bitcoin, float ethereum, float bnb, float xrp, float polygon, float tether, float usd, float cardano, float dogecoin) {
+    public Wallet(int id,float lse, float bitcoin, float ethereum, float bnb, float xrp, float solana, float tether, float usd, float cardano, float dogecoin) {
         this.id=id;
         this.lse = lse;
         this.bitcoin = bitcoin;
         this.ethereum = ethereum;
         this.bnb = bnb;
         this.xrp = xrp;
-        this.polygon = polygon;
+        this.solana = solana;
         this.tether = tether;
         this.usd = usd;
         this.cardano = cardano;
         this.dogecoin = dogecoin;
     }
-    public Wallet(float lse, float bitcoin, float ethereum, float bnb, float xrp, float polygon, float tether, float usd, float cardano, float dogecoin) {
+    public Wallet(float lse, float bitcoin, float ethereum, float bnb, float xrp, float solana, float tether, float usd, float cardano, float dogecoin) {
         this.lse = lse;
         this.bitcoin = bitcoin;
         this.ethereum = ethereum;
         this.bnb = bnb;
         this.xrp = xrp;
-        this.polygon = polygon;
+        this.solana = solana;
         this.tether = tether;
         this.usd = usd;
         this.cardano = cardano;
@@ -140,7 +140,7 @@ public class Wallet {
             case "ethereum": return ethereum;
             case "bnb": return bnb;
             case "xrp": return xrp;
-            case "polygon": return polygon;
+            case "solana": return solana;
             case "tether": return tether;
             case "usd": return usd;
             case "cardano": return cardano;
@@ -157,7 +157,7 @@ public class Wallet {
             case "ethereum": {this.ethereum=amount;break;}
             case "bnb": {this.bnb=amount;break;}
             case "xrp": {this.xrp=amount;break;}
-            case "polygon": {this.polygon=amount;break;}
+            case "solana": {this.solana=amount;break;}
             case "tether": {this.tether=amount;break;}
             case "usd": {this.usd=amount;break;}
             case "cardano": {this.cardano=amount;break;}

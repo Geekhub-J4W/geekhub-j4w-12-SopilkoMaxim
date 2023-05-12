@@ -20,6 +20,10 @@ public class User {
 
     private Wallet wallet;
 
+    public User() {
+
+    }
+
     public Wallet getWallet() {
         return wallet;
     }

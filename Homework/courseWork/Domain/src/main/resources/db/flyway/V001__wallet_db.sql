@@ -8,7 +8,7 @@ create table public.wallet
     Ethereum real    not null,
     BNB real    not null,
     XRP real    not null,
-    Polygon real    not null,
+    Solana real    not null,
     Tether real    not null,
     USD_Coin real    not null,
     Cardano real    not null,

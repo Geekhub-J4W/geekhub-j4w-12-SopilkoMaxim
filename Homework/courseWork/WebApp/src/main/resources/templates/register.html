@@ -59,9 +59,8 @@
             background-color: #555;
         }
 
-        .error-message {
+        #error-message {
             color: red;
-            margin-top: 10px;
         }
     </style>
 </head>
@@ -78,16 +77,36 @@
     <input type="text" id="full-name" name="full-name" required>
     <button type="submit">Register</button>
 </form>
+<div id="error-message"></div>
 <script>
     const form = document.getElementById('register-form');
+    const email = document.getElementById('email');
     const password = document.getElementById('password');
     const confirmPassword = document.getElementById('confirm-password');
+    const fullName = document.getElementById('full-name');
+    const errorMessage = document.getElementById('error-message');
+
 
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
 
+        if (!validateEmail(email.value)) {
+            alert('Please enter a valid email address.');
+            return;
+        }
+
+        if (!validatePassword(password.value)) {
+            alert('Password should be 6-20 characters with letters and numbers only.');
+            return;
+        }
+
         if (password.value !== confirmPassword.value) {
             alert('Passwords do not match. Please try again.');
+            return;
+        }
+
+        if (!validateFullName(fullName.value)) {
+            alert('Please enter a valid full name.');
             return;
         }
 
@@ -96,7 +115,6 @@
         for (let [key, value] of formData.entries()) {
             data[key] = value;
         }
-        data.email = formData.get('email');
 
         try {
             const response = await fetch('/register', {
@@ -108,7 +126,9 @@
             });
 
             if (!response.ok) {
-                throw new Error('An error occurred while processing your request.');
+                const responseData = await response.json();
+                errorMessage.textContent = responseData.message;
+                return;
             }
 
             const responseData = await response.json();
@@ -117,6 +137,22 @@
             console.error(error);
         }
     });
+
+    function validateEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    function validatePassword(password) {
+        const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9]{6,20}$/;
+        return passwordRegex.test(password);
+    }
+
+    function validateFullName(fullName) {
+        const fullNameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
+        return fullNameRegex.test(fullName);
+    }
+
 </script>
 </body>
 </html>
