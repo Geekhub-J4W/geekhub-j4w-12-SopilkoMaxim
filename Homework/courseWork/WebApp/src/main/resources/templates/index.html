@@ -40,6 +40,9 @@
 
 </div>
 <hr>
+<button id="adminMenuButton" style="display: none;">Admin menu</button>
+
+<hr>
 <h2>My Cryptocurrencies</h2>
 <ul>
   <li><a href="lse.html">Lido_Staked_Ether: <span id="lse"></span></a></li>
@@ -84,6 +87,27 @@
             })
             .catch(error => {
               console.error('Error updating rating:', error);
+            });
+  }
+  window.onload = function() {
+    getUserRole().then(role => {
+      if (role.toLowerCase() === 'admin') {
+        const adminMenuButton = document.getElementById('adminMenuButton');
+        adminMenuButton.style.display = 'block';
+
+        adminMenuButton.addEventListener('click', () => {
+          window.location.href = 'admin.html';
+        });
+      }
+    });
+  };
+
+  function getUserRole() {
+    return fetch('/user/role')
+            .then(response => response.text())
+            .catch(error => {
+              console.error('Error retrieving user role:', error);
+              return '';
             });
   }
 

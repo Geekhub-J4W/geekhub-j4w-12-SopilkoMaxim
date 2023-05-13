@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="admin.css">
+
+</head>
+<body>
+<a href="index.html"><-Back</a>
+<h1>User Database</h1>
+<div id="userTableContainer"></div>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Balance</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Edit</th>
+    </tr>
+    </thead>
+    <tbody id="userTableBody">
+    </tbody>
+</table>
+
+<script>
+    window.onload = function() {
+        loadUsers();
+    }
+
+    function loadUsers() {
+        fetch('/admin/users')
+            .then(response => response.json())
+            .then(users => {
+                const userTableBody = document.getElementById('userTableBody');
+                userTableBody.innerHTML = '';
+
+                users.forEach(user => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+              <td>${user.id}</td>
+              <td>${user.name}</td>
+              <td>${user.balance}</td>
+              <td>${user.role}</td>
+              <td>${user.status}</td>
+              <td><button onclick="editUser(${user.id})">Edit</button></td>
+            `;
+                    userTableBody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Error retrieving user data:', error));
+    }
+
+    function editUser(userId) {
+        fetch(`/admin/users/${userId}`)
+            .then(response => response.json())
+            .then(data => {
+                const dialog = document.createElement('div');
+                dialog.innerHTML = `
+        <div class="dialog">
+          <h2>Edit User</h2>
+          <form>
+            <label for="balance">Balance:</label>
+            <input type="number" id="balance" name="balance" value="${data.balance}" required><br><br>
+            <label for="role">Role:</label>
+            <select id="role" name="role">
+              <option value="USER" ${data.role === 'USER' ? 'selected' : ''}>User</option>
+              <option value="ADMIN" ${data.role === 'ADMIN' ? 'selected' : ''}>Admin</option>
+            </select><br><br>
+            <label for="status">Status:</label>
+            <select id="status" name="status">
+              <option value="ACTIVE" ${data.status === 'ACTIVE' ? 'selected' : ''}>Active</option>
+              <option value="BANNED" ${data.status === 'BANNED' ? 'selected' : ''}>Banned</option>
+            </select><br><br>
+            <button type="submit">Save Changes</button>
+          </form>
+        </div>
+      `;
+                dialog.querySelector('form').addEventListener('submit', event => {
+                    event.preventDefault();
+                    const newBalance = dialog.querySelector('#balance').value;
+                    const newRole = dialog.querySelector('#role').value;
+                    const newStatus = dialog.querySelector('#status').value;
+                    fetch(`/admin/users/${userId}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ balance: newBalance, role: newRole, status: newStatus })
+                    })
+                        .then(() => {
+                            window.location.reload();
+                        })
+                        .catch(error => console.error('Error updating user data:', error));
+                });
+                document.body.appendChild(dialog);
+            })
+            .catch(error => console.error('Error getting user data:', error));
+    }
+
+
+</script>
+</body>
+</html>

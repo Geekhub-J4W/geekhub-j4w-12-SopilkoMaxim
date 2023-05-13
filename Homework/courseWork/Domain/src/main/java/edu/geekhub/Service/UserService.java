@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import edu.geekhub.Entity.User;
 
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -60,6 +61,15 @@ public class UserService {
     }
 
     public Map<String, Float> getSortedUserRatings() {
+
         return userRepository.getSortedUserRatings();
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.getUsers();
+    }
+
+    public User getUserById(Integer id) {
+        return userRepository.getUserById(id);
     }
 }

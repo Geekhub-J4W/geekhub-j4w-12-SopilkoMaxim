@@ -4,10 +4,14 @@ import edu.geekhub.Entity.Transfer;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Component
+@Repository
+@Transactional
 public class TransferRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;

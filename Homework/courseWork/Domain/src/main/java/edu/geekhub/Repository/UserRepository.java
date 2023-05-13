@@ -33,7 +33,7 @@ public class UserRepository {
             """;
 
     public static final String GET_USER_BY_ID = """
-            SELECT u.id, u.name, u.age, u.email, u.password, u.balance, u.rating, u.role, u.status,
+            SELECT u.id, u.name, u.age, u.email, u.password, u.balance, u.rating, u.role, u.status,w.id AS wallet_id,
                    w.Lido_Staked_Ether, w.Bitcoin, w.Ethereum, w.BNB, w.XRP, w.Solana, w.Tether, w.USD_Coin, w.Cardano, w.Dogecoin
             FROM userdb u
             JOIN wallet w ON u.id_wallet = w.id
@@ -110,7 +110,7 @@ public class UserRepository {
                 rs.getFloat("rating"),
                 rs.getString("role"),
                 rs.getString("status"),
-                new Wallet(rs.getFloat("Lido_Staked_Ether"), rs.getFloat("Bitcoin"), rs.getFloat("Ethereum"),
+                new Wallet(rs.getInt("wallet_id"),rs.getFloat("Lido_Staked_Ether"), rs.getFloat("Bitcoin"), rs.getFloat("Ethereum"),
                         rs.getFloat("BNB"), rs.getFloat("XRP"), rs.getFloat("Solana"), rs.getFloat("Tether"),
                         rs.getFloat("USD_Coin"), rs.getFloat("Cardano"), rs.getFloat("Dogecoin"))
         ));

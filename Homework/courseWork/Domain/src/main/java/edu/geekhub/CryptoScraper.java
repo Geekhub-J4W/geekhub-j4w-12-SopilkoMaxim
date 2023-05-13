@@ -11,7 +11,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 
-@SpringBootApplication
+//@SpringBootApplication
+@Component
 public class CryptoScraper implements CommandLineRunner {
 
     @Autowired

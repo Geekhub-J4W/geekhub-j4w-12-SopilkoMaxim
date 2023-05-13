@@ -1,0 +1,101 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 30px;
+}
+
+table {
+    margin: 30px auto;
+    border-collapse: collapse;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+th {
+    background-color: #333;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 20px;
+    text-align: left;
+    text-transform: uppercase;
+    border-top: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+
+td {
+    padding: 10px 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+tbody tr:hover {
+    background-color: #f2f2f2;
+}
+
+button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #fff;
+    color: #333;
+}
+
+/* Center the dialog on the screen */
+.dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Style the form inside the dialog */
+.dialog form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dialog label {
+    font-size: 16px;
+}
+
+.dialog select,
+.dialog input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+.dialog button[type="submit"] {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+.dialog button[type="submit"]:hover {
+    background-color: #3e8e41;
+}
+

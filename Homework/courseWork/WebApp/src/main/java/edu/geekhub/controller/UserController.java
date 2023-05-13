@@ -2,7 +2,6 @@ package edu.geekhub.controller;
 
 import edu.geekhub.Entity.User;
 import edu.geekhub.Service.UserService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,10 +10,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -91,5 +89,32 @@ public class UserController {
         return userService.getUserByEmail(email).get();
     }
 
+    @GetMapping("/user/role")
+    public String getUserRole() {
+        String userRole = getUser().getRole().toString();
+        return userRole;
+    }
+
+    @GetMapping("/admin/users")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
+    @GetMapping("/admin/users/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public User getUser(@PathVariable  ("id") Integer id) {
+        return userService.getUserById(id);
+    }
+
+    @PostMapping("/admin/users/{userId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<String> updateUser(@PathVariable Integer userId, @RequestBody User user) {
+        User userDb = userService.getUserById(userId);
+        userDb.setBalance(user.getBalance());
+        userDb.setRole(user.getRole());
+        userDb.setStatus(user.getStatus());
+        userService.updateUser(userDb);
+        return ResponseEntity.ok("User updated successfully");
+    }
 
 }
