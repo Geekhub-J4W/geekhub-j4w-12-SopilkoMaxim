@@ -1,116 +1,99 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My Crypto Dashboard</title>
-  <link rel="stylesheet" href="index.css">
-
+  <title>Welcome to Crypto Trading</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #F0F0F0;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #333;
+      color: #FFF;
+      padding: 20px;
+      text-align: center;
+      font-size: 36px;
+      font-weight: bold;
+      text-shadow: 2px 2px #000;
+    }
+    nav {
+      background-color: #666;
+      color: #FFF;
+      padding: 10px;
+      text-align: center;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+    }
+    nav li {
+      margin: 0 10px;
+    }
+    nav a {
+      color: #FFF;
+      text-decoration: none;
+      font-size: 24px;
+      padding: 10px;
+      border-radius: 10px;
+      transition: background-color 0.3s ease;
+    }
+    nav a:hover {
+      background-color: #333;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 36px;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #333;
+    }
+    p {
+      font-size: 18px;
+      line-height: 1.5;
+      color: #666;
+    }
+    .button {
+      display: block;
+      background-color: #333;
+      color: #FFF;
+      padding: 10px 20px;
+      text-align: center;
+      font-size: 24px;
+      border-radius: 10px;
+      text-decoration: none;
+      margin: 20px auto 0;
+      max-width: 200px;
+      transition: background-color 0.3s ease;
+    }
+    .button:hover {
+      background-color: #555;
+    }
+  </style>
 </head>
 <body>
-<div class="navbar">
-  <div class="dropdown">
-    <button class="dropbtn">Crypto Coins
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-      <a href="lse.html">LSE</a>
-      <a href="btc.html">BTC</a>
-      <a href="cardano.html">Cardano</a>
-      <a href="dogecoin.html">Dogecoin</a>
-      <a href="eth.html">ETH</a>
-      <a href="polygon.html">Polygon</a>
-      <a href="tether.html">Tether</a>
-      <a href="usd.html">USD</a>
-      <a href="xrp.html">XRP</a>
-    </div>
-  </div>
-  <a href="rating.html">Rating</a>
-  <a href="transaction.html">Transactions</a>
-  <div class="navbar-right">
-    <a href="logout">Logout</a>
-  </div>
+<header>
+  Welcome to Crypto Trading
+</header>
+<nav>
+  <ul>
+    <li><a href="https://www.oswego.edu/cts/basics-about-cryptocurrency">Basic Information about Crypto Coins</a></li>
+    <li><a href="https://www.ig.com/en/trading-strategies/the-5-crypto-trading-strategies-that-every-trader-needs-to-know-220708">Styles of Trading</a></li>
+  </ul>
+</nav>
+<div class="container">
+  <h1>Trade with Top Crypto Coins</h1>
+  <p>At Crypto Trading, we offer a virtual balance of $1,000,000 for you to trade with the top 10 crypto coins in the market. Whether you're new to trading or a seasoned pro, our platform provides all the tools you need to make informed decisions and maximize your profits.</p>
+  <a href="login.html" class="button">Login</a>
 </div>
-<div>
-  <h1>User Info:</h1>
-  <p>Full Name: <span id="fullName"></span></p>
-  <p>Email: <span id="email"></span></p>
-  <p>Balance: <span id="balance"></span>USD</p>
-  <p>Balance with coins: <span id="balance_coins"></span>USD</p>
-  <p>Rating: <span id="rating"></span></p>
-  <button onclick="updateRating()">Update Rating</button>
-
-</div>
-<hr>
-<button id="adminMenuButton" style="display: none;">Admin menu</button>
-
-<hr>
-<h2>My Cryptocurrencies</h2>
-<ul>
-  <li><a href="lse.html">Lido_Staked_Ether: <span id="lse"></span></a></li>
-  <li><a href="btc.html">Bitcoin: <span id="bitcoin"></span></a></li>
-  <li><a href="eth.html">Ethereum: <span id="ethereum"></span></a></li>
-  <li><a href="bnb.html">BNB: <span id="bnb"></span></a></li>
-  <li><a href="xrp.html">XRP: <span id="xrp"></span></a></li>
-  <li><a href="polygon.html">Polygon: <span id="polygon"></span></a></li>
-  <li><a href="tether.html">Tether: <span id="tether"></span></a></li>
-  <li><a href="usd.html">USD_Coin: <span id="usd"></span></a></li>
-  <li><a href="cardano.html">Cardano: <span id="cardano"></span></a></li>
-  <li><a href="dogecoin.html">Dogecoin: <span id="dogecoin"></span></a></li>
-</ul>
-<script>
-  fetch('/user-info')
-          .then(response => response.json())
-          .then(user => {
-            document.getElementById('fullName').textContent = user.fullName;
-            document.getElementById('email').textContent = user.email;
-            document.getElementById('balance').textContent = user.balance;
-            document.getElementById('balance_coins').textContent = user.balance_coins;
-            document.getElementById('rating').textContent = user.rating;
-            document.getElementById('lse').textContent = user.wallet.lse;
-            document.getElementById('bitcoin').textContent = user.wallet.bitcoin;
-            document.getElementById('ethereum').textContent = user.wallet.ethereum;
-            document.getElementById('bnb').textContent = user.wallet.bnb;
-            document.getElementById('xrp').textContent = user.wallet.xrp;
-            document.getElementById('polygon').textContent = user.wallet.polygon;
-            document.getElementById('tether').textContent = user.wallet.tether;
-            document.getElementById('usd').textContent = user.wallet.usd;
-            document.getElementById('cardano').textContent = user.wallet.cardano;
-            document.getElementById('dogecoin').textContent = user.wallet.dogecoin;
-          });
-  function updateRating() {
-    fetch('/update-rating')
-            .then(response => {
-              if (response.ok) {
-                window.location.reload();
-              } else {
-                throw new Error('Network response was not ok.');
-              }
-            })
-            .catch(error => {
-              console.error('Error updating rating:', error);
-            });
-  }
-  window.onload = function() {
-    getUserRole().then(role => {
-      if (role.toLowerCase() === 'admin') {
-        const adminMenuButton = document.getElementById('adminMenuButton');
-        adminMenuButton.style.display = 'block';
-
-        adminMenuButton.addEventListener('click', () => {
-          window.location.href = 'admin.html';
-        });
-      }
-    });
-  };
-
-  function getUserRole() {
-    return fetch('/user/role')
-            .then(response => response.text())
-            .catch(error => {
-              console.error('Error retrieving user role:', error);
-              return '';
-            });
-  }
-
-</script>
 </body>
 </html>

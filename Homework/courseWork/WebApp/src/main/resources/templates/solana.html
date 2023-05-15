@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Cardano Graph</title>
+  <title>Polygon Graph</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -15,10 +15,10 @@
     <div class="dropdown-content">
       <a href="lse.html">LSE</a>
       <a href="bnb.html">BNB</a>
-      <a href="btc.html">BTC</a>
+      <a href="cardano.html">Cardano</a>
       <a href="dogecoin.html">Dogecoin</a>
       <a href="eth.html">ETH</a>
-      <a href="solana.html">Solana</a>
+      <a href="btc.html">BTC</a>
       <a href="tether.html">Tether</a>
       <a href="usd.html">USD</a>
       <a href="xrp.html">XRP</a>
@@ -31,18 +31,18 @@
   </div>
 </div>
 <div class="graph-container">
-  <canvas id="cardano-chart"></canvas>
+  <canvas id="solana-chart"></canvas>
 </div>
 <script th:inline="javascript">
-  fetch('/cardano')
+  fetch('/solana')
           .then(response => response.json())
-          .then(cardanoData => {
-            var ctx = document.getElementById("cardano-chart").getContext("2d");
+          .then(solanaData => {
+            var ctx = document.getElementById("solana-chart").getContext("2d");
 
             var formattedData = {
               labels: [],
               datasets: [{
-                label: 'Cardano',
+                label: 'Solana',
                 data: [],
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
@@ -50,7 +50,7 @@
               }]
             };
 
-            Object.entries(cardanoData).forEach(([key, value]) => {
+            Object.entries(solanaData).forEach(([key, value]) => {
               formattedData.labels.push(new Date(key).toLocaleString('en-US', {
                 year: 'numeric',
                 month: '2-digit',
@@ -61,7 +61,7 @@
               formattedData.datasets[0].data.push(value);
             });
 
-            var cardanoChart = new Chart(ctx, {
+            var solanaChart = new Chart(ctx, {
               type: "line",
               data: formattedData,
               options: {
@@ -116,18 +116,19 @@
             });
           });
 </script>
+
 <div>
-  <h1>Cardano</h1>
+  <h1>Solana</h1>
   <p>Last Price: <span id="lastPrice"></span></p>
   <p>Balance: <span id="balance"></span></p>
-  <p>Cardano amount: <span id="cardano_amount"></span></p>
+  <p>Solana amount: <span id="solana_amount"></span></p>
 
-  <form id="buyForm" action="/buy-cardano" method="POST">
+  <form id="buyForm" action="/buy-solana" method="POST">
     <label for="buyAmount">Buy Amount:</label>
     <input type="number" id="buyAmount" name="amount" step="0.01" min="0">
     <button type="submit">Buy</button>
   </form>
-  <form id="sellForm" action="/sell-cardano" method="POST">
+  <form id="sellForm" action="/sell-solana" method="POST">
     <label for="sellAmount">Sell Amount:</label>
     <input type="number" id="sellAmount" name="amount" step="0.01" min="0">
     <button type="submit">Sell</button>
@@ -155,14 +156,14 @@
 <script>
   const PAGE_SIZE = 10;
   let currentPage = 0;
-  let cardanoData = null;
+  let solanaData = null;
   let transfersTableBody = document.getElementById('transfersTableBody');
   let nextPageButton = document.getElementById('nextPageButton');
   let previousPageButton = document.getElementById('previousPageButton');
 
   function updateTable() {
     transfersTableBody.innerHTML = '';
-    let transfers = cardanoData.transfers.slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE);
+    let transfers = solanaData.transfers.slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE);
     transfers.forEach((transfer) => {
       let row = transfersTableBody.insertRow();
       let coinNameCell = row.insertCell();
@@ -183,19 +184,19 @@
       previousPageButton.disabled = false;
     }
 
-    if ((currentPage + 1) * PAGE_SIZE >= cardanoData.transfers.length) {
+    if ((currentPage + 1) * PAGE_SIZE >= solanaData.transfers.length) {
       nextPageButton.disabled = true;
     } else {
       nextPageButton.disabled = false;
     }
   }
-  fetch('/cardano-info')
+  fetch('/solana-info')
           .then(response => response.json())
-          .then(cardano => {
-            cardanoData = cardano;
-            document.getElementById('lastPrice').textContent = cardano.lastPrice;
-            document.getElementById('balance').textContent = cardano.balance;
-            document.getElementById('cardano_amount').textContent = cardano.cardano_amount;
+          .then(solana => {
+            solanaData = solana;
+            document.getElementById('lastPrice').textContent = solana.lastPrice;
+            document.getElementById('balance').textContent = solana.balance;
+            document.getElementById('solana_amount').textContent = solana.solana_amount;
             updateTable();
           });
   nextPageButton.addEventListener('click', () => {

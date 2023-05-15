@@ -21,7 +21,7 @@ public class TradingService {
 
 
     public void buyCoins(User user, String coinName, double quantity) {
-        user.getWallet().setByName(user.getWallet().getBitcoin()+(float) quantity,coinName);
+        user.getWallet().setByName(user.getWallet().returnByName(coinName)+(float) quantity,coinName);
         float updateBalace = (float) (user.getBalance() - (cryptoCoinService.getLastPriceByName(coinName)*quantity));
         user.setBalance(updateBalace);
         userService.updateUser(user);
@@ -31,7 +31,7 @@ public class TradingService {
 
     public void sellCoins(User user, String coinName, double amount) {
         float updateBalace = (float) (user.getBalance() + (cryptoCoinService.getLastPriceByName(coinName)*amount));
-        user.getWallet().setByName(user.getWallet().getBitcoin()-(float) amount,coinName);
+        user.getWallet().setByName(user.getWallet().returnByName(coinName)-(float) amount,coinName);
         user.setBalance(updateBalace);
         userService.updateUser(user);
         transferService.addTransfer(

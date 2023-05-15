@@ -1,93 +1,216 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>USD coin Graph</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>USD coin Graph</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
-<canvas id="usd_coin-chart"></canvas>
+<div class="navbar">
+    <a href="home.html">Home</a>
+    <div class="dropdown">
+        <button class="dropbtn">Crypto Coins
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            <a href="lse.html">LSE</a>
+            <a href="bnb.html">BNB</a>
+            <a href="cardano.html">Cardano</a>
+            <a href="dogecoin.html">Dogecoin</a>
+            <a href="eth.html">ETH</a>
+            <a href="solana.html">Solana</a>
+            <a href="tether.html">Tether</a>
+            <a href="btc.html">BTC</a>
+            <a href="xrp.html">XRP</a>
+        </div>
+    </div>
+    <a href="rating.html">Rating</a>
+    <a href="transaction.html">Transactions</a>
+    <div class="navbar-right">
+        <a href="logout">Logout</a>
+    </div>
+</div>
+<div class="graph-container">
+    <canvas id="usd_coin-chart"></canvas>
+</div>
 <script th:inline="javascript">
-  fetch('/usd_coin')
-          .then(response => response.json())
-          .then(usd_coinData => {
+    fetch('/usd_coin')
+        .then(response => response.json())
+        .then(usd_coinData => {
             var ctx = document.getElementById("usd_coin-chart").getContext("2d");
 
             var formattedData = {
-              labels: [],
-              datasets: [{
-                label: 'usd_coin',
-                data: [],
-                fill: false,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
-              }]
+                labels: [],
+                datasets: [{
+                    label: 'usd_coin',
+                    data: [],
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
             };
 
             Object.entries(usd_coinData).forEach(([key, value]) => {
-              formattedData.labels.push(new Date(key).toLocaleString('en-US', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit'
-              }));
-              formattedData.datasets[0].data.push(value);
+                formattedData.labels.push(new Date(key).toLocaleString('en-US', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }));
+                formattedData.datasets[0].data.push(value);
             });
 
             var usd_coinChart = new Chart(ctx, {
-              type: "line",
-              data: formattedData,
-              options: {
-                scales: {
-                  xAxes: [
-                    {
-                      type: "time",
-                      time: {
-                        unit: "minute",
-                        tooltipFormat: "YYYY-MM-DD HH:mm",
-                        displayFormats: {
-                          minute: "YYYY-MM-DD HH:mm"
-                        }
-                      }
-                    }
-                  ],
-                  yAxes: [
-                    {
-                      ticks: {
-                        beginAtZero: true
-                      }
-                    }
-                  ]
-                },
-                tooltips: {
-                  callbacks: {
-                    label: function(tooltipItem, data) {
-                      var label = data.datasets[tooltipItem.datasetIndex].label || '';
-                      if (label) {
-                        label += ': ';
-                      }
-                      label += tooltipItem.yLabel.toFixed(2);
-                      return label;
+                type: "line",
+                data: formattedData,
+                options: {
+                    scales: {
+                        xAxes: [
+                            {
+                                type: "time",
+                                time: {
+                                    unit: "minute",
+                                    tooltipFormat: "YYYY-MM-DD HH:mm",
+                                    displayFormats: {
+                                        minute: "YYYY-MM-DD HH:mm"
+                                    }
+                                }
+                            }
+                        ],
+                        yAxes: [
+                            {
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }
+                        ]
                     },
-                    title: function(tooltipItem, data) {
-                      var title = '';
-                      if (tooltipItem.length > 0) {
-                        var dateObj = new Date(tooltipItem[0].xLabel);
-                        title = dateObj.toLocaleString('en-US', {
-                          year: 'numeric',
-                          month: '2-digit',
-                          day: '2-digit',
-                          hour: '2-digit',
-                          minute: '2-digit'
-                        });
-                      }
-                      return title;
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += tooltipItem.yLabel.toFixed(2);
+                                return label;
+                            },
+                            title: function (tooltipItem, data) {
+                                var title = '';
+                                if (tooltipItem.length > 0) {
+                                    var dateObj = new Date(tooltipItem[0].xLabel);
+                                    title = dateObj.toLocaleString('en-US', {
+                                        year: 'numeric',
+                                        month: '2-digit',
+                                        day: '2-digit',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    });
+                                }
+                                return title;
+                            }
+                        }
                     }
-                  }
                 }
-              }
             });
-          });
+        });
 </script>
+<div>
+    <h1>USD_coin</h1>
+    <p>Last Price: <span id="lastPrice"></span></p>
+    <p>Balance: <span id="balance"></span></p>
+    <p>USD_coin amount: <span id="usd_coin_amount"></span></p>
+
+    <form id="buyForm" action="/buy-usd_coin" method="POST">
+        <label for="buyAmount">Buy Amount:</label>
+        <input type="number" id="buyAmount" name="amount" step="0.01" min="0">
+        <button type="submit">Buy</button>
+    </form>
+    <form id="sellForm" action="/sell-usd_coin" method="POST">
+        <label for="sellAmount">Sell Amount:</label>
+        <input type="number" id="sellAmount" name="amount" step="0.01" min="0">
+        <button type="submit">Sell</button>
+    </form>
+    <table>
+        <thead>
+        <tr>
+            <th>Coin Name</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Price</th>
+            <th>Operation</th>
+        </tr>
+        </thead>
+        <tbody id="transfersTableBody">
+        </tbody>
+    </table>
+
+    <div>
+        <button id="previousPageButton" disabled>Previous Page</button>
+        <button id="nextPageButton">Next Page</button>
+    </div>
+</div>
+>
+
+<script>
+    const PAGE_SIZE = 10;
+    let currentPage = 0;
+    let usd_coinData = null;
+    let transfersTableBody = document.getElementById('transfersTableBody');
+    let nextPageButton = document.getElementById('nextPageButton');
+    let previousPageButton = document.getElementById('previousPageButton');
+
+    function updateTable() {
+        transfersTableBody.innerHTML = '';
+        let transfers = usd_coinData.transfers.slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE);
+        transfers.forEach((transfer) => {
+            let row = transfersTableBody.insertRow();
+            let coinNameCell = row.insertCell();
+            let amountCell = row.insertCell();
+            let dateCell = row.insertCell();
+            let priceCell = row.insertCell();
+            let operationCell = row.insertCell();
+            coinNameCell.textContent = transfer.coinName;
+            amountCell.textContent = transfer.amount;
+            dateCell.textContent = transfer.date;
+            priceCell.textContent = transfer.price;
+            operationCell.textContent = transfer.operation;
+        });
+
+        if (currentPage === 0) {
+            previousPageButton.disabled = true;
+        } else {
+            previousPageButton.disabled = false;
+        }
+
+        if ((currentPage + 1) * PAGE_SIZE >= usd_coinData.transfers.length) {
+            nextPageButton.disabled = true;
+        } else {
+            nextPageButton.disabled = false;
+        }
+    }
+
+    fetch('/usd_coin-info')
+        .then(response => response.json())
+        .then(usd_coin => {
+            usd_coinData = usd_coin;
+            document.getElementById('lastPrice').textContent = usd_coin.lastPrice;
+            document.getElementById('balance').textContent = usd_coin.balance;
+            document.getElementById('usd_coin_amount').textContent = usd_coin.usd_coin_amount;
+            updateTable();
+        });
+    nextPageButton.addEventListener('click', () => {
+        currentPage++;
+        updateTable();
+    });
+
+    previousPageButton.addEventListener('click', () => {
+        currentPage--;
+        updateTable();
+    });
+</script>
+
 </body>
 </html>

@@ -135,14 +135,14 @@ public class Wallet {
     {
         switch (name)
         {
-            case "lse": return lse;
-            case "bitcoin": return bitcoin;
+            case "lse", "Lido_Staked_Ether": return lse;
+            case "bitcoin","btc": return bitcoin;
             case "ethereum": return ethereum;
             case "bnb": return bnb;
             case "xrp": return xrp;
             case "solana": return solana;
             case "tether": return tether;
-            case "usd": return usd;
+            case "usd","usd_coin": return usd;
             case "cardano": return cardano;
             case "dogecoin": return dogecoin;
             default: return 0;
@@ -152,14 +152,14 @@ public class Wallet {
     public void setByName(float amount, String name) {
         switch (name)
         {
-            case "lse": {this.lse = amount;break;}
-            case "bitcoin": {this.bitcoin=amount;break;}
+            case "lse", "Lido_Staked_Ether": {this.lse = amount;break;}
+            case "bitcoin","btc": {this.bitcoin=amount;break;}
             case "ethereum": {this.ethereum=amount;break;}
             case "bnb": {this.bnb=amount;break;}
             case "xrp": {this.xrp=amount;break;}
             case "solana": {this.solana=amount;break;}
             case "tether": {this.tether=amount;break;}
-            case "usd": {this.usd=amount;break;}
+            case "usd","usd_coin": {this.usd=amount;break;}
             case "cardano": {this.cardano=amount;break;}
             case "dogecoin": {this.dogecoin=amount;break;}
         }

@@ -3,9 +3,35 @@
 <head>
   <title>BNB Graph</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-<canvas id="bnb-chart"></canvas>
+<body><div class="navbar">
+  <a href="home.html">Home</a>
+  <div class="dropdown">
+    <button class="dropbtn">Crypto Coins
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="lse.html">LSE</a>
+      <a href="btc.html">BTC</a>
+      <a href="cardano.html">Cardano</a>
+      <a href="dogecoin.html">Dogecoin</a>
+      <a href="eth.html">ETH</a>
+      <a href="solana.html">Solana</a>
+      <a href="tether.html">Tether</a>
+      <a href="usd.html">USD</a>
+      <a href="xrp.html">XRP</a>
+    </div>
+  </div>
+  <a href="rating.html">Rating</a>
+  <a href="transaction.html">Transactions</a>
+  <div class="navbar-right">
+    <a href="logout">Logout</a>
+  </div>
+</div>
+<div class="graph-container">
+  <canvas id="bnb-chart"></canvas>
+</div>
 <script th:inline="javascript">
   fetch('/bnb')
           .then(response => response.json())
@@ -89,5 +115,98 @@
             });
           });
 </script>
+<div>
+  <h1>BNB</h1>
+  <p>Last Price: <span id="lastPrice"></span></p>
+  <p>Balance: <span id="balance"></span></p>
+  <p>BNB amount: <span id="bnb_amount"></span></p>
+
+  <form id="buyForm" action="/buy-bnb" method="POST">
+    <label for="buyAmount">Buy Amount:</label>
+    <input type="number" id="buyAmount" name="amount" step="0.01" min="0">
+    <button type="submit">Buy</button>
+  </form>
+  <form id="sellForm" action="/sell-bnb" method="POST">
+    <label for="sellAmount">Sell Amount:</label>
+    <input type="number" id="sellAmount" name="amount" step="0.01" min="0">
+    <button type="submit">Sell</button>
+  </form>
+  <table>
+    <thead>
+    <tr>
+      <th>Coin Name</th>
+      <th>Amount</th>
+      <th>Date</th>
+      <th>Price</th>
+      <th>Operation</th>
+    </tr>
+    </thead>
+    <tbody id="transfersTableBody">
+    </tbody>
+  </table>
+
+  <div>
+    <button id="previousPageButton" disabled>Previous Page</button>
+    <button id="nextPageButton">Next Page</button>
+  </div>
+</div>>
+
+<script>
+  const PAGE_SIZE = 10;
+  let currentPage = 0;
+  let bnbData = null;
+  let transfersTableBody = document.getElementById('transfersTableBody');
+  let nextPageButton = document.getElementById('nextPageButton');
+  let previousPageButton = document.getElementById('previousPageButton');
+
+  function updateTable() {
+    transfersTableBody.innerHTML = '';
+    let transfers = bnbData.transfers.slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE);
+    transfers.forEach((transfer) => {
+      let row = transfersTableBody.insertRow();
+      let coinNameCell = row.insertCell();
+      let amountCell = row.insertCell();
+      let dateCell = row.insertCell();
+      let priceCell = row.insertCell();
+      let operationCell = row.insertCell();
+      coinNameCell.textContent = transfer.coinName;
+      amountCell.textContent = transfer.amount;
+      dateCell.textContent = transfer.date;
+      priceCell.textContent = transfer.price;
+      operationCell.textContent = transfer.operation;
+    });
+
+    if (currentPage === 0) {
+      previousPageButton.disabled = true;
+    } else {
+      previousPageButton.disabled = false;
+    }
+
+    if ((currentPage + 1) * PAGE_SIZE >= bnbData.transfers.length) {
+      nextPageButton.disabled = true;
+    } else {
+      nextPageButton.disabled = false;
+    }
+  }
+  fetch('/bnb-info')
+          .then(response => response.json())
+          .then(bnb => {
+            bnbData = bnb;
+            document.getElementById('lastPrice').textContent = bnb.lastPrice;
+            document.getElementById('balance').textContent = bnb.balance;
+            document.getElementById('bnb_amount').textContent = bnb.bnb_amount;
+            updateTable();
+          });
+  nextPageButton.addEventListener('click', () => {
+    currentPage++;
+    updateTable();
+  });
+
+  previousPageButton.addEventListener('click', () => {
+    currentPage--;
+    updateTable();
+  });
+</script>
+
 </body>
 </html>
