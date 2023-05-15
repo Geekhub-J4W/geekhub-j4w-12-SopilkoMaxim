@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Crypto Dashboard</title>
+  <link rel="stylesheet" href="home.css">
+
+</head>
+<body>
+<div class="navbar">
+  <div class="dropdown">
+    <button class="dropbtn">Crypto Coins
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="lse.html">LSE</a>
+      <a href="btc.html">BTC</a>
+      <a href="bnb.html">BNB</a>
+      <a href="cardano.html">Cardano</a>
+      <a href="dogecoin.html">Dogecoin</a>
+      <a href="eth.html">ETH</a>
+      <a href="solana.html">Solana</a>
+      <a href="tether.html">Tether</a>
+      <a href="usd.html">USD</a>
+      <a href="xrp.html">XRP</a>
+    </div>
+  </div>
+  <a href="rating.html">Rating</a>
+  <a href="transaction.html">Transactions</a>
+  <div class="navbar-right">
+    <a href="logout">Logout</a>
+  </div>
+</div>
+<div>
+  <h1>User Info:</h1>
+  <p>Full Name: <span id="fullName"></span></p>
+  <p>Email: <span id="email"></span></p>
+  <p>Balance: <span id="balance"></span>USD</p>
+  <p>Balance with coins: <span id="balance_coins"></span>USD</p>
+  <p>Rating: <span id="rating"></span></p>
+  <button onclick="updateRating()">Update Rating</button>
+
+</div>
+<hr>
+<button id="adminMenuButton" style="display: none;">Admin menu</button>
+
+<hr>
+<h2>My Cryptocurrencies</h2>
+<ul>
+  <li><a href="lse.html">Lido_Staked_Ether: <span id="lse"></span></a></li>
+  <li><a href="btc.html">Bitcoin: <span id="bitcoin"></span></a></li>
+  <li><a href="eth.html">Ethereum: <span id="ethereum"></span></a></li>
+  <li><a href="bnb.html">BNB: <span id="bnb"></span></a></li>
+  <li><a href="xrp.html">XRP: <span id="xrp"></span></a></li>
+  <li><a href="solana.html">Polygon: <span id="solana"></span></a></li>
+  <li><a href="tether.html">Tether: <span id="tether"></span></a></li>
+  <li><a href="usd.html">USD_Coin: <span id="usd"></span></a></li>
+  <li><a href="cardano.html">Cardano: <span id="cardano"></span></a></li>
+  <li><a href="dogecoin.html">Dogecoin: <span id="dogecoin"></span></a></li>
+</ul>
+<script>
+  fetch('/user-info')
+          .then(response => response.json())
+          .then(user => {
+            document.getElementById('fullName').textContent = user.fullName;
+            document.getElementById('email').textContent = user.email;
+            document.getElementById('balance').textContent = user.balance;
+            document.getElementById('balance_coins').textContent = user.balance_coins;
+            document.getElementById('rating').textContent = user.rating;
+            document.getElementById('lse').textContent = user.wallet.lse;
+            document.getElementById('bitcoin').textContent = user.wallet.bitcoin;
+            document.getElementById('ethereum').textContent = user.wallet.ethereum;
+            document.getElementById('bnb').textContent = user.wallet.bnb;
+            document.getElementById('xrp').textContent = user.wallet.xrp;
+            document.getElementById('solana').textContent = user.wallet.solana;
+            document.getElementById('tether').textContent = user.wallet.tether;
+            document.getElementById('usd').textContent = user.wallet.usd;
+            document.getElementById('cardano').textContent = user.wallet.cardano;
+            document.getElementById('dogecoin').textContent = user.wallet.dogecoin;
+          });
+  function updateRating() {
+    fetch('/update-rating')
+            .then(response => {
+              if (response.ok) {
+                window.location.reload();
+              } else {
+                throw new Error('Network response was not ok.');
+              }
+            })
+            .catch(error => {
+              console.error('Error updating rating:', error);
+            });
+  }
+  window.onload = function() {
+    getUserRole().then(role => {
+      if (role.toLowerCase() === 'admin') {
+        const adminMenuButton = document.getElementById('adminMenuButton');
+        adminMenuButton.style.display = 'block';
+
+        adminMenuButton.addEventListener('click', () => {
+          window.location.href = 'admin.html';
+        });
+      }
+    });
+  };
+
+  function getUserRole() {
+    return fetch('/user/role')
+            .then(response => response.text())
+            .catch(error => {
+              console.error('Error retrieving user role:', error);
+              return '';
+            });
+  }
+
+</script>
+</body>
+</html>
