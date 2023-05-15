@@ -1,214 +1,241 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>XRP Graph</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="style.css">
+    <title>XRP Graph</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
 
 </head>
 <body>
 <div class="navbar">
-  <a href="home.html">Home</a>
-  <div class="dropdown">
-    <button class="dropbtn">Crypto Coins
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-      <a href="lse.html">LSE</a>
-      <a href="bnb.html">BNB</a>
-      <a href="cardano.html">Cardano</a>
-      <a href="dogecoin.html">Dogecoin</a>
-      <a href="eth.html">ETH</a>
-      <a href="solana.html">Solana</a>
-      <a href="tether.html">Tether</a>
-      <a href="usd.html">USD</a>
-      <a href="btc.html">BTC</a>
+    <a href="home.html">Home</a>
+    <div class="dropdown">
+        <button class="dropbtn">Crypto Coins
+            <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            <a href="lse.html">LSE</a>
+            <a href="bnb.html">BNB</a>
+            <a href="cardano.html">Cardano</a>
+            <a href="dogecoin.html">Dogecoin</a>
+            <a href="eth.html">ETH</a>
+            <a href="solana.html">Solana</a>
+            <a href="tether.html">Tether</a>
+            <a href="usd.html">USD</a>
+            <a href="btc.html">BTC</a>
+        </div>
     </div>
-  </div>
-  <a href="rating.html">Rating</a>
-  <a href="transaction.html">Transactions</a>
-  <div class="navbar-right">
-    <a href="logout">Logout</a>
-  </div>
+    <a href="rating.html">Rating</a>
+    <a href="transaction.html">Transactions</a>
+    <div class="navbar-right">
+        <a href="logout">Logout</a>
+    </div>
 </div>
 <div class="graph-container">
-  <canvas id="xrp-chart"></canvas>
+    <canvas id="xrp-chart"></canvas>
 </div>
 <script th:inline="javascript">
-  fetch('/xrp')
-          .then(response => response.json())
-          .then(xrpData => {
+    fetch('/xrp')
+        .then(response => response.json())
+        .then(xrpData => {
             var ctx = document.getElementById("xrp-chart").getContext("2d");
 
             var formattedData = {
-              labels: [],
-              datasets: [{
-                label: 'XRP',
-                data: [],
-                fill: false,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
-              }]
+                labels: [],
+                datasets: [{
+                    label: 'XRP',
+                    data: [],
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
             };
 
             Object.entries(xrpData).forEach(([key, value]) => {
-              formattedData.labels.push(new Date(key).toLocaleString('en-US', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit'
-              }));
-              formattedData.datasets[0].data.push(value);
+                formattedData.labels.push(new Date(key).toLocaleString('en-US', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }));
+                formattedData.datasets[0].data.push(value);
             });
 
             var xrpChart = new Chart(ctx, {
-              type: "line",
-              data: formattedData,
-              options: {
-                scales: {
-                  xAxes: [
-                    {
-                      type: "time",
-                      time: {
-                        unit: "minute",
-                        tooltipFormat: "YYYY-MM-DD HH:mm",
-                        displayFormats: {
-                          minute: "YYYY-MM-DD HH:mm"
-                        }
-                      }
-                    }
-                  ],
-                  yAxes: [
-                    {
-                      ticks: {
-                        beginAtZero: true
-                      }
-                    }
-                  ]
-                },
-                tooltips: {
-                  callbacks: {
-                    label: function(tooltipItem, data) {
-                      var label = data.datasets[tooltipItem.datasetIndex].label || '';
-                      if (label) {
-                        label += ': ';
-                      }
-                      label += tooltipItem.yLabel.toFixed(2);
-                      return label;
+                type: "line",
+                data: formattedData,
+                options: {
+                    scales: {
+                        xAxes: [
+                            {
+                                type: "time",
+                                time: {
+                                    unit: "minute",
+                                    tooltipFormat: "YYYY-MM-DD HH:mm",
+                                    displayFormats: {
+                                        minute: "YYYY-MM-DD HH:mm"
+                                    }
+                                }
+                            }
+                        ],
+                        yAxes: [
+                            {
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }
+                        ]
                     },
-                    title: function(tooltipItem, data) {
-                      var title = '';
-                      if (tooltipItem.length > 0) {
-                        var dateObj = new Date(tooltipItem[0].xLabel);
-                        title = dateObj.toLocaleString('en-US', {
-                          year: 'numeric',
-                          month: '2-digit',
-                          day: '2-digit',
-                          hour: '2-digit',
-                          minute: '2-digit'
-                        });
-                      }
-                      return title;
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                var label = data.datasets[tooltipItem.datasetIndex].label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += tooltipItem.yLabel.toFixed(2);
+                                return label;
+                            },
+                            title: function (tooltipItem, data) {
+                                var title = '';
+                                if (tooltipItem.length > 0) {
+                                    var dateObj = new Date(tooltipItem[0].xLabel);
+                                    title = dateObj.toLocaleString('en-US', {
+                                        year: 'numeric',
+                                        month: '2-digit',
+                                        day: '2-digit',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    });
+                                }
+                                return title;
+                            }
+                        }
                     }
-                  }
                 }
-              }
             });
-          });
+        });
 </script>
 
 <div>
-  <h1>XRP</h1>
-  <p>Last Price: <span id="lastPrice"></span></p>
-  <p>Balance: <span id="balance"></span></p>
-  <p>XRP amount: <span id="xrp_amount"></span></p>
+    <h1>XRP</h1>
+    <p>Last Price: <span id="lastPrice"></span></p>
+    <p>Balance: <span id="balance"></span></p>
+    <p>XRP amount: <span id="xrp_amount"></span></p>
 
-  <form id="buyForm" action="/buy-xrp" method="POST">
-    <label for="buyAmount">Buy Amount:</label>
-    <input type="number" id="buyAmount" name="amount" step="0.01" min="0">
-    <button type="submit">Buy</button>
-  </form>
-  <form id="sellForm" action="/sell-xrp" method="POST">
-    <label for="sellAmount">Sell Amount:</label>
-    <input type="number" id="sellAmount" name="amount" step="0.01" min="0">
-    <button type="submit">Sell</button>
-  </form>
-  <table>
-    <thead>
-    <tr>
-      <th>Coin Name</th>
-      <th>Amount</th>
-      <th>Date</th>
-      <th>Price</th>
-      <th>Operation</th>
-    </tr>
-    </thead>
-    <tbody id="transfersTableBody">
-    </tbody>
-  </table>
+    <form id="buyForm" action="/buy-xrp" method="POST">
+        <label for="buyAmount">Buy Amount:</label>
+        <input type="number" id="buyAmount" name="amount" step="0.01" min="0">
+        <button type="submit">Buy</button>
+    </form>
+    <form id="sellForm" action="/sell-xrp" method="POST">
+        <label for="sellAmount">Sell Amount:</label>
+        <input type="number" id="sellAmount" name="amount" step="0.01" min="0">
+        <button type="submit">Sell</button>
+    </form>
+    <table>
+        <thead>
+        <tr>
+            <th>Coin Name</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Price</th>
+            <th>Operation</th>
+        </tr>
+        </thead>
+        <tbody id="transfersTableBody">
+        </tbody>
+    </table>
 
-  <div>
-    <button id="previousPageButton" disabled>Previous Page</button>
-    <button id="nextPageButton">Next Page</button>
-  </div>
-</div>>
+    <div>
+        <button id="previousPageButton" disabled>Previous Page</button>
+        <button id="nextPageButton">Next Page</button>
+    </div>
+</div>
+>
 
 <script>
-  const PAGE_SIZE = 10;
-  let currentPage = 0;
-  let xrpData = null;
-  let transfersTableBody = document.getElementById('transfersTableBody');
-  let nextPageButton = document.getElementById('nextPageButton');
-  let previousPageButton = document.getElementById('previousPageButton');
+    const PAGE_SIZE = 10;
+    let currentPage = 0;
+    let xrpData = null;
+    let transfersTableBody = document.getElementById('transfersTableBody');
+    let nextPageButton = document.getElementById('nextPageButton');
+    let previousPageButton = document.getElementById('previousPageButton');
 
-  function updateTable() {
-    transfersTableBody.innerHTML = '';
-    let transfers = xrpData.transfers.slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE);
-    transfers.forEach((transfer) => {
-      let row = transfersTableBody.insertRow();
-      let coinNameCell = row.insertCell();
-      let amountCell = row.insertCell();
-      let dateCell = row.insertCell();
-      let priceCell = row.insertCell();
-      let operationCell = row.insertCell();
-      coinNameCell.textContent = transfer.coinName;
-      amountCell.textContent = transfer.amount;
-      dateCell.textContent = transfer.date;
-      priceCell.textContent = transfer.price;
-      operationCell.textContent = transfer.operation;
-    });
+    function updateTable() {
+        transfersTableBody.innerHTML = '';
+        let transfers = xrpData.transfers.slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE);
+        transfers.forEach((transfer) => {
+            let row = transfersTableBody.insertRow();
+            let coinNameCell = row.insertCell();
+            let amountCell = row.insertCell();
+            let dateCell = row.insertCell();
+            let priceCell = row.insertCell();
+            let operationCell = row.insertCell();
+            coinNameCell.textContent = transfer.coinName;
+            amountCell.textContent = transfer.amount;
+            dateCell.textContent = transfer.date;
+            priceCell.textContent = transfer.price;
+            operationCell.textContent = transfer.operation;
+        });
 
-    if (currentPage === 0) {
-      previousPageButton.disabled = true;
-    } else {
-      previousPageButton.disabled = false;
+        if (currentPage === 0) {
+            previousPageButton.disabled = true;
+        } else {
+            previousPageButton.disabled = false;
+        }
+
+        if ((currentPage + 1) * PAGE_SIZE >= xrpData.transfers.length) {
+            nextPageButton.disabled = true;
+        } else {
+            nextPageButton.disabled = false;
+        }
     }
 
-    if ((currentPage + 1) * PAGE_SIZE >= xrpData.transfers.length) {
-      nextPageButton.disabled = true;
-    } else {
-      nextPageButton.disabled = false;
-    }
-  }
-  fetch('/xrp-info')
-          .then(response => response.json())
-          .then(xrp => {
+    fetch('/xrp-info')
+        .then(response => response.json())
+        .then(xrp => {
             xrpData = xrp;
             document.getElementById('lastPrice').textContent = xrp.lastPrice;
             document.getElementById('balance').textContent = xrp.balance;
             document.getElementById('xrp_amount').textContent = xrp.xrp_amount;
             updateTable();
-          });
-  nextPageButton.addEventListener('click', () => {
-    currentPage++;
-    updateTable();
-  });
+        });
+    nextPageButton.addEventListener('click', () => {
+        currentPage++;
+        updateTable();
+    });
 
-  previousPageButton.addEventListener('click', () => {
-    currentPage--;
-    updateTable();
-  });
+    previousPageButton.addEventListener('click', () => {
+        currentPage--;
+        updateTable();
+    });
+
+    buyForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const buyAmount = parseFloat(document.getElementById('buyAmount').value);
+        const balance = parseFloat(document.getElementById('balance').textContent);
+        const price = parseFloat(document.getElementById('lastPrice').textContent);
+
+        if (buyAmount > 0 && buyAmount <= balance / price) {
+            buyForm.submit();
+        } else {
+            alert('Invalid buy amount');
+        }
+    });
+
+    sellForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const sellAmount = parseFloat(document.getElementById('sellAmount').value);
+        const Amount = parseFloat(document.getElementById('xrp_amount').textContent);
+
+        if (sellAmount > 0 && sellAmount <= Amount) {
+            sellForm.submit();
+        } else {
+            alert('Invalid sell amount');
+        }
+    });
 </script>
 </body>
 </html>

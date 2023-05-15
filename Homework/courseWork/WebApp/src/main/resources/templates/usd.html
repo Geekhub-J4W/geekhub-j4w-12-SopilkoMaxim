@@ -210,6 +210,31 @@
         currentPage--;
         updateTable();
     });
+
+    buyForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const buyAmount = parseFloat(document.getElementById('buyAmount').value);
+        const balance = parseFloat(document.getElementById('balance').textContent);
+        const price = parseFloat(document.getElementById('lastPrice').textContent);
+
+        if (buyAmount > 0 && buyAmount <= balance / price) {
+            buyForm.submit();
+        } else {
+            alert('Invalid buy amount');
+        }
+    });
+
+    sellForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const sellAmount = parseFloat(document.getElementById('sellAmount').value);
+        const Amount = parseFloat(document.getElementById('usd_coin_amount').textContent);
+
+        if (sellAmount > 0 && sellAmount <= Amount) {
+            sellForm.submit();
+        } else {
+            alert('Invalid sell amount');
+        }
+    });
 </script>
 
 </body>
