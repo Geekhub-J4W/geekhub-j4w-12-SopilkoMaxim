@@ -34,7 +34,7 @@ public class TransferRepository {
     }
 
     public List<Transfer> getTransfersByUserId(int userId) {
-        String query = "SELECT id, coinName, amount, date, price, operation FROM transfer WHERE user_id = :userId";
+        String query = "SELECT id, coinName, amount, date, price, operation FROM transfer WHERE user_id = :userId ORDER BY date DESC";
         MapSqlParameterSource parameters = new MapSqlParameterSource().addValue("userId", userId);
         List<Transfer> result = jdbcTemplate.query(query, parameters, (rs, rowNum) -> new Transfer(
                 rs.getLong("id"),
@@ -47,7 +47,7 @@ public class TransferRepository {
         return result;
     }
     public List<Transfer> getTransfersByUserIdAndCoinName(int userId, String coinName) {
-        String query = "SELECT id, coinName, amount, date, price, operation FROM transfer WHERE user_id = :userId AND coinName = :coinName";
+        String query = "SELECT id, coinName, amount, date, price, operation FROM transfer WHERE user_id = :userId AND coinName = :coinName ORDER BY date DESC";
         MapSqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("userId", userId)
                 .addValue("coinName", coinName);

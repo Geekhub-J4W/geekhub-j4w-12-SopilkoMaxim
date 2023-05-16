@@ -65,9 +65,7 @@ public class UserController {
         } else {
             userService.addUser(user);
 
-            return ResponseEntity.status(HttpStatus.SEE_OTHER)
-                    .header(HttpHeaders.LOCATION, "/login.html")
-                    .build();
+            return ResponseEntity.ok().build();
         }
     }
 

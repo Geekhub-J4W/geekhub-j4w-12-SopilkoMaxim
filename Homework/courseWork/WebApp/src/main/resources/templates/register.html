@@ -130,9 +130,8 @@
                 errorMessage.textContent = responseData.message;
                 return;
             }
+            window.location.href = 'login.html';
 
-            const responseData = await response.json();
-            console.log(responseData);
         } catch (error) {
             console.error(error);
         }

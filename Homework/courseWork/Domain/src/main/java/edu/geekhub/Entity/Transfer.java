@@ -32,6 +32,8 @@ public class Transfer {
         this.operation=operation;
     }
 
+    public Transfer() {
+    }
 
     public long getId() {
         return id;
