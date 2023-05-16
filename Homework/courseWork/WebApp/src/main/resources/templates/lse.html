@@ -195,7 +195,7 @@
     fetch('/lse-info')
         .then(response => response.json())
         .then(lse => {
-            btcData = lse;
+            lseData = lse;
             document.getElementById('lastPrice').textContent = lse.lastPrice;
             document.getElementById('balance').textContent = lse.balance;
             document.getElementById('lse_amount').textContent = lse.lse_amount;
