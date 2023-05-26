@@ -74,7 +74,7 @@ public class TradingController {
     }
     @GetMapping("/solana-info")
     public ResponseEntity<Map<String, Object>> getSolanaInfo() {
-        Map<String, Object> info = getStringObjectMap("solana");
+        Map<String, Object> info = getStringObjectMap("polygon");
         return ResponseEntity.ok().body(info);
     }
 
@@ -210,14 +210,14 @@ public class TradingController {
     }
     @PostMapping("/buy-solana")
     public ResponseEntity buySolanaCoin(@RequestParam double amount, HttpServletResponse response) throws IOException {
-        tradingService.buyCoins(getUser(), "solana", amount);
+        tradingService.buyCoins(getUser(), "polygon", amount);
         response.sendRedirect("/solana.html");
         return null;
     }
 
     @PostMapping("/sell-solana")
     public ResponseEntity sellSolanaCoin(@RequestParam double amount, HttpServletResponse response) throws IOException {
-        tradingService.sellCoins(getUser(), "solana", amount);
+        tradingService.sellCoins(getUser(), "polygon", amount);
         response.sendRedirect("/solana.html");
         return null;
     }

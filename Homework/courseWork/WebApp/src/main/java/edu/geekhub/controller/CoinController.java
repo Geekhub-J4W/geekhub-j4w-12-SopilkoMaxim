@@ -25,7 +25,7 @@ public class CoinController {
     }
     @GetMapping("/solana")
     public ResponseEntity<Map<String, Float>> getSolanaData() {
-        return ResponseEntity.ok(cryptoCoinService.getByName("solana"));
+        return ResponseEntity.ok(cryptoCoinService.getByName("polygon"));
     }
     @GetMapping("/eth")
     public ResponseEntity<Map<String, Float>> getEthData() {

@@ -47,7 +47,7 @@ public class UserService {
                 user.getWallet().getBnb() * cryptoCoinService.getLastPriceByName("bnb") +
                 user.getWallet().getEthereum() * cryptoCoinService.getLastPriceByName("ethereum") +
                 user.getWallet().getXrp() * cryptoCoinService.getLastPriceByName("xrp") +
-                user.getWallet().getSolana() * cryptoCoinService.getLastPriceByName("solana") +
+                user.getWallet().getPolygon() * cryptoCoinService.getLastPriceByName("solana") +
                 user.getWallet().getUsd() * cryptoCoinService.getLastPriceByName("usd_coin") +
                 user.getWallet().getCardano() * cryptoCoinService.getLastPriceByName("cardano") +
                 user.getWallet().getDogecoin() * cryptoCoinService.getLastPriceByName("dogecoin") +

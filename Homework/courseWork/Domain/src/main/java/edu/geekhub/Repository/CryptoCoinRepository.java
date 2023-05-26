@@ -14,8 +14,8 @@ public class CryptoCoinRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     private static final String INSERT_COIN = """
-            INSERT INTO coin (date, Lido_Staked_Ether, Bitcoin,Ethereum,BNB,XRP,Solana,Tether,USD_Coin,Cardano,Dogecoin) 
-            VALUES (:date, :Lido_Staked_Ether, :Bitcoin,:Ethereum,:BNB,:XRP,:Solana,:Tether,:USD_Coin,:Cardano,:Dogecoin)
+            INSERT INTO coin (date, Lido_Staked_Ether, Bitcoin,Ethereum,BNB,XRP,Polygon,Tether,USD_Coin,Cardano,Dogecoin) 
+            VALUES (:date, :Lido_Staked_Ether, :Bitcoin,:Ethereum,:BNB,:XRP,:Polygon,:Tether,:USD_Coin,:Cardano,:Dogecoin)
             """;
 
     public CryptoCoinRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -31,7 +31,7 @@ public class CryptoCoinRepository {
                 .addValue("Ethereum", values.get("Ethereum"))
                 .addValue("BNB", values.get("BNB"))
                 .addValue("XRP", values.get("XRP"))
-                .addValue("Solana", values.get("Solana"))
+                .addValue("Polygon", values.get("Polygon"))
                 .addValue("Tether", values.get("Tether"))
                 .addValue("USD_Coin", values.get("USD Coin"))
                 .addValue("Cardano", values.get("Cardano"))

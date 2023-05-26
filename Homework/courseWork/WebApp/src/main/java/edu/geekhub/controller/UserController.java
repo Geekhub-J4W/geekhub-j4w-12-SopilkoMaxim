@@ -3,7 +3,6 @@ package edu.geekhub.controller;
 import edu.geekhub.Entity.User;
 import edu.geekhub.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,7 +40,7 @@ public class UserController {
         wallet.put("ethereum", user.getWallet().getEthereum());
         wallet.put("bnb", user.getWallet().getBnb());
         wallet.put("xrp", user.getWallet().getXrp());
-        wallet.put("solana", user.getWallet().getSolana());
+        wallet.put("solana", user.getWallet().getPolygon());
         wallet.put("tether", user.getWallet().getTether());
         wallet.put("usd", user.getWallet().getUsd());
         wallet.put("cardano", user.getWallet().getCardano());

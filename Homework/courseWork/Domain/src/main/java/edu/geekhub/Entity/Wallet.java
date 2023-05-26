@@ -8,7 +8,7 @@ public class Wallet {
     private float ethereum;
     private float bnb;
     private float xrp;
-    private float solana;
+    private float polygon;
     private float tether;
     private float usd;
     private float cardano;
@@ -62,12 +62,12 @@ public class Wallet {
         this.xrp = xrp;
     }
 
-    public float getSolana() {
-        return solana;
+    public float getPolygon() {
+        return polygon;
     }
 
-    public void setSolana(float solana) {
-        this.solana = solana;
+    public void setPolygon(float polygon) {
+        this.polygon = polygon;
     }
 
     public float getTether() {
@@ -112,7 +112,7 @@ public class Wallet {
         this.ethereum = ethereum;
         this.bnb = bnb;
         this.xrp = xrp;
-        this.solana = solana;
+        this.polygon = solana;
         this.tether = tether;
         this.usd = usd;
         this.cardano = cardano;
@@ -124,7 +124,7 @@ public class Wallet {
         this.ethereum = ethereum;
         this.bnb = bnb;
         this.xrp = xrp;
-        this.solana = solana;
+        this.polygon = solana;
         this.tether = tether;
         this.usd = usd;
         this.cardano = cardano;
@@ -140,7 +140,7 @@ public class Wallet {
             case "ethereum": return ethereum;
             case "bnb": return bnb;
             case "xrp": return xrp;
-            case "solana": return solana;
+            case "solana": return polygon;
             case "tether": return tether;
             case "usd","usd_coin": return usd;
             case "cardano": return cardano;
@@ -157,7 +157,7 @@ public class Wallet {
             case "ethereum": {this.ethereum=amount;break;}
             case "bnb": {this.bnb=amount;break;}
             case "xrp": {this.xrp=amount;break;}
-            case "solana": {this.solana=amount;break;}
+            case "solana": {this.polygon =amount;break;}
             case "tether": {this.tether=amount;break;}
             case "usd","usd_coin": {this.usd=amount;break;}
             case "cardano": {this.cardano=amount;break;}
