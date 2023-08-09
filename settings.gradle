@@ -67,4 +67,6 @@ include 'Homework:courseWork:Domain'
 findProject(':Homework:courseWork:Domain')?.name = 'Domain'
 include 'Homework:courseWork:WebApp'
 findProject(':Homework:courseWork:WebApp')?.name = 'WebApp'
+include 'Homework:OnlineShop'
+findProject(':Homework:OnlineShop')?.name = 'OnlineShop'
 
